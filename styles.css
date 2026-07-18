@@ -1,0 +1,594 @@
+/* ==========================================================================
+   MINIMALIST DARK CHARCOAL DESIGN SYSTEM (dev-suyash Inspired)
+   ========================================================================== */
+:root {
+    --bg-main: rgb(29, 30, 32);            /* Friend's exact background color */
+    --bg-card: rgb(41, 41, 47);            /* Friend's exact card background */
+    --bg-card-hover: rgb(48, 48, 55);
+    
+    --text-primary: #ffffff;
+    --text-secondary: rgb(195, 194, 194);
+    --text-desc: rgb(177, 177, 177);      /* Muted gray text */
+    --text-muted: rgb(130, 130, 130);
+    
+    --accent-blue: #60a5fa;                /* Tailwind blue-400 */
+    --accent-rose: #fda4af;                /* Tailwind rose-300 */
+    
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    --header-height: 80px;
+    --theme-transition: background-color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+}
+
+/* ==========================================================================
+   RESET & BASE STYLES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   LAYOUT CONTAINERS
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 4rem;
+}
+
+.main-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 4rem 4rem 4rem;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding-left: 14rem;
+        padding-right: 14rem;
+    }
+    .main-content {
+        padding-left: 14rem;
+        padding-right: 14rem;
+        max-width: 1400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 2rem;
+    }
+    .main-content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 6rem;
+    }
+}
+
+/* ==========================================================================
+   HEADER NAVIGATION (Exact Suyash Layout)
+   ========================================================================== */
+#main-header {
+    width: 100%;
+    background-color: var(--bg-main);
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+}
+
+.logo-link {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.nav-menu ul {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    transition: var(--theme-transition);
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-main);
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        gap: 1rem;
+        align-items: flex-start;
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        display: flex;
+    }
+    
+    .nav-menu ul {
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+/* ==========================================================================
+   HERO / INTRO SECTION (Exact Font Sizes & Spacings)
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+/* Timeline vertical line on the left side */
+.left-timeline-beam {
+    position: absolute;
+    left: -5rem;
+    top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .left-timeline-beam {
+        display: none;
+    }
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-dot-inner {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timeline-line {
+    width: 1px;
+    flex-grow: 1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, transparent 100%);
+    margin-top: 8px;
+}
+
+.hero-intro-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.hero-title {
+    font-size: 1.25rem;               /* text-base / sm:text-xl mobile font size */
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+    .hero-title {
+        font-size: 1.875rem;          /* md:text-3xl font size */
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-title {
+        font-size: 3rem;              /* lg:text-5xl font size */
+    }
+}
+
+.intro-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1rem;                  /* Match friend's default text size */
+    color: var(--text-desc);
+}
+
+.intro-paragraph {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    line-height: 1.75;
+}
+
+.name-underline {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.highlight-text {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sub-intro-text {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-desc);
+    margin-top: 1.5rem;
+    max-width: 680px;
+}
+
+/* Social links row */
+.social-links-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+}
+
+.social-icon-link {
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--theme-transition);
+}
+
+.social-icon-link svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    transition: var(--theme-transition);
+}
+
+.social-icon-link:hover {
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   PROJECTS SECTION (Exact Suyash Card Dimensions and Glow Overlay)
+   ========================================================================== */
+.projects-section {
+    padding-top: 4rem;
+}
+
+.section-title-projects {
+    font-size: 1.875rem;              /* text-3xl font size */
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.project-card {
+    position: relative;
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: var(--theme-transition);
+    display: block;
+}
+
+.project-card:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.project-card-content {
+    position: relative;
+    z-index: 2;
+    padding: 1.75rem 2.25rem;
+}
+
+@media (max-width: 768px) {
+    .project-card-content {
+        padding: 1.25rem 1.5rem;
+    }
+}
+
+.project-card-title {
+    font-size: 1.5rem;                /* text-2xl font size */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.project-card-desc {
+    color: rgb(156, 163, 175);        /* text-gray-400 font color */
+    font-size: 1rem;
+    line-height: 1.625;
+}
+
+/* Advanced Hover Radial Gradient Overlay (Updates via JS coordinate triggers) */
+.project-hover-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    
+    /* Radial gradient glow using coordinates from mouse movements */
+    background: radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(96, 165, 250, 0.12) 0%, transparent 100%),
+                radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(244, 63, 94, 0.12) 0%, transparent 100%);
+}
+
+.project-card:hover .project-hover-overlay {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   ARTICLE/POST DETAIL VIEWS (Exact Matches to dev-suyash Blog Post Views)
+   ========================================================================== */
+.article-container {
+    width: 100%;
+    max-width: 900px; /* Aligns with max-w-3xl inside padding margins */
+    margin: 0 auto;
+    position: relative;
+    padding-top: 2rem;
+}
+
+/* Back navigation links left alignment layout */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;              /* text-sm */
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: var(--theme-transition);
+    margin-bottom: 2rem;
+}
+
+.back-link:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.back-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Back button left margin alignments for desktop screen borders */
+@media (min-width: 1200px) {
+    .back-link {
+        position: absolute;
+        left: -150px;
+        top: 2.2rem;
+    }
+}
+
+.article-header {
+    margin-bottom: 2.5rem;
+}
+
+.published-date {
+    display: block;
+    font-size: 0.875rem;
+    color: rgb(156, 163, 175);
+    margin-bottom: 0.5rem;
+}
+
+.article-title {
+    font-size: 2.25rem;               /* text-4xl */
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+@media (min-width: 1024px) {
+    .article-title {
+        font-size: 3rem;              /* text-5xl lg:font-extrabold */
+        font-weight: 800;
+    }
+}
+
+.article-body {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--text-primary);
+}
+
+.article-body p {
+    margin-top: 1.5rem;
+}
+
+.article-body h2 {
+    font-size: 1.875rem;              /* text-3xl */
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-rose);        /* Cozy theme accent colors */
+}
+
+.article-body h3 {
+    font-size: 1.5rem;                /* text-2xl */
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.article-body ul, .article-body ol {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.article-body ul {
+    list-style-type: disc;
+}
+
+.article-body ol {
+    list-style-type: decimal;
+}
+
+.article-body li {
+    margin-top: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.article-body blockquote {
+    margin-top: 1.5rem;
+    border-left: 2px solid var(--text-muted);
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: var(--text-desc);
+}
+
+/* Tech tag elements styled nicely */
+.article-tech-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.article-tag {
+    font-size: 0.8rem;
+    background-color: var(--bg-card);
+    color: var(--accent-blue);
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+}
+
+/* Custom styled code snippets config */
+.article-body pre {
+    margin-top: 1.5rem;
+    background-color: #000000;         /* Matches code block background of friend */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
+}
+
+.article-body code {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--accent-blue);
+}
+
+.article-body pre code {
+    color: var(--text-primary);
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+}
+
+.article-footer {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: var(--accent-blue);
+    color: #000000;
+    transition: var(--theme-transition);
+}
+
+.action-btn:hover {
+    background-color: #93c5fd;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer {
+    margin-top: 6rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding-bottom: 2rem;
+}

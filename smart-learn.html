@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Learn | Project Details</title>
+    <!-- Meta Description for SEO -->
+    <meta name="description" content="Development details and architecture of the Smart Learn AI study portal project.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+    <!-- Header Navigation -->
+    <header id="main-header">
+        <div class="container header-container">
+            <a href="/" class="logo-link">Krishna Nand Tiwari</a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="/#projects" class="nav-link">Projects</a></li>
+                    <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button id="menu-toggle" class="icon-btn mobile-menu-btn" aria-label="Open menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+        <div class="article-container">
+            <!-- Back navigation links (Styled matching dev-suyash back link) -->
+            <a class="back-link" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <!-- Article Body Details -->
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on February 3, 2026</time>
+                    <h1 class="article-title">Smart Learn</h1>
+                </header>
+
+                <p>
+                    <strong>Smart Learn</strong> is an AI-powered study companion designed to make studying interactive and efficient. Users can upload lecture slide PDFs, recorded lecture video/audio, or paste article links. The system parses and indexes this content using Vector RAG pipelines, allowing you to converse with your notes naturally.
+                </p>
+
+                <h2>What it is</h2>
+                <p>
+                    The portal functions as an intelligent document explorer. Instead of skimming through hundreds of pages of text or listening to hours of lectures, users can upload their study materials and instantly generate context-aware summary notes, chatbots that answer syllabus questions, and custom interactive practice exams.
+                </p>
+
+                <h2>How it is built</h2>
+                <p>
+                    Built on top of Next.js App Router for fast server-side rendering and API endpoints. It integrates the OpenAI API (specifically utilizing gpt-4o-mini) to handle contextual search, chatbot question-answering, and automated quiz/flashcard generation. Database modeling and relations are managed with Prisma ORM connecting to a Supabase database.
+                </p>
+                
+                <pre><code>// Vector search prompt schema
+const getContext = async (queryEmbeddings, documentId) => {
+  const matches = await db.$queryRaw`
+    SELECT id, content, 1 - (embedding <=> ${queryEmbeddings}) AS similarity 
+    FROM "DocumentChunk" 
+    WHERE "documentId" = ${documentId}
+    ORDER BY similarity DESC 
+    LIMIT 4;
+  `;
+  return matches;
+};</code></pre>
+
+                <h2>Core Features</h2>
+                <ul>
+                    <li>🤖 Context-aware AI tutor chatbot responding to uploaded document material.</li>
+                    <li>📁 Multi-format file uploading (PDF, MP4 Video, MP3 Audio) and direct web link pasting.</li>
+                    <li>🃏 Automated quiz & study flashcards generator with interactive card flip animations.</li>
+                    <li>📊 Instant quiz feedback explaining why answers are correct or incorrect.</li>
+                </ul>
+
+                <h2>Technologies Used</h2>
+                <div class="article-tech-row">
+                    <span class="article-tag">Next.js</span>
+                    <span class="article-tag">OpenAI API</span>
+                    <span class="article-tag">Prisma</span>
+                    <span class="article-tag">Supabase</span>
+                    <span class="article-tag">Vanilla CSS</span>
+                </div>
+
+                <footer class="article-footer">
+                    <a href="https://github.com/Krishnanand-10/smart-learn" target="_blank" class="action-btn">
+                        View on GitHub
+                    </a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Krishna Nand Tiwari.</p>
+        </div>
+    </footer>
+
+    <!-- Script file -->
+    <script src="script.js"></script>
+</body>
+</html>

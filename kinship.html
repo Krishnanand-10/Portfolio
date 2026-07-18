@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinship Family Tree | Project Details</title>
+    <!-- Meta Description for SEO -->
+    <meta name="description" content="Development details and canvas engineering layout of the Kinship Family Tree platform.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+    <!-- Header Navigation -->
+    <header id="main-header">
+        <div class="container header-container">
+            <a href="/" class="logo-link">Krishna Nand Tiwari</a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="/#projects" class="nav-link">Projects</a></li>
+                    <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button id="menu-toggle" class="icon-btn mobile-menu-btn" aria-label="Open menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+        <div class="article-container">
+            <!-- Back navigation links (Styled matching dev-suyash back link) -->
+            <a class="back-link" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <!-- Article Body Details -->
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on March 12, 2026</time>
+                    <h1 class="article-title">Kinship Family Tree</h1>
+                </header>
+
+                <p>
+                    <strong>Kinship</strong> is a full-stack family tree mapping platform featuring an infinite panning and zooming vector canvas. It is designed to visualize complex lineage nodes clearly without overlapping, tracking member relationships, spouses, and descendants persistently.
+                </p>
+
+                <h2>What it is</h2>
+                <p>
+                    The family tree visualizer operates on an interactive canvas, allowing users to build large relational family networks. Instead of standard rigid tree lists, it features an infinite panning whiteboard workspace where marriage connectors and sibling rows auto-space dynamically as the tree expands.
+                </p>
+
+                <h2>How it is built</h2>
+                <p>
+                    Built with React (Vite) and React Flow for rendering vector nodes on a fluid canvas. Custom coordinate algorithms center spouse junctions dynamically and align sibling rows automatically. Relational database storage is handled by Supabase, utilizing Supabase Auth to protect private family charts.
+                </p>
+                
+                <pre><code>// Calculate child-to-parents connector junctions
+const getMarriageJunction = (fatherPos, motherPos) => {
+  const middleX = (fatherPos.x + motherPos.x) / 2;
+  const middleY = (fatherPos.y + motherPos.y) / 2;
+  return { x: middleX, y: middleY + 40 }; // Center target point
+};</code></pre>
+
+                <h2>Core Features</h2>
+                <ul>
+                    <li>🌳 Zoomable/pannable infinite React Flow workspace mapping family hierarchies.</li>
+                    <li>💍 Automatically centered marital connection nodes.</li>
+                    <li>📄 Export options to download family trees to PDF or PNG image layouts.</li>
+                    <li>💾 Relational persistence keeping tree member positions saved in database tables.</li>
+                </ul>
+
+                <h2>Technologies Used</h2>
+                <div class="article-tech-row">
+                    <span class="article-tag">React (Vite)</span>
+                    <span class="article-tag">React Flow</span>
+                    <span class="article-tag">Supabase</span>
+                    <span class="article-tag">Framer Motion</span>
+                    <span class="article-tag">html2canvas</span>
+                </div>
+
+                <footer class="article-footer">
+                    <a href="https://github.com/Krishnanand-10/familytree" target="_blank" class="action-btn">
+                        View on GitHub
+                    </a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Krishna Nand Tiwari.</p>
+        </div>
+    </footer>
+
+    <!-- Script file -->
+    <script src="script.js"></script>
+</body>
+</html>
