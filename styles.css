@@ -1,23 +1,26 @@
 /* ==========================================================================
-   MINIMALIST DARK CHARCOAL DESIGN SYSTEM (dev-suyash Inspired)
+   MINIMALIST DARK CHARCOAL DESIGN SYSTEM (Exact dev-suyash.vercel.app Parity)
    ========================================================================== */
 :root {
-    --bg-main: rgb(29, 30, 32);            /* Friend's exact background color */
-    --bg-card: rgb(41, 41, 47);            /* Friend's exact card background */
+    --bg-main: rgb(29, 30, 32);            /* dev-suyash exact background color */
+    --bg-card: rgb(41, 41, 47);            /* dev-suyash exact card background */
+    --bg-drawer: rgb(23, 23, 23);          /* dev-suyash mobile navbar drawer */
     --bg-card-hover: rgb(48, 48, 55);
+    --border-color: rgba(255, 255, 255, 0.05);
     
     --text-primary: #ffffff;
     --text-secondary: rgb(195, 194, 194);
-    --text-desc: rgb(177, 177, 177);      /* Muted gray text */
+    --text-desc: rgb(177, 177, 177);      /* Muted gray text leading-7 */
+    --text-gray-200: rgb(229, 231, 235);
+    --text-gray-300: rgb(209, 213, 219);
+    --text-gray-400: rgb(156, 163, 175);
     --text-muted: rgb(130, 130, 130);
     
     --accent-blue: #60a5fa;                /* Tailwind blue-400 */
     --accent-rose: #fda4af;                /* Tailwind rose-300 */
     
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    
-    --header-height: 80px;
-    --theme-transition: background-color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+    --theme-transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 }
 
 /* ==========================================================================
@@ -31,6 +34,7 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -49,93 +53,89 @@ a {
 }
 
 /* ==========================================================================
-   LAYOUT CONTAINERS
+   LAYOUT CONTAINERS (max-w-4xl / 896px centered layout matching dev-suyash)
    ========================================================================== */
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 896px; /* max-w-4xl */
     margin: 0 auto;
-    padding: 0 4rem;
+    padding-left: 1rem;  /* px-4 on mobile */
+    padding-right: 1rem;
 }
 
 .main-content {
     width: 100%;
-    max-width: 1200px;
+    max-width: 896px; /* max-w-4xl */
     margin: 0 auto;
-    padding: 8rem 4rem 4rem 4rem;
+    padding-left: 1rem;  /* px-4 on mobile */
+    padding-right: 1rem;
+    padding-bottom: 4rem;
+}
+
+@media (min-width: 640px) {
+    .container,
+    .main-content {
+        padding-left: 1.5rem; /* px-6 on tablet */
+        padding-right: 1.5rem;
+    }
 }
 
 @media (min-width: 1024px) {
-    .container {
-        padding-left: 14rem;
-        padding-right: 14rem;
-    }
+    .container,
     .main-content {
-        padding-left: 14rem;
-        padding-right: 14rem;
-        max-width: 1400px;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 0 2rem;
-    }
-    .main-content {
-        padding-left: 2rem;
+        padding-left: 2rem; /* px-8 on desktop */
         padding-right: 2rem;
-        padding-top: 6rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 0 1.25rem;
-    }
-    .main-content {
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
-        padding-top: 5rem;
     }
 }
 
 /* ==========================================================================
-   HEADER NAVIGATION (Exact Suyash Layout)
+   HEADER NAVIGATION (Exact dev-suyash Header & Mobile Drawer)
    ========================================================================== */
 #main-header {
     width: 100%;
     background-color: var(--bg-main);
     z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    margin-top: 2rem;     /* mt-8 */
+    margin-bottom: 3.5rem;/* mb-14 */
+}
+
+@media (min-width: 768px) {
+    #main-header {
+        margin-bottom: 5rem; /* md:mb-20 */
+    }
 }
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: var(--header-height);
 }
 
 .logo-link {
-    font-size: clamp(1.15rem, 5vw, 1.85rem);
-    font-weight: 700;
+    font-size: 1.25rem; /* text-xl on mobile */
+    font-weight: 700;   /* font-bold */
     color: var(--text-primary);
     white-space: nowrap;
-    transition: font-size 0.25s ease;
+    flex-shrink: 0;
+    transition: font-size 0.2s ease;
+}
+
+@media (min-width: 768px) {
+    .logo-link {
+        font-size: 1.5rem; /* md:text-2xl */
+    }
 }
 
 .nav-menu ul {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    list-style: none;
 }
 
 .nav-link {
-    font-size: 1rem;
-    color: var(--text-secondary);
+    font-size: 1rem; /* text-base */
+    color: var(--text-secondary); /* text-[rgb(195,194,194)] */
     transition: var(--theme-transition);
 }
 
@@ -149,16 +149,15 @@ a {
     border: none;
     color: var(--text-primary);
     cursor: pointer;
-    font-size: 1.5rem;
-    padding: 0.5rem;
+    padding: 0.25rem;
     border-radius: 8px;
-    transition: background-color 0.2s ease;
     align-items: center;
     justify-content: center;
 }
 
-.mobile-menu-btn:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+.mobile-menu-btn svg {
+    width: 32px;
+    height: 32px;
 }
 
 .header-actions {
@@ -166,8 +165,7 @@ a {
     align-items: center;
 }
 
-@media (max-width: 768px) {
-    
+@media (max-width: 767px) {
     .mobile-menu-btn {
         display: flex;
     }
@@ -179,15 +177,17 @@ a {
         top: 0;
         right: -100%;
         width: 75%;
-        max-width: 300px;
+        max-width: 320px; /* w-3/4 sm:max-w-sm */
         height: 100vh;
-        background-color: var(--bg-card);
-        padding: 6rem 2rem 2rem 2rem;
-        gap: 2rem;
-        align-items: flex-start;
+        background-color: var(--bg-drawer); /* bg-[rgb(23,23,23)] */
+        padding: 5rem 2rem 2rem 2rem;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content: center;
         z-index: 999;
         transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border-left: 1px solid rgba(255, 255, 255, 0.05);
+        border-left: 1px solid var(--border-color);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     }
     
     .nav-menu.active {
@@ -197,12 +197,12 @@ a {
     .nav-menu ul {
         flex-direction: column;
         width: 100%;
-        align-items: flex-start;
-        gap: 1.75rem;
+        align-items: center;
+        gap: 1.5rem;
     }
     
     .nav-link {
-        font-size: 1.2rem;
+        font-size: 1.25rem; /* text-xl */
     }
 }
 
@@ -210,7 +210,7 @@ a {
 .nav-menu-backdrop {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.8); /* bg-black/80 */
     backdrop-filter: blur(4px);
     opacity: 0;
     pointer-events: none;
@@ -223,28 +223,26 @@ a {
     pointer-events: auto;
 }
 
-
-
 /* ==========================================================================
-   HERO / INTRO SECTION (Exact Font Sizes & Spacings)
+   HERO / INTRO SECTION (Exact Typography & Mobile Font Sizing)
    ========================================================================== */
 .hero-section {
     position: relative;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
 }
 
-/* Timeline vertical line on the left side */
+/* Timeline vertical line on the left side (lg:block on 1024px+) */
 .left-timeline-beam {
     position: absolute;
     left: -5rem;
-    top: 0.5rem;
+    top: 0.75rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
     .left-timeline-beam {
         display: none;
     }
@@ -278,79 +276,91 @@ a {
 .hero-intro-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
 }
 
+/* Hero Title: Exact text-4xl text-white font-extrabold mb-4 from dev-suyash */
 .hero-title {
-    font-size: clamp(1.75rem, 7vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
+    font-size: 2.25rem; /* text-4xl (36px) on mobile */
+    font-weight: 800;   /* font-extrabold */
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    margin-bottom: 1rem; /* mb-4 */
     color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+    .hero-title {
+        font-size: 2.25rem; /* text-4xl */
+    }
 }
 
 .intro-details {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    font-size: 1rem;                  /* Match friend's default text size */
-    color: var(--text-desc);
+    gap: 0.25rem;
+    font-size: 1rem;                  /* text-base on mobile */
+    color: var(--text-desc);           /* text-[rgb(177,177,177)] */
+    line-height: 1.75;                /* leading-7 (28px) */
+}
+
+@media (min-width: 768px) {
+    .intro-details {
+        font-size: 1.125rem;           /* md:text-lg */
+    }
 }
 
 .intro-paragraph {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
     line-height: 1.75;
-}
-
-.intro-paragraph .emoji {
-    flex-shrink: 0;
 }
 
 .name-underline {
     text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1.5px;
+    text-underline-offset: 2px;        /* underline-offset-2 */
     color: var(--text-primary);
     font-weight: 600;
 }
 
 .highlight-text {
-    color: var(--text-primary);
+    color: var(--text-gray-200);       /* text-gray-200 */
     font-weight: 500;
 }
 
 .sub-intro-text {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--text-desc);
-    margin-top: 1.5rem;
+    font-size: 1rem;                  /* text-base on mobile */
+    line-height: 1.75;                /* leading-7 */
+    color: var(--text-gray-300);       /* text-gray-300 */
+    margin-top: 1.5rem;               /* mt-6 */
     max-width: 680px;
+    letter-spacing: 0.015em;
 }
 
-/* Social links row */
+@media (min-width: 768px) {
+    .sub-intro-text {
+        font-size: 1.125rem;           /* md:text-lg */
+    }
+}
+
+/* Social links row: flex mt-6 gap-4 */
 .social-links-row {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    margin-top: 0.75rem;
+    gap: 1rem;                         /* gap-4 */
+    margin-top: 1.5rem;                /* mt-6 */
 }
 
 .social-icon-link {
-    color: var(--text-secondary);
+    color: var(--text-gray-400);       /* hover:text-white */
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--theme-transition);
+    transition: color 0.2s ease;
 }
 
 .social-icon-link svg {
-    width: 24px;
+    width: 24px;                       /* w-6 h-6 */
     height: 24px;
     fill: currentColor;
-    transition: var(--theme-transition);
+    transition: color 0.2s ease;
 }
 
 .social-icon-link:hover {
@@ -358,91 +368,112 @@ a {
 }
 
 /* ==========================================================================
-   PROJECTS SECTION (Exact Suyash Card Dimensions and Glow Overlay)
+   PROJECTS / BLOGS SECTION (Exact Card Paddings & Typography from Suyash)
    ========================================================================== */
 .projects-section {
-    padding-top: 4rem;
+    padding-top: 1rem;
 }
 
+/* Section Title: mt-10 text-3xl text-white font-bold mb-6 */
 .section-title-projects {
-    font-size: 1.875rem;              /* text-3xl font size */
-    font-weight: 700;
-    margin-top: 2.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.875rem;              /* text-3xl (30px) */
+    font-weight: 700;                 /* font-bold */
+    margin-top: 2.5rem;               /* mt-10 */
+    margin-bottom: 1.5rem;            /* mb-6 */
     color: var(--text-primary);
 }
 
+/* Grid container: grid grid-cols-1 md:gap-3 gap-2 pb-8 */
 .projects-grid {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0.5rem;                       /* gap-2 on mobile */
+    padding-bottom: 2rem;             /* pb-8 */
 }
 
+@media (min-width: 768px) {
+    .projects-grid {
+        gap: 0.75rem;                  /* md:gap-3 */
+    }
+}
+
+/* Card outer: group md:mb-2 rounded-2xl transition duration-200 relative bg-[rgb(41,41,47)] text-white w-full */
 .project-card {
     position: relative;
-    background-color: var(--bg-card);
-    border-radius: 16px;
+    background-color: var(--bg-card);  /* bg-[rgb(41,41,47)] */
+    border-radius: 1rem;               /* rounded-2xl */
     overflow: hidden;
     cursor: pointer;
     border: 1px solid var(--border-color);
-    transition: var(--theme-transition);
+    transition: border-color 0.2s ease;
     display: block;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .project-card {
+        margin-bottom: 0.5rem;         /* md:mb-2 */
+    }
 }
 
 .project-card:hover {
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Card inner content padding: relative h-full md:p-6 p-4 */
 .project-card-content {
     position: relative;
     z-index: 2;
-    padding: 1.75rem 2.25rem;
+    height: 100%;
+    padding: 1rem;                     /* p-4 on mobile */
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .project-card-content {
-        padding: 1.25rem 1.5rem;
+        padding: 1.5rem;               /* md:p-6 on desktop */
     }
 }
 
-@media (max-width: 480px) {
-    .project-card-content {
-        padding: 1.15rem 1.25rem;
-    }
-    .project-card-title {
-        font-size: 1.35rem;
-    }
-    .project-card-desc {
-        font-size: 0.95rem;
-    }
-}
-
+/* Card title: text-2xl font-semibold md:p-2 md:pl-0 */
 .project-card-title {
-    font-size: 1.5rem;                /* text-2xl font size */
-    font-weight: 600;
+    font-size: 1.5rem;                /* text-2xl (24px) */
+    font-weight: 600;                 /* font-semibold */
     color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
-.project-card-desc {
-    color: rgb(156, 163, 175);        /* text-gray-400 font color */
-    font-size: 1rem;
-    line-height: 1.625;
+@media (min-width: 768px) {
+    .project-card-title {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+    }
 }
 
-/* Advanced Hover Radial Gradient Overlay (Updates via JS coordinate triggers) */
+/* Card description: text-gray-400 text-sm md:text-base */
+.project-card-desc {
+    color: var(--text-gray-400);       /* text-gray-400 */
+    font-size: 0.875rem;              /* text-sm on mobile */
+    line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+    .project-card-desc {
+        font-size: 1rem;               /* md:text-base on desktop */
+        line-height: 1.625;
+    }
+}
+
+/* Advanced Hover Radial Gradient Overlay */
 .project-hover-overlay {
     position: absolute;
     inset: 0;
-    border-radius: 16px;
+    border-radius: 1rem;               /* rounded-2xl */
     pointer-events: none;
     z-index: 1;
     opacity: 0;
     transition: opacity 0.3s ease;
-    
-    /* Radial gradient glow using coordinates from mouse movements */
-    background: radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(96, 165, 250, 0.12) 0%, transparent 100%),
-                radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(244, 63, 94, 0.12) 0%, transparent 100%);
+    background: radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(96, 165, 250, 0.15) 0%, transparent 100%),
+                radial-gradient(300px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(253, 164, 175, 0.15) 0%, transparent 100%);
 }
 
 .project-card:hover .project-hover-overlay {
@@ -450,32 +481,29 @@ a {
 }
 
 /* ==========================================================================
-   ARTICLE/POST DETAIL VIEWS (Exact Matches to dev-suyash Blog Post Views)
+   ARTICLE / POST DETAIL VIEWS (max-w-3xl matching dev-suyash)
    ========================================================================== */
 .article-container {
     width: 100%;
-    max-width: 900px; /* Aligns with max-w-3xl inside padding margins */
+    max-width: 768px; /* max-w-3xl */
     margin: 0 auto;
     position: relative;
-    padding-top: 2rem;
+    padding-top: 1.5rem;
 }
 
-/* Back navigation links left alignment layout */
 .back-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;              /* text-sm */
     font-weight: 500;
-    color: var(--text-secondary);
-    transition: var(--theme-transition);
-    margin-bottom: 2rem;
+    color: var(--text-gray-400);
+    transition: color 0.2s ease;
+    margin-bottom: 1.5rem;
 }
 
 .back-link:hover {
     color: var(--text-primary);
-    text-decoration: underline;
-    text-underline-offset: 4px;
 }
 
 .back-link svg {
@@ -483,68 +511,71 @@ a {
     height: 16px;
 }
 
-/* Back button left margin alignments for desktop screen borders */
 @media (min-width: 1200px) {
     .back-link {
         position: absolute;
-        left: -150px;
-        top: 2.2rem;
+        left: -140px;
+        top: 1.75rem;
     }
 }
 
 .article-header {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 .published-date {
     display: block;
     font-size: 0.875rem;
-    color: rgb(156, 163, 175);
+    color: var(--text-gray-400);
     margin-bottom: 0.5rem;
 }
 
 .article-title {
-    font-size: clamp(1.5rem, 6vw, 3rem);
-    font-weight: 700;
+    font-size: 1.875rem;              /* text-3xl on mobile */
+    font-weight: 800;
     line-height: 1.2;
     color: var(--text-primary);
 }
 
-@media (max-width: 480px) {
-    .article-body pre {
-        padding: 0.85rem;
+@media (min-width: 768px) {
+    .article-title {
+        font-size: 3rem;               /* md:text-5xl */
     }
 }
 
 .article-body {
-    font-size: 1.05rem;
+    font-size: 1rem;                  /* text-base on mobile */
     line-height: 1.75;
-    color: var(--text-primary);
+    color: var(--text-gray-200);
+}
+
+@media (min-width: 768px) {
+    .article-body {
+        font-size: 1.125rem;           /* md:text-lg */
+    }
 }
 
 .article-body p {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
 }
 
 .article-body h2 {
-    font-size: 1.875rem;              /* text-3xl */
-    font-weight: 600;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--accent-rose);        /* Cozy theme accent colors */
-}
-
-.article-body h3 {
-    font-size: 1.5rem;                /* text-2xl */
-    font-weight: 600;
+    font-size: 1.5rem;                /* text-2xl on mobile */
+    font-weight: 700;
     margin-top: 2rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     color: var(--text-primary);
 }
 
+@media (min-width: 768px) {
+    .article-body h2 {
+        font-size: 1.875rem;           /* text-3xl */
+    }
+}
+
 .article-body ul, .article-body ol {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
     padding-left: 1.5rem;
 }
 
@@ -558,18 +589,17 @@ a {
 
 .article-body li {
     margin-top: 0.5rem;
-    color: var(--text-secondary);
+    color: var(--text-gray-300);
 }
 
 .article-body blockquote {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
     border-left: 2px solid var(--text-muted);
-    padding-left: 1.5rem;
+    padding-left: 1.25rem;
     font-style: italic;
-    color: var(--text-desc);
+    color: var(--text-gray-400);
 }
 
-/* Tech tag elements styled nicely */
 .article-tech-row {
     display: flex;
     flex-wrap: wrap;
@@ -583,23 +613,22 @@ a {
     color: var(--accent-blue);
     padding: 0.25rem 0.75rem;
     border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
     font-weight: 600;
 }
 
-/* Custom styled code snippets config */
 .article-body pre {
     margin-top: 1.5rem;
-    background-color: #000000;         /* Matches code block background of friend */
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    padding: 1.25rem;
+    padding: 1rem;
     overflow-x: auto;
 }
 
 .article-body code {
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--accent-blue);
 }
 
@@ -607,14 +636,13 @@ a {
     color: var(--text-primary);
     background-color: transparent;
     padding: 0;
-    border-radius: 0;
     border: none;
 }
 
 .article-footer {
-    margin-top: 3.5rem;
+    margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-color);
 }
 
 .action-btn {
@@ -638,10 +666,10 @@ a {
    FOOTER
    ========================================================================== */
 .footer {
-    margin-top: 6rem;
+    margin-top: 4rem;
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.03);
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     padding-bottom: 2rem;
 }
