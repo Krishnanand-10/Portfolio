@@ -7,13 +7,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initCardGlows();
+    initTracingBeam();
 });
 
 /* ==========================================================================
    CARD GLOW EFFECT (Mouse Coordinate Tracker)
    ========================================================================== */
 function initCardGlows() {
-    const cards = document.querySelectorAll('.project-card');
+    const cards = document.querySelectorAll('.blog-card, .project-card');
     
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
@@ -26,6 +27,35 @@ function initCardGlows() {
             card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
+}
+
+/* ==========================================================================
+   TRACING BEAM SCROLL FOLLOW EFFECT
+   ========================================================================== */
+function initTracingBeam() {
+    const beam = document.querySelector('.left-timeline-beam');
+    if (!beam) return;
+
+    const dot = beam.querySelector('.timeline-dot');
+    const line = beam.querySelector('.timeline-line');
+
+    const updateBeamOnScroll = () => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (totalHeight <= 0) return;
+        const scrollRatio = Math.min(Math.max(window.scrollY / totalHeight, 0), 1);
+        const stopPercent = Math.round(scrollRatio * 100);
+
+        if (line) {
+            line.style.background = `linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) ${stopPercent}%, rgba(255, 255, 255, 0.12) ${Math.min(stopPercent + 15, 100)}%)`;
+        }
+
+        if (dot) {
+            dot.style.boxShadow = `0 0 ${10 + Math.round(scrollRatio * 12)}px rgba(255, 255, 255, ${(0.2 + scrollRatio * 0.4).toFixed(2)})`;
+        }
+    };
+
+    window.addEventListener('scroll', updateBeamOnScroll, { passive: true });
+    updateBeamOnScroll();
 }
 
 /* ==========================================================================

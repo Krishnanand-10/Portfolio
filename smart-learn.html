@@ -21,7 +21,7 @@
             
             <nav class="nav-menu" id="nav-menu">
                 <ul>
-                    <li><a href="/#projects" class="nav-link">Projects</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
                     <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
                     <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
                 </ul>
@@ -55,14 +55,24 @@
                     <strong>Smart Learn</strong> is an AI-powered study companion designed to make studying interactive and efficient. Users can upload lecture slide PDFs, recorded lecture video/audio, or paste article links. The system parses and indexes this content using Vector RAG pipelines, allowing you to converse with your notes naturally.
                 </p>
 
+                <!-- Project Live Screenshot Preview -->
+                <div class="article-image-wrapper">
+                    <img src="images/smart_learn_preview.png" alt="Smart Learn Application Live Screenshot Preview" class="article-image" />
+                </div>
+
                 <h2>What it is</h2>
                 <p>
                     The portal functions as an intelligent document explorer. Instead of skimming through hundreds of pages of text or listening to hours of lectures, users can upload their study materials and instantly generate context-aware summary notes, chatbots that answer syllabus questions, and custom interactive practice exams.
                 </p>
 
+                <!-- Second Dashboard / Features Image -->
+                <div class="article-image-wrapper">
+                    <img src="images/smart_learn_dashboard.png" alt="Smart Learn Dashboard & RAG Features Preview" class="article-image" />
+                </div>
+
                 <h2>How it is built</h2>
                 <p>
-                    Built on top of Next.js App Router for fast server-side rendering and API endpoints. It integrates the OpenAI API (specifically utilizing gpt-4o-mini) to handle contextual search, chatbot question-answering, and automated quiz/flashcard generation. Database modeling and relations are managed with Prisma ORM connecting to a Supabase database.
+                    Built on top of Next.js App Router for fast server-side rendering and API endpoints. It integrates the Google Gemini API to handle contextual search, chatbot question-answering, and automated quiz/flashcard generation. Database modeling and relations are managed with Prisma ORM connecting to a Supabase database.
                 </p>
                 
                 <pre><code>// Vector search prompt schema
@@ -78,24 +88,29 @@ const getContext = async (queryEmbeddings, documentId) => {
 };</code></pre>
 
                 <h2>Core Features</h2>
-                <ul>
-                    <li>🤖 Context-aware AI tutor chatbot responding to uploaded document material.</li>
-                    <li>📁 Multi-format file uploading (PDF, MP4 Video, MP3 Audio) and direct web link pasting.</li>
-                    <li>🃏 Automated quiz & study flashcards generator with interactive card flip animations.</li>
-                    <li>📊 Instant quiz feedback explaining why answers are correct or incorrect.</li>
+                <ul class="article-list">
+                    <li>Multi-format ingestion: PDFs, MP4/MP3 recordings, YouTube links, and web URLs.</li>
+                    <li>Contextual RAG Chatbot powered by Google Gemini API.</li>
+                    <li>Automated Study Flashcard Deck & Quiz Generator.</li>
+                    <li>Supabase PostgreSQL relational storage with Prisma ORM integration.</li>
                 </ul>
 
                 <h2>Technologies Used</h2>
-                <div class="article-tech-row">
-                    <span class="article-tag">Next.js</span>
-                    <span class="article-tag">OpenAI API</span>
-                    <span class="article-tag">Prisma</span>
+                <div class="article-tags-row">
+                    <span class="article-tag">Next.js 14</span>
+                    <span class="article-tag">Gemini API</span>
+                    <span class="article-tag">Vector RAG</span>
+                    <span class="article-tag">Prisma ORM</span>
                     <span class="article-tag">Supabase</span>
-                    <span class="article-tag">Vanilla CSS</span>
+                    <span class="article-tag">TypeScript</span>
+                    <span class="article-tag">Tailwind CSS</span>
                 </div>
 
-                <footer class="article-footer">
-                    <a href="https://github.com/Krishnanand-10/smart-learn" target="_blank" class="action-btn">
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://smart-learn-web.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn">
+                        Open Live App ↗
+                    </a>
+                    <a href="https://github.com/Krishnanand-10/smart-learn" target="_blank" rel="noopener noreferrer" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
                         View on GitHub
                     </a>
                 </footer>

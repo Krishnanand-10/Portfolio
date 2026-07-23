@@ -21,7 +21,7 @@
             
             <nav class="nav-menu" id="nav-menu">
                 <ul>
-                    <li><a href="/#projects" class="nav-link">Projects</a></li>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
                     <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
                     <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
                 </ul>
@@ -54,6 +54,11 @@
                 <p>
                     <strong>Kinship</strong> is a full-stack family tree mapping platform featuring an infinite panning and zooming vector canvas. It is designed to visualize complex lineage nodes clearly without overlapping, tracking member relationships, spouses, and descendants persistently.
                 </p>
+
+                <!-- Project Live Screenshot Preview -->
+                <div class="article-image-wrapper">
+                    <img src="images/kinship_preview.png" alt="Kinship Family Tree Application Live Screenshot Preview" class="article-image" />
+                </div>
 
                 <h2>What it is</h2>
                 <p>
@@ -89,8 +94,11 @@ const getMarriageJunction = (fatherPos, motherPos) => {
                     <span class="article-tag">html2canvas</span>
                 </div>
 
-                <footer class="article-footer">
-                    <a href="https://github.com/Krishnanand-10/familytree" target="_blank" class="action-btn">
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn">
+                        Open Live App ↗
+                    </a>
+                    <a href="https://github.com/Krishnanand-10/familytree" target="_blank" rel="noopener noreferrer" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
                         View on GitHub
                     </a>
                 </footer>
