@@ -32,10 +32,7 @@
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
+html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
 }
@@ -45,6 +42,7 @@ body {
     background-color: var(--bg-main);
     color: var(--text-primary);
     line-height: 1.75;
+    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -55,43 +53,43 @@ a {
 }
 
 /* ==========================================================================
-   LAYOUT CONTAINERS (Exact dev-suyash padding & max-w-4xl container)
+   LAYOUT CONTAINERS (max-w-4xl / 896px centered layout matching dev-suyash)
    ========================================================================== */
 .container {
     width: 100%;
     max-width: 896px; /* max-w-4xl */
     margin: 0 auto;
-    padding-left: 1.75rem;  /* Exact dev-suyash mobile horizontal margin */
-    padding-right: 1.75rem;
+    padding-left: 1rem;  /* px-4 on mobile */
+    padding-right: 1rem;
 }
 
 .main-content {
     width: 100%;
     max-width: 896px; /* max-w-4xl */
     margin: 0 auto;
-    padding-left: 1.75rem;  /* Exact dev-suyash mobile horizontal margin */
-    padding-right: 1.75rem;
+    padding-left: 1rem;  /* px-4 on mobile */
+    padding-right: 1rem;
     padding-bottom: 4rem;
 }
 
 @media (min-width: 640px) {
     .container,
     .main-content {
-        padding-left: 2rem;
-        padding-right: 2rem;
+        padding-left: 1.5rem; /* px-6 on tablet */
+        padding-right: 1.5rem;
     }
 }
 
 @media (min-width: 1024px) {
     .container,
     .main-content {
-        padding-left: 2.5rem;
-        padding-right: 2.5rem;
+        padding-left: 2rem; /* px-8 on desktop */
+        padding-right: 2rem;
     }
 }
 
 /* ==========================================================================
-   HEADER NAVIGATION (Exact dev-suyash text-3xl font-bold logo & drawer)
+   HEADER NAVIGATION (Exact dev-suyash Header & Mobile Drawer)
    ========================================================================== */
 #main-header {
     width: 100%;
@@ -113,11 +111,9 @@ a {
     justify-content: space-between;
 }
 
-/* Exact dev-suyash header title: text-3xl text-white font-bold */
 .logo-link {
-    font-size: 1.875rem; /* text-3xl (30px) on mobile */
+    font-size: 1.25rem; /* text-xl on mobile */
     font-weight: 700;   /* font-bold */
-    letter-spacing: -0.025em;
     color: var(--text-primary);
     white-space: nowrap;
     flex-shrink: 0;
@@ -126,7 +122,7 @@ a {
 
 @media (min-width: 768px) {
     .logo-link {
-        font-size: 1.875rem; /* text-3xl */
+        font-size: 1.5rem; /* md:text-2xl */
     }
 }
 
@@ -179,7 +175,7 @@ a {
         flex-direction: column;
         position: fixed;
         top: 0;
-        right: 0;
+        right: -100%;
         width: 75%;
         max-width: 320px; /* w-3/4 sm:max-w-sm */
         height: 100vh;
@@ -189,16 +185,13 @@ a {
         align-items: center;
         justify-content: center;
         z-index: 999;
-        transform: translateX(100%);
-        visibility: hidden;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s ease;
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border-left: 1px solid var(--border-color);
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     }
     
     .nav-menu.active {
-        transform: translateX(0);
-        visibility: visible;
+        right: 0;
     }
     
     .nav-menu ul {
@@ -231,7 +224,7 @@ a {
 }
 
 /* ==========================================================================
-   HERO / INTRO SECTION (Exact dev-suyash Font Sizes & Bold Typography)
+   HERO / INTRO SECTION (Exact Typography & Mobile Font Sizing)
    ========================================================================== */
 .hero-section {
     position: relative;
@@ -332,15 +325,19 @@ a {
     font-weight: 500;
 }
 
-/* Exact dev-suyash sub-intro paragraph: text-gray-200 text-lg mt-6 leading-7 tracking-wide font-bold */
 .sub-intro-text {
-    font-size: 1.125rem;              /* text-lg (18px) on mobile */
-    font-weight: 700;                 /* font-bold matching dev-suyash */
+    font-size: 1rem;                  /* text-base on mobile */
     line-height: 1.75;                /* leading-7 */
-    color: var(--text-gray-200);       /* text-gray-200 */
+    color: var(--text-gray-300);       /* text-gray-300 */
     margin-top: 1.5rem;               /* mt-6 */
     max-width: 680px;
     letter-spacing: 0.015em;
+}
+
+@media (min-width: 768px) {
+    .sub-intro-text {
+        font-size: 1.125rem;           /* md:text-lg */
+    }
 }
 
 /* Social links row: flex mt-6 gap-4 */
@@ -428,7 +425,7 @@ a {
     position: relative;
     z-index: 2;
     height: 100%;
-    padding: 1rem 1.25rem;             /* p-4 md:p-6 */
+    padding: 1rem;                     /* p-4 on mobile */
 }
 
 @media (min-width: 768px) {
