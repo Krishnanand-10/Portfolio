@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Roaster | Project Details</title>
+    <!-- Meta Description for SEO -->
+    <meta name="description" content="Development details and architecture of Resume Roaster - an AI-powered resume analyzer and feedback tool.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+    <!-- Header Navigation -->
+    <header id="main-header">
+        <div class="container header-container">
+            <a href="/" class="logo-link">Krishna Nand Tiwari</a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button id="menu-toggle" class="icon-btn mobile-menu-btn" aria-label="Open menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+        <div class="article-container">
+            <!-- Back navigation links -->
+            <a class="back-link" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <!-- Article Body Details -->
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on August 16, 2026</time>
+                    <h1 class="article-title">Resume Roaster</h1>
+                </header>
+
+                <p>
+                    <strong>Resume Roaster</strong> is an AI-powered resume review and critique tool giving job seekers brutal honesty, ATS scoring, and high-impact improvement recommendations. Users upload their resume as a PDF or text file, select their roast intensity level, and receive instant actionable insights.
+                </p>
+
+                <!-- Landing Page Screenshot -->
+                <div class="article-image-wrapper">
+                    <img src="images/resume_roaster_preview.png" alt="Resume Roaster Landing Page" class="article-image" />
+                </div>
+
+                <h2>What it is</h2>
+                <p>
+                    Most resume review tools are overly polite and generic. Resume Roaster blends humor with industry-standard resume auditing. It scores documents based on ATS readability, quantifiable metric usage, weak action verbs, and bullet point impact, providing both funny roast commentary and serious constructive rewrite suggestions.
+                </p>
+
+                <!-- Dashboard & Hearth Upload Screenshot -->
+                <div class="article-image-wrapper">
+                    <img src="images/resume_roaster_dashboard.png" alt="Resume Roaster Interactive Dashboard and Hearth Upload" class="article-image" />
+                </div>
+
+                <h2>How it is built</h2>
+                <p>
+                    Built with a responsive Vanilla JS and Glassmorphism design system on the frontend, powered by a <strong>Node.js and Express</strong> backend. It utilizes <code>pdf-parse</code> for extracting document text and integrates a multi-provider fallback engine spanning <strong>Google Gemini Flash</strong>, <strong>OpenAI GPT-4o</strong>, and <strong>Claude</strong> with automated rate limiting and heuristic fallback guards.
+                </p>
+                
+                <pre><code>// Multi-Provider LLM Orchestration
+async function generateRoast(resumeText, intensity) {
+  const prompt = buildRoastPrompt(resumeText, intensity);
+  try {
+    return await callGeminiAPI(prompt);
+  } catch (err) {
+    console.warn("Primary provider failed, falling back to secondary...");
+    return await callOpenAIBackup(prompt);
+  }
+}</code></pre>
+
+                <h2>Core Features</h2>
+                <ul>
+                    <li>📄 <strong>Document Parsing:</strong> Drag-and-drop support for PDF and TXT documents, as well as direct text paste.</li>
+                    <li>🔥 <strong>Roast Intensity Gauge:</strong> Adjustable tone slider from gentle constructive advice to brutal roast.</li>
+                    <li>📊 <strong>ATS & Impact Scoring:</strong> Comprehensive breakdown rating readability, structure, and action-oriented results.</li>
+                    <li>🛡️ <strong>Robust Fallback Cascade:</strong> Multi-LLM provider redundancy ensuring 100% uptime even under high traffic.</li>
+                    <li>⚡ <strong>One-Click Rewrite Suggestions:</strong> Instant bullet improvements transforming weak tasks into metric-driven wins.</li>
+                </ul>
+
+                <h2>Technologies Used</h2>
+                <div class="article-tech-row">
+                    <span class="article-tag">JavaScript</span>
+                    <span class="article-tag">Node.js</span>
+                    <span class="article-tag">Express.js</span>
+                    <span class="article-tag">Google Gemini</span>
+                    <span class="article-tag">OpenAI API</span>
+                    <span class="article-tag">pdf-parse</span>
+                </div>
+
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://resume-roaster-ro.vercel.app/" target="_blank" rel="noopener noreferrer" class="action-btn">
+                        Open Live App ↗
+                    </a>
+                    <a href="https://github.com/Krishnanand-10/resume-roaster" target="_blank" rel="noopener noreferrer" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        View on GitHub
+                    </a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Krishna Nand Tiwari.</p>
+        </div>
+    </footer>
+
+    <!-- Script file -->
+    <script src="script.js"></script>
+</body>
+</html>

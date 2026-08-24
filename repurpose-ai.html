@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepurposeAI | Project Details</title>
+    <!-- Meta Description for SEO -->
+    <meta name="description" content="Development details and architecture of RepurposeAI - an AI-powered multi-platform content repurposing SaaS.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+    <!-- Header Navigation -->
+    <header id="main-header">
+        <div class="container header-container">
+            <a href="/" class="logo-link">Krishna Nand Tiwari</a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button id="menu-toggle" class="icon-btn mobile-menu-btn" aria-label="Open menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+        <div class="article-container">
+            <!-- Back navigation links -->
+            <a class="back-link" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <!-- Article Body Details -->
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on August 20, 2026</time>
+                    <h1 class="article-title">RepurposeAI</h1>
+                </header>
+
+                <p>
+                    <strong>RepurposeAI</strong> is an AI-powered SaaS platform that allows creators, founders, and marketers to paste a <strong>YouTube video URL</strong>, <strong>blog post link</strong>, or <strong>raw transcript</strong> and transform it into a full multi-platform distribution asset bundle in seconds.
+                </p>
+
+                <!-- Landing Page Screenshot -->
+                <div class="article-image-wrapper">
+                    <img src="images/repurpose_ai_preview.png" alt="RepurposeAI SaaS Landing Page" class="article-image" />
+                </div>
+
+                <h2>What it is</h2>
+                <p>
+                    RepurposeAI eliminates the manual grind of cross-platform distribution. Instead of spending hours rewriting content for each social network, users input a single source piece and instantly receive customized, platform-tailored formats including LinkedIn carousel summaries, Twitter/X narrative threads, short-form video scripts (for Reels/TikTok/Shorts), SEO meta tags, and newsletter digests.
+                </p>
+
+                <!-- Repurposing Studio Dashboard Screenshot -->
+                <div class="article-image-wrapper">
+                    <img src="images/repurpose_ai_dashboard.png" alt="RepurposeAI Repurposing Studio Dashboard" class="article-image" />
+                </div>
+
+                <h2>How it is built</h2>
+                <p>
+                    Built with <strong>Next.js 15</strong> App Router, <strong>TypeScript</strong>, and <strong>Tailwind CSS</strong>. It connects to <strong>Google Gemini Flash</strong> for lightning-fast structured JSON generation. The backend implements YouTube transcript scraping, HTML article extraction via Cheerio, database modeling with <strong>Prisma ORM</strong>, and metered subscription billing powered by <strong>Stripe</strong>.
+                </p>
+                
+                <h2>System Architecture</h2>
+                <p>
+                    RepurposeAI is engineered with an asynchronous content extraction pipeline, structured LLM schema parsing, and a metered billing engine backed by Stripe webhooks and Prisma ORM persistence:
+                </p>
+
+                <!-- System Architecture Diagram Screenshot -->
+                <div class="article-image-wrapper">
+                    <img src="images/repurpose_ai_architecture.png" alt="RepurposeAI System Architecture Diagram" class="article-image" />
+                </div>
+
+                <h2>Sequence Flow</h2>
+                <p>
+                    The lifecycle of a single transformation request from creator input to multi-platform asset delivery:
+                </p>
+
+                <!-- Sequence Flow Diagram Screenshot -->
+                <div class="article-image-wrapper">
+                    <img src="images/repurpose_ai_sequence.png" alt="RepurposeAI Request & Execution Sequence Flow Diagram" class="article-image" />
+                </div>
+
+                <pre><code>// AI Content Pipeline Generation Schema
+const generateAssetBundle = async (rawTranscript: string) => {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const response = await model.generateContent({
+    contents: [{ role: "user", parts: [{ text: buildRepurposePrompt(rawTranscript) }] }],
+    generationConfig: { responseMimeType: "application/json" }
+  });
+  return JSON.parse(response.text());
+};</code></pre>
+
+                <h2>Core Features</h2>
+                <ul>
+                    <li>🎥 <strong>Multi-Source Ingestion:</strong> Ingest YouTube video links, web article URLs, or raw text directly.</li>
+                    <li>💼 <strong>LinkedIn Carousels:</strong> Formatted hooks, structured bullet points, and CTAs ready to publish.</li>
+                    <li>🐦 <strong>Twitter/X Threads:</strong> 5–8 tweet narrative flows with 1-click individual copy controls.</li>
+                    <li>🎬 <strong>Short-Form Video Scripts:</strong> Ready-to-record Reels, Shorts, and TikTok scripts with scene-by-scene visual cues and voiceovers.</li>
+                    <li>🔍 <strong>SEO Meta Pack:</strong> Optimized titles, 160-character descriptions, keywords, and Google SERP previews.</li>
+                    <li>💳 <strong>Stripe Metered Billing:</strong> Built-in credit management and subscription webhooks.</li>
+                </ul>
+
+                <h2>Technologies Used</h2>
+                <div class="article-tech-row">
+                    <span class="article-tag">Next.js 15</span>
+                    <span class="article-tag">TypeScript</span>
+                    <span class="article-tag">Google Gemini</span>
+                    <span class="article-tag">Prisma ORM</span>
+                    <span class="article-tag">Stripe</span>
+                    <span class="article-tag">Tailwind CSS</span>
+                </div>
+
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://repurposeai-rp.vercel.app/" target="_blank" rel="noopener noreferrer" class="action-btn">
+                        Open Live App ↗
+                    </a>
+                    <a href="https://github.com/Krishnanand-10/RepurposeAI" target="_blank" rel="noopener noreferrer" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        View on GitHub
+                    </a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Krishna Nand Tiwari.</p>
+        </div>
+    </footer>
+
+    <!-- Mermaid.js for rendering graph TD diagrams -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#29292f',
+                primaryColor: '#1d1e20',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#60a5fa',
+                lineColor: '#60a5fa',
+                secondaryColor: '#303037',
+                tertiaryColor: '#202025'
+            }
+        });
+    </script>
+
+    <!-- Script file -->
+    <script src="script.js"></script>
+</body>
+</html>
