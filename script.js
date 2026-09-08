@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCommandPalette();
     initSmoothScroll();
     initScrollReveal();
+    initGitaQuotes();
 });
 
 /* ==========================================================================
@@ -186,25 +187,161 @@ function initAccordions() {
 }
 
 /* ==========================================================================
-   6. GITHUB CONTRIBUTIONS HEATMAP GENERATOR
+   6. GITHUB ACTIVITY CALENDAR (1:1 kroszborg.co Sync with @Krishnanand-10)
    ========================================================================== */
-function initHeatmap() {
-    const grid = document.getElementById('heatmap-grid');
-    if (!grid) return;
+async function initHeatmap() {
+    const wrap = document.getElementById('github-calendar-wrap');
+    const countEl = document.getElementById('github-count-number');
+    const yearCountEl = document.getElementById('github-year-count');
+    if (!wrap) return;
 
-    let html = '';
-    for (let i = 0; i < 150; i++) {
-        const rand = Math.random();
-        let heatClass = '';
-        if (rand > 0.85) heatClass = 'heat-4';
-        else if (rand > 0.68) heatClass = 'heat-3';
-        else if (rand > 0.48) heatClass = 'heat-2';
-        else if (rand > 0.28) heatClass = 'heat-1';
-        
-        const count = heatClass === 'heat-4' ? 12 : heatClass === 'heat-3' ? 7 : heatClass === 'heat-2' ? 4 : heatClass === 'heat-1' ? 2 : 0;
-        html += `<div class="heat-box ${heatClass}" title="${count} contributions"></div>`;
+    const USERNAME = 'Krishnanand-10';
+    const API_URL = 'https://github-contributions-api.jogruber.de/v4/' + USERNAME + '?y=last';
+
+    const blockSize = 11;
+    const blockMargin = 3;
+    const step = blockSize + blockMargin; // 14
+    const offsetX = 26;
+    const offsetY = 20;
+
+    // Theme colors matching kroszborg.co dark theme exactly:
+    const theme = [
+        "rgb(22, 27, 34)",
+        "rgb(14, 68, 41)",
+        "rgb(0, 109, 50)",
+        "rgb(38, 166, 65)",
+        "rgb(57, 211, 83)"
+    ];
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const weekdayLabels = [
+        { label: 'M', y: offsetY + 1 * step + 9 },
+        { label: 'W', y: offsetY + 3 * step + 9 },
+        { label: 'F', y: offsetY + 5 * step + 9 }
+    ];
+
+    function buildSvg(contributions) {
+        const weeks = [];
+        let currentWeek = [];
+
+        contributions.forEach((day, idx) => {
+            currentWeek.push(day);
+            const d = new Date(day.date + 'T00:00:00');
+            if (d.getDay() === 6 || idx === contributions.length - 1) {
+                weeks.push(currentWeek);
+                currentWeek = [];
+            }
+        });
+
+        const svgWidth = offsetX + weeks.length * step;
+        const svgHeight = offsetY + 7 * step;
+
+        const monthPositions = [];
+        let lastMonth = -1;
+
+        weeks.forEach((week, wIdx) => {
+            const firstDay = week[0];
+            const d = new Date(firstDay.date + 'T00:00:00');
+            const m = d.getMonth();
+            if (m !== lastMonth) {
+                monthPositions.push({ month: months[m], x: offsetX + wIdx * step });
+                lastMonth = m;
+            }
+        });
+
+        let svg = `<svg class="react-activity-calendar" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" style="color: rgb(139, 148, 158);">`;
+
+        // Month text labels
+        monthPositions.forEach(mp => {
+            svg += `<text x="${mp.x}" y="12" font-size="11" fill="rgb(139, 148, 158)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">${mp.month}</text>`;
+        });
+
+        // Weekday text labels
+        weekdayLabels.forEach(wl => {
+            svg += `<text x="4" y="${wl.y}" font-size="11" fill="rgb(139, 148, 158)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">${wl.label}</text>`;
+        });
+
+        // Day blocks
+        weeks.forEach((week, wIdx) => {
+            const x = offsetX + wIdx * step;
+            week.forEach(day => {
+                const d = new Date(day.date + 'T00:00:00');
+                const dayOfWeek = d.getDay();
+                const y = offsetY + dayOfWeek * step;
+                const level = Math.min(Math.max(Number(day.level) || 0, 0), 4);
+                const fill = theme[level];
+                const countText = day.count === 0 ? 'No contributions' : day.count === 1 ? '1 contribution' : `${day.count} contributions`;
+                const dateFormatted = `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+                const tooltip = `${countText} on ${dateFormatted}`;
+
+                svg += `<rect x="${x}" y="${y}" width="${blockSize}" height="${blockSize}" rx="2" ry="2" fill="${fill}" data-date="${day.date}" data-level="${level}"><title>${tooltip}</title></rect>`;
+            });
+        });
+
+        svg += `</svg>`;
+        return svg;
     }
-    grid.innerHTML = html;
+
+    function render(data) {
+        if (!data || !data.contributions || !data.contributions.length) return;
+        wrap.innerHTML = buildSvg(data.contributions);
+
+        const total = data.total?.lastYear ?? data.contributions.reduce((acc, d) => acc + (d.count || 0), 0);
+        if (countEl) countEl.textContent = total.toLocaleString();
+        if (yearCountEl) yearCountEl.style.display = 'block';
+
+        // Auto-scroll to end (most recent date) like kroszborg
+        wrap.scrollLeft = wrap.scrollWidth;
+    }
+
+    // Drag-to-scroll interaction (exact kroszborg grab cursor functionality)
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    wrap.addEventListener('mousedown', (e) => {
+        isDown = true;
+        wrap.classList.add('grabbing');
+        startX = e.pageX - wrap.offsetLeft;
+        scrollLeft = wrap.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDown = false;
+        wrap.classList.remove('grabbing');
+    });
+
+    wrap.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - wrap.offsetLeft;
+        const walk = (x - startX);
+        wrap.scrollLeft = scrollLeft - walk;
+    });
+
+    // 1. Instant load from localStorage cache
+    try {
+        const cached = localStorage.getItem('krishna_gh_contribs_krosz');
+        if (cached) {
+            render(JSON.parse(cached));
+        }
+    } catch (e) {}
+
+    // 2. Live fetch from GitHub API
+    try {
+        const res = await fetch(API_URL);
+        if (res.ok) {
+            const data = await res.json();
+            if (data && data.contributions) {
+                render(data);
+                try {
+                    localStorage.setItem('krishna_gh_contribs_krosz', JSON.stringify(data));
+                } catch (e) {}
+            }
+        }
+    } catch (err) {
+        console.warn('GitHub activity live sync warning:', err);
+    }
 }
 
 /* ==========================================================================
@@ -224,7 +361,6 @@ function initCommandPalette() {
         { title: 'Resume Roaster', desc: 'AI resume critique & ATS optimization tool', category: 'Project', url: 'https://resume-roaster-ro.vercel.app/' },
         { title: 'Smart Learn', desc: 'AI-powered study companion with slide vector search', category: 'Project', url: 'https://smart-learn-web.vercel.app' },
         { title: 'Kinship Family Tree', desc: 'Interactive canvas family tree builder with React Flow', category: 'Project', url: 'https://familytree-livid.vercel.app' },
-        { title: 'About Krishna', desc: 'Background, philosophy, and technical stack', category: 'About', url: 'index.html#about' },
         { title: 'RepurposeAI Architecture', desc: 'Building multi-provider audio/video pipeline', category: 'Blog', url: 'repurpose-ai.html' },
         { title: 'Resume Roaster Fallbacks', desc: 'Zero-downtime failovers between Gemini and OpenAI', category: 'Blog', url: 'resume-roaster.html' },
         { title: 'Smart Learn Vector RAG', desc: 'Semantic search & Supabase pgvector embeddings', category: 'Blog', url: 'smart-learn.html' },
@@ -494,7 +630,138 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
-   11. EXACT 1:1 KROSZBORG.CO WEBGL ANIMATED SHADER BACKGROUND
+   11. DYNAMIC BHAGAVAD GITA QUOTES (Changes on every visit & on click)
+   ========================================================================== */
+const BHAGAVAD_GITA_QUOTES = [
+    {
+        quote: "You have a right to perform your prescribed duty, but you are not entitled to the fruits of action.",
+        chapter: "Chapter 2, Verse 47"
+    },
+    {
+        quote: "Man is made by his belief. As he believes, so he is.",
+        chapter: "Chapter 17, Verse 3"
+    },
+    {
+        quote: "The mind is restless, turbulent, obstinate and very strong. But it can be mastered through persistent practice and detachment.",
+        chapter: "Chapter 6, Verse 35"
+    },
+    {
+        quote: "A person can rise through the efforts of their own mind, or draw themselves down. For each person is their own friend or their own enemy.",
+        chapter: "Chapter 6, Verse 5"
+    },
+    {
+        quote: "When meditation is mastered, the mind is unwavering like the flame of a lamp in a windless place.",
+        chapter: "Chapter 6, Verse 19"
+    },
+    {
+        quote: "Perform your duty with an equanimous mind, abandoning all attachment to success or failure. Such equanimity is called Yoga.",
+        chapter: "Chapter 2, Verse 48"
+    },
+    {
+        quote: "Set your heart upon your work, but never on its reward. Work not for a reward, but never cease to do your work.",
+        chapter: "Chapter 2, Verse 47"
+    },
+    {
+        quote: "Better is one's own duty, though imperfectly performed, than the duty of another discharged with perfection.",
+        chapter: "Chapter 3, Verse 35"
+    },
+    {
+        quote: "The soul is neither born, nor does it ever die; nor having once existed, does it ever cease to be. The soul is eternal, ever-existing, and primeval.",
+        chapter: "Chapter 2, Verse 20"
+    },
+    {
+        quote: "No one who does good work will ever come to an evil end, either here or in the world to come.",
+        chapter: "Chapter 6, Verse 40"
+    },
+    {
+        quote: "Whatever action is performed by a great person, common people follow. Whatever standards they set, all the world pursues.",
+        chapter: "Chapter 3, Verse 21"
+    },
+    {
+        quote: "Calmness, gentleness, silence, self-restraint, and purity of heart: these are the disciplines of the mind.",
+        chapter: "Chapter 17, Verse 16"
+    },
+    {
+        quote: "One who has conquered the mind is calm in heat and cold, in pleasure and pain, in honor and dishonor.",
+        chapter: "Chapter 6, Verse 7"
+    },
+    {
+        quote: "There is nothing in this world so purifying as divine knowledge. One who attains purity through yoga finds this within oneself in due course.",
+        chapter: "Chapter 4, Verse 38"
+    },
+    {
+        quote: "Delusion arises from anger. From delusion comes confusion of memory. From confusion of memory comes loss of intellect, and from loss of intellect a person is ruined.",
+        chapter: "Chapter 2, Verse 63"
+    },
+    {
+        quote: "Reshape yourself through the power of your will; never let yourself be degraded by self-will.",
+        chapter: "Chapter 6, Verse 5"
+    }
+];
+
+function initGitaQuotes() {
+    const quoteCard = document.getElementById('quote-card');
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    if (!quoteText || !quoteAuthor) return;
+
+    function renderQuote(idx, animate = false) {
+        const item = BHAGAVAD_GITA_QUOTES[idx];
+        if (!item) return;
+
+        if (animate) {
+            quoteText.style.opacity = '0';
+            quoteAuthor.style.opacity = '0';
+            setTimeout(() => {
+                quoteText.textContent = `“${item.quote}”`;
+                quoteAuthor.textContent = `— Bhagavad Gita, ${item.chapter}`;
+                quoteText.style.opacity = '1';
+                quoteAuthor.style.opacity = '1';
+            }, 180);
+        } else {
+            quoteText.textContent = `“${item.quote}”`;
+            quoteAuthor.textContent = `— Bhagavad Gita, ${item.chapter}`;
+        }
+    }
+
+    function getNextQuoteIndex() {
+        let lastIdx = -1;
+        try {
+            const stored = sessionStorage.getItem('gita_quote_idx') || localStorage.getItem('gita_quote_idx');
+            if (stored !== null) lastIdx = parseInt(stored, 10);
+        } catch (e) {}
+
+        let nextIdx;
+        if (isNaN(lastIdx) || lastIdx < 0 || lastIdx >= BHAGAVAD_GITA_QUOTES.length) {
+            nextIdx = Math.floor(Math.random() * BHAGAVAD_GITA_QUOTES.length);
+        } else {
+            const offset = Math.floor(Math.random() * (BHAGAVAD_GITA_QUOTES.length - 1)) + 1;
+            nextIdx = (lastIdx + offset) % BHAGAVAD_GITA_QUOTES.length;
+        }
+
+        try {
+            sessionStorage.setItem('gita_quote_idx', nextIdx.toString());
+            localStorage.setItem('gita_quote_idx', nextIdx.toString());
+        } catch (e) {}
+
+        return nextIdx;
+    }
+
+    // Set dynamic quote for this visit
+    let currentIdx = getNextQuoteIndex();
+    renderQuote(currentIdx, false);
+
+    // Clicking quote card cycles to another verse with smooth fade
+    if (quoteCard) {
+        quoteCard.addEventListener('click', () => {
+            currentIdx = getNextQuoteIndex();
+            renderQuote(currentIdx, true);
+        });
+    }
+}
+
+/* ==========================================================================
+   12. EXACT 1:1 KROSZBORG.CO WEBGL ANIMATED SHADER BACKGROUND
    ========================================================================== */
 function initShaderBackground() {
     const canvas = document.getElementById('shader-canvas');

@@ -426,14 +426,16 @@ button {
     color: #ffffff;
     font-size: 0.88rem;
     font-weight: 600;
-    border: none;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .btn-resume:hover {
     background: #18181b;
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .btn-resume-eyes {
@@ -568,11 +570,12 @@ button {
 }
 
 .section-title {
-    font-family: var(--font-heading);
-    font-size: 1.45rem;
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
     font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #ffffff;
+    letter-spacing: -0.025em;
+    line-height: 1.75rem;
+    color: var(--foreground);
     margin-bottom: 24px;
 }
 
@@ -952,209 +955,171 @@ button {
 }
 
 /* ==========================================================================
-   ABOUT SECTION & TECH STACK GRID
+   ABOUT SECTION (1:1 Kroszborg Styling - Flat, Open, 240px Photo, 24px Icons)
    ========================================================================== */
-.about-card-split {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
+.about-kroszborg-wrap {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-@media (min-width: 640px) {
-    .about-card-split {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 24px;
-    }
-}
-
-.about-img-wrap {
+.about-portrait-wrap {
+    width: 240px;
+    height: 240px;
+    border-radius: 12px;
+    overflow: hidden;
     flex-shrink: 0;
 }
 
 .about-portrait-img {
-    width: 140px;
-    height: 140px;
+    width: 240px;
+    height: 240px;
     border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
     object-fit: cover;
     object-position: center 30%;
-    border: 2px solid rgba(255, 255, 255, 0.15);
     display: block;
 }
 
-.about-text-content {
-    flex: 1;
+.about-details-wrap {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .about-author-name {
-    font-family: var(--font-heading);
-    font-size: 1.35rem;
+    font-family: var(--font-sans);
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--foreground);
+    letter-spacing: -0.025em;
+    line-height: 1.25;
 }
 
 .about-text {
-    font-size: 0.92rem;
+    font-size: 0.95rem;
     color: var(--muted-foreground);
-    line-height: 1.6;
+    line-height: 1.7;
+    max-width: 65ch;
 }
 
-.all-tech-grid {
+.about-text b {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+.about-tech-stack-wrap {
+    margin-top: 4px;
+}
+
+.about-tech-icons {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
+    gap: 12px;
+    align-items: center;
 }
 
-.tech-icon-pill {
+.tech-icon-item {
+    width: 24px;
+    height: 24px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    font-size: 0.82rem;
-    color: #e4e4e7;
-    transition: all 0.2s ease;
-    cursor: default;
-}
-
-.tech-icon-pill:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-}
-
-.tech-icon-pill svg,
-.tech-icon-pill img {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-}
-
-/* ==========================================================================
-   GITHUB CONTRIBUTION HEATMAP
-   ========================================================================== */
-.github-heatmap-container {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-}
-
-.heatmap-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-}
-
-.heatmap-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.heatmap-sub {
-    font-size: 0.8rem;
-    color: var(--secondary);
-}
-
-.heatmap-grid {
-    display: grid;
-    grid-template-columns: repeat(30, 1fr);
-    grid-template-rows: repeat(5, 12px);
-    gap: 4px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-}
-
-.heat-box {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.05);
+    justify-content: center;
+    cursor: pointer;
     transition: transform 0.15s ease;
 }
 
-.heat-box:hover {
-    transform: scale(1.3);
+.tech-icon-item:hover {
+    transform: scale(1.15);
 }
 
-.heat-box.heat-1 { background: #0e4429; }
-.heat-box.heat-2 { background: #006d32; }
-.heat-box.heat-3 { background: #26a641; }
-.heat-box.heat-4 { background: #39d353; }
+.tech-icon-item svg,
+.tech-icon-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
 
 /* ==========================================================================
-   JOURNEY & GEARS LINKS (1:1 kroszborg)
+   GITHUB ACTIVITY (1:1 kroszborg.co layout & react-activity-calendar)
    ========================================================================== */
-.journey-links-list {
+.github-section-header {
     display: flex;
-    flex-direction: column;
-}
-
-.journey-item-link {
-    display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-    transition: border-color 0.2s ease;
+    margin-bottom: 24px;
 }
 
-.journey-item-link:last-child {
-    border-bottom: none;
-}
-
-.journey-item-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.journey-icon {
+.github-year-count {
+    font-size: 0.75rem;
     color: var(--muted-foreground);
+    font-variant-numeric: tabular-nums;
+    padding-bottom: 2px;
+}
+
+.github-count-number {
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.github-calendar-wrap {
+    width: 100%;
+    overflow-x: auto;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    padding-bottom: 4px;
+}
+
+.github-calendar-wrap:active,
+.github-calendar-wrap.grabbing {
+    cursor: grabbing;
+}
+
+.github-calendar-wrap.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.github-calendar-wrap.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.react-activity-calendar {
+    display: block;
+    width: max-content;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.react-activity-calendar rect {
+    transition: opacity 0.15s ease;
+    cursor: pointer;
+}
+
+.react-activity-calendar rect:hover {
+    opacity: 0.75;
+}
+
+.github-loading-spinner {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.2s ease;
+    padding: 36px 0;
 }
 
-.journey-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--foreground);
-    transition: color 0.2s ease;
+.spinner-ring {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--foreground);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
 
-.journey-subtitle {
-    font-size: 0.82rem;
-    color: var(--muted-foreground);
-    margin-top: 1px;
-}
-
-.journey-arrow {
-    color: var(--muted-foreground);
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.journey-item-link:hover .journey-title,
-.journey-item-link:hover .journey-icon,
-.journey-item-link:hover .journey-arrow {
-    color: #ffffff;
-}
-
-.journey-item-link:hover .journey-arrow {
-    transform: translateX(4px);
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* ==========================================================================
@@ -1227,11 +1192,12 @@ button {
 }
 
 .cta-banner-title {
-    font-family: var(--font-heading);
+    font-family: var(--font-sans);
     font-size: 1.25rem;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--foreground);
+    letter-spacing: -0.025em;
+    line-height: 1.4;
 }
 
 .cta-banner-desc {
@@ -1276,23 +1242,41 @@ button {
 }
 
 .quote-card {
-    padding: 20px 24px;
-    border-left: 3px solid #38bdf8;
-    background: rgba(14, 116, 144, 0.05);
-    border-radius: 0 12px 12px 0;
-    color: #d1d5db;
-    font-style: italic;
+    padding: 22px 26px;
+    border: 1px solid var(--border);
+    background: rgba(24, 24, 27, 0.4);
+    border-radius: 12px;
+    color: #e4e4e7;
     font-size: 0.95rem;
-    line-height: 1.6;
+    line-height: 1.65;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.quote-card:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(24, 24, 27, 0.6);
+}
+
+.quote-text {
+    font-family: var(--font-sans);
+    font-style: italic;
+    color: #d4d4d8;
+    line-height: 1.65;
+    transition: opacity 0.2s ease;
 }
 
 .quote-author {
     display: block;
-    margin-top: 6px;
+    margin-top: 10px;
+    font-family: var(--font-sans);
     font-size: 0.82rem;
     color: var(--muted-foreground);
     font-style: normal;
     font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s ease;
 }
 
 /* ==========================================================================
@@ -1953,6 +1937,7 @@ code {
     font-weight: 600;
     line-height: 1.25;
     color: #ffffff;
+    text-decoration: none;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -1962,8 +1947,7 @@ code {
 
 .blog-card:hover .blog-card-heading {
     color: #ffffff;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    text-decoration: none;
 }
 
 .blog-card-summary {
