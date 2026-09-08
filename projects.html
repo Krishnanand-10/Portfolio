@@ -1,141 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Krishna Nand Tiwari</title>
     <!-- Meta Description for SEO -->
-    <meta name="description" content="Projects developed by Krishna Nand Tiwari including Smart Learn and Kinship Family Tree.">
-    <!-- Google Fonts: Inter -->
+    <meta name="description" content="Projects developed by Krishna Nand Tiwari including RepurposeAI, Resume Roaster, Smart Learn, and Kinship.">
+    <meta name="author" content="Krishna Nand Tiwari">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+
+    <!-- Fonts: Clash Display from Fontshare & Google Fonts Hanken Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body class="dark-theme">
-    <!-- Header Navigation -->
-    <header id="main-header">
-        <div class="container header-container">
-            <a href="/" class="logo-link">Krishna Nand Tiwari</a>
-            
-            <nav class="nav-menu" id="nav-menu">
-                <ul>
-                    <li><a href="projects.html" class="nav-link active">Projects</a></li>
-                    <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
-                    <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
-                </ul>
-            </nav>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-            <div class="header-actions">
-                <button id="menu-toggle" class="icon-btn mobile-menu-btn" aria-label="Open menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
-                </button>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Preload Oneko retro cat companion -->
+    <link rel="preload" href="oneko.gif" as="image">
+</head>
+<body>
+    <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
+
+    <!-- Floating Pill Navigation (Exact kroszborg 64px, 560px max-width, rounded-24px) -->
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item active">Projects</a>
+                <a href="index.html#about" class="nav-menu-item">About</a>
+                <a href="blog.html" class="nav-menu-item">Blogs</a>
             </div>
         </div>
-    </header>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span>Search</span>
+                <kbd>Ctrl + K</kbd>
+            </button>
+        </div>
+    </nav>
 
-    <!-- Main Content Container -->
-    <main class="main-content">
-        <section class="projects-section">
-            <h1 class="section-title-projects">Projects</h1>
-            
-            <div class="projects-grid">
-                <!-- Project 1: RepurposeAI (Links to Live App) -->
-                <a class="project-card" href="https://repurposeai-rp.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open RepurposeAI live web app">
-                    <div class="project-hover-overlay"></div>
-                    <div class="card-border-line-bottom"></div>
-                    <div class="card-border-line-left"></div>
-                    <div class="project-card-content">
-                        <h3 class="project-card-title">RepurposeAI</h3>
-                        <p class="project-card-desc">
+    <!-- Main Projects Container (max-w-3xl kroszborg structure) -->
+    <main class="projects-page-container">
+        <div class="projects-header-section">
+            <h1 class="projects-page-title">Projects</h1>
+            <div class="projects-separator"></div>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Project 1: RepurposeAI -->
+            <div class="tilt-wrapper">
+                <div class="kroszborg-card">
+                    <a href="repurpose-ai.html" class="card-cover">
+                        <img src="images/repurpose_ai_preview.png" alt="RepurposeAI" class="card-preview-image" loading="lazy">
+                    </a>
+                    <div class="card-body">
+                        <div class="card-title-row">
+                            <a href="repurpose-ai.html" class="card-title-link">RepurposeAI</a>
+                            <a href="https://repurposeai-rp.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open RepurposeAI live app">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                            </a>
+                        </div>
+                        <p class="card-desc">
                             AI-powered multi-platform content repurposing SaaS. Ingests YouTube URLs, articles, and audio transcripts to generate LinkedIn carousels, X threads, video scripts, and SEO packs.
                         </p>
-                        <div class="project-tech-badges">
-                            <span class="tech-badge">Next.js 15</span>
-                            <span class="tech-badge">TypeScript</span>
-                            <span class="tech-badge">Google Gemini</span>
-                            <span class="tech-badge">Prisma</span>
-                            <span class="tech-badge">Stripe</span>
-                            <span class="tech-badge">Tailwind CSS</span>
+                        <div class="card-stack-section">
+                            <div class="card-stack-label">STACK</div>
+                            <div class="card-stack-icons">
+                                <span class="stack-icon-btn" title="Next.js">
+                                    <svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="64" fill="#000"></circle><path fill="#fff" d="M106.317 112.014 49.167 38.4H38.4v51.179h8.614v-40.24l52.54 67.884a64.216 64.216 0 0 0 6.763-5.209z"></path><path fill="#fff" d="M81.778 38.4h8.533v51.2h-8.533z"></path></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="TypeScript">
+                                    <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="Tailwind CSS">
+                                    <svg viewBox="0 0 128 128"><path d="M64.004 25.602c-17.067 0-27.73 8.53-32 25.597 6.398-8.531 13.867-11.73 22.398-9.597 4.871 1.214 8.352 4.746 12.207 8.66C72.883 56.629 80.145 64 96.004 64c17.066 0 27.73-8.531 32-25.602-6.399 8.536-13.867 11.735-22.399 9.602-4.87-1.215-8.347-4.746-12.207-8.66-6.27-6.367-13.53-13.738-29.394-13.738z" fill="#38bdf8"></path></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="Gemini AI">
+                                    <svg viewBox="0 0 24 24" fill="#a855f7"><path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"></path></svg>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </a>
+                </div>
+            </div>
 
-                <!-- Project 2: Resume Roaster (Links to Live App) -->
-                <a class="project-card" href="https://resume-roaster-ro.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open Resume Roaster live web app">
-                    <div class="project-hover-overlay"></div>
-                    <div class="card-border-line-bottom"></div>
-                    <div class="card-border-line-left"></div>
-                    <div class="project-card-content">
-                        <h3 class="project-card-title">Resume Roaster</h3>
-                        <p class="project-card-desc">
+            <!-- Project 2: Resume Roaster -->
+            <div class="tilt-wrapper">
+                <div class="kroszborg-card">
+                    <a href="resume-roaster.html" class="card-cover">
+                        <img src="images/resume_roaster_preview.png" alt="Resume Roaster" class="card-preview-image" loading="lazy">
+                    </a>
+                    <div class="card-body">
+                        <div class="card-title-row">
+                            <a href="resume-roaster.html" class="card-title-link">Resume Roaster</a>
+                            <a href="https://resume-roaster-ro.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Resume Roaster live app">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                            </a>
+                        </div>
+                        <p class="card-desc">
                             An AI-powered resume analyzer and roaster giving candidates constructive critique, roast ratings, and ATS feedback with multi-provider LLM fallback.
                         </p>
-                        <div class="project-tech-badges">
-                            <span class="tech-badge">JavaScript</span>
-                            <span class="tech-badge">Node.js</span>
-                            <span class="tech-badge">Express</span>
-                            <span class="tech-badge">Gemini API</span>
-                            <span class="tech-badge">OpenAI</span>
-                            <span class="tech-badge">pdf-parse</span>
+                        <div class="card-stack-section">
+                            <div class="card-stack-label">STACK</div>
+                            <div class="card-stack-icons">
+                                <span class="stack-icon-btn" title="Node.js">
+                                    <svg viewBox="0 0 128 128"><path fill="#5fa04e" d="M63.999 0a5.617 5.617 0 0 0-2.789.744L11.445 29.646 28.852 61.58 64.592.053A8.177 8.177 0 0 0 64.003 0Zm2.316.605v.002l35.194 60.577 16.545-30.449a5.483 5.483 0 0 0-1.028-.817L91.38 15.024 66.7.754h-.007c-.12-.061-.252-.099-.378-.15Z"></path></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="JavaScript">
+                                    <svg viewBox="0 0 128 128"><path fill="#f7df1e" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#000" d="M29.5 101.4c3.4 5.5 8.1 9.5 16.4 9.5 7 0 11.5-3.5 11.5-8.4 0-5.8-4.7-7.9-12.7-11.4-11.4-4.9-19-10-19-22 0-12.2 9.5-21.4 24.3-21.4 10.5 0 18.2 4.2 23.3 12.8l-12.5 8c-2.7-4.8-5.8-6.8-10.8-6.8-4.8 0-7.8 3.1-7.8 6.9 0 4.8 3.2 6.8 10.8 10.1 13.5 5.8 21.1 11.3 21.1 23.5 0 14.2-11.2 22.3-26.6 22.3-15.1 0-24.8-7.3-29.6-17l12.4-8.1zM82.2 110.9v-62h15.4v62H82.2z"></path></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="Google Gemini">
+                                    <svg viewBox="0 0 24 24" fill="#a855f7"><path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"></path></svg>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </a>
+                </div>
+            </div>
 
-                <!-- Project 3: Smart Learn (Links to Live App) -->
-                <a class="project-card" href="https://smart-learn-web.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Open Smart Learn live web app">
-                    <div class="project-hover-overlay"></div>
-                    <div class="card-border-line-bottom"></div>
-                    <div class="card-border-line-left"></div>
-                    <div class="project-card-content">
-                        <h3 class="project-card-title">Smart Learn</h3>
-                        <p class="project-card-desc">
-                            An AI-powered learning platform. Upload PDFs, videos, audio files, or paste links to chat with an AI tutor, generate flashcards, and master topics through quizzes.
+            <!-- Project 3: Smart Learn -->
+            <div class="tilt-wrapper">
+                <div class="kroszborg-card">
+                    <a href="smart-learn.html" class="card-cover">
+                        <img src="images/smart_learn_preview.png" alt="Smart Learn" class="card-preview-image" loading="lazy">
+                    </a>
+                    <div class="card-body">
+                        <div class="card-title-row">
+                            <a href="smart-learn.html" class="card-title-link">Smart Learn</a>
+                            <a href="https://smart-learn-web.vercel.app" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Smart Learn live app">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                            </a>
+                        </div>
+                        <p class="card-desc">
+                            An AI-powered learning platform. Upload PDFs, videos, or paste links to chat with an AI tutor, generate flashcards, and master topics through quizzes.
                         </p>
-                        <div class="project-tech-badges">
-                            <span class="tech-badge">Next.js</span>
-                            <span class="tech-badge">Gemini API</span>
-                            <span class="tech-badge">Vector RAG</span>
-                            <span class="tech-badge">Prisma</span>
-                            <span class="tech-badge">Supabase</span>
-                            <span class="tech-badge">TypeScript</span>
+                        <div class="card-stack-section">
+                            <div class="card-stack-label">STACK</div>
+                            <div class="card-stack-icons">
+                                <span class="stack-icon-btn" title="Next.js">
+                                    <svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="64" fill="#000"></circle><path fill="#fff" d="M106.317 112.014 49.167 38.4H38.4v51.179h8.614v-40.24l52.54 67.884a64.216 64.216 0 0 0 6.763-5.209z"></path><path fill="#fff" d="M81.778 38.4h8.533v51.2h-8.533z"></path></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="Supabase">
+                                    <svg viewBox="0 0 100 100"><path fill="#3ECF8E" d="M53.4 4.8c1.6-2.5 5.5-1.3 5.5 1.7v40.3h33.8c3.2 0 4.9 3.8 2.7 6.1L46.6 95.2c-1.6 2.5-5.5 1.3-5.5-1.7V53.2H7.3c-3.2 0-4.9-3.8-2.7-6.1L53.4 4.8z"/></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="TypeScript">
+                                    <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </a>
+                </div>
+            </div>
 
-                <!-- Project 4: Kinship (Links to Live App) -->
-                <a class="project-card" href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Open Kinship Family Tree live web app">
-                    <div class="project-hover-overlay"></div>
-                    <div class="card-border-line-bottom"></div>
-                    <div class="card-border-line-left"></div>
-                    <div class="project-card-content">
-                        <h3 class="project-card-title">Kinship Family Tree</h3>
-                        <p class="project-card-desc">
+            <!-- Project 4: Kinship -->
+            <div class="tilt-wrapper">
+                <div class="kroszborg-card">
+                    <a href="kinship.html" class="card-cover">
+                        <img src="images/kinship_preview.png" alt="Kinship Family Tree" class="card-preview-image" loading="lazy">
+                    </a>
+                    <div class="card-body">
+                        <div class="card-title-row">
+                            <a href="kinship.html" class="card-title-link">Kinship Family Tree</a>
+                            <a href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Kinship live app">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                            </a>
+                        </div>
+                        <p class="card-desc">
                             A high-end family tree platform with a zoomable React Flow canvas, spouse junctions, sibling row alignment, and PDF export capabilities.
                         </p>
-                        <div class="project-tech-badges">
-                            <span class="tech-badge">React (Vite)</span>
-                            <span class="tech-badge">React Flow</span>
-                            <span class="tech-badge">Supabase</span>
-                            <span class="tech-badge">TypeScript</span>
-                            <span class="tech-badge">Framer Motion</span>
-                            <span class="tech-badge">PDF Export</span>
+                        <div class="card-stack-section">
+                            <div class="card-stack-label">STACK</div>
+                            <div class="card-stack-icons">
+                                <span class="stack-icon-btn" title="React Flow">
+                                    <svg viewBox="0 0 128 128"><g fill="#61DAFB"><circle cx="64" cy="64" r="11.4"></circle><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13.2-.2-22.5-6.6-26.1-1.9-1.1-4-1.6-6.4-1.6-7 0-15.9 5.2-24.9 13.9-9-8.7-17.9-13.9-24.9-13.9-2.4 0-4.5.5-6.4 1.6-6.4 3.7-8.7 13-6.6 26.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C8.2 50 1.4 56.6 1.4 64s6.9 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13.2.2 22.5 6.6 26.1 1.9 1.1 4 1.6 6.4 1.6 7.1 0 16-5.2 24.9-13.9 9 8.7 17.9 13.9 24.9 13.9 2.4 0 4.5-.5 6.4-1.6 6.4-3.7 8.7-13 6.6-26.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8z"/></g></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="TypeScript">
+                                    <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                                </span>
+                                <span class="stack-icon-btn" title="Supabase">
+                                    <svg viewBox="0 0 100 100"><path fill="#3ECF8E" d="M53.4 4.8c1.6-2.5 5.5-1.3 5.5 1.7v40.3h33.8c3.2 0 4.9 3.8 2.7 6.1L46.6 95.2c-1.6 2.5-5.5 1.3-5.5-1.7V53.2H7.3c-3.2 0-4.9-3.8-2.7-6.1L53.4 4.8z"/></svg>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <p>&copy; 2026 Krishna Nand Tiwari.</p>
+    <!-- Command Palette (Ctrl+K) Modal -->
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-window">
+            <div class="cmd-search-input-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--secondary);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
         </div>
+    </div>
+
+    <!-- Minimal Site Footer -->
+    <footer class="site-footer">
+        <p>Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
     </footer>
 
-    <!-- Script file -->
-    <script src="script.js"></script>
+    <!-- Companion Script (oneko) & Interactive Features Script -->
+    <script src="oneko.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

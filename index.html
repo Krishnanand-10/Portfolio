@@ -1,149 +1,530 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishna Nand Tiwari | Developer Portfolio</title>
+    <title>Krishna Nand Tiwari - Full Stack Developer</title>
     <!-- Meta Description for SEO -->
-    <meta name="description" content="Portfolio of Krishna Nand Tiwari, a developer specializing in React Flow, Next.js, and AI study portals.">
-    <!-- Google Fonts: Inter -->
+    <meta name="description" content="I'm a Full Stack Developer specializing in React, Next.js, TypeScript, and AI applications. Explore my projects, skills, and technical expertise.">
+    <meta name="author" content="Krishna Nand Tiwari">
+    <meta property="og:title" content="Krishna Nand Tiwari - Full Stack Developer">
+    <meta property="og:description" content="Full Stack Developer building innovative AI applications and scalable web systems.">
+    <meta property="og:image" content="images/avatar.jpg">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+
+    <!-- Fonts: Clash Display from Fontshare & Google Fonts Hanken Grotesk / Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Preload Oneko retro cat companion -->
+    <link rel="preload" href="oneko.gif" as="image">
 </head>
-<body class="dark-theme">
-    <!-- Header Navigation -->
-    <header id="main-header">
-        <div class="container header-container">
-            <a href="/" class="logo-link">Krishna Nand Tiwari</a>
+<body>
+    <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
+
+    <!-- Floating Pill Navigation (Exact kroszborg 64px, 560px max-width, rounded-24px) -->
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item">Projects</a>
+                <a href="#about" class="nav-menu-item">About</a>
+                <a href="blog.html" class="nav-menu-item">Blogs</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span>Search</span>
+                <kbd>Ctrl + K</kbd>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Page Layout Container (max-w-6xl centered) -->
+    <div class="page-container">
+        <div class="layout-split">
             
-            <nav class="nav-menu" id="nav-menu">
-                <ul>
-                    <li><a href="projects.html" class="nav-link">Projects</a></li>
-                    <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
-                    <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
-                </ul>
-            </nav>
+            <!-- LEFT COLUMN: Sticky Hero Sidebar -->
+            <aside class="hero-sidebar">
+                <div class="sidebar-sticky-wrap">
+                    
+                    <!-- Avatar with RGB Chromatic Glitch Effect (#hero-avatar-glitch) -->
+                    <div id="hero-avatar-glitch" class="avatar-glitch-wrapper">
+                        <div class="avatar-wrapper">
+                            <img src="images/avatar.jpg" alt="Krishna Nand Tiwari" class="sidebar-avatar">
+                        </div>
+                    </div>
 
-            <div class="header-actions">
-                <button id="menu-toggle" class="icon-btn mobile-menu-btn" aria-label="Open menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
-                </button>
-            </div>
-        </div>
-    </header>
+                    <!-- Name & Subtitle with Clash Display Font -->
+                    <div class="sidebar-name-block">
+                        <h1 class="sidebar-title" id="scramble-name" data-original="Krishna Nand Tiwari">Krishna Nand Tiwari</h1>
+                        <p class="sidebar-subtitle">Full Stack Developer</p>
+                    </div>
 
-    <!-- Main Content Container -->
-    <main class="main-content">
-        <!-- Left Side Alignment Indicator Line (Full page tracer line matching dev-suyash) -->
-        <div class="left-timeline-beam">
-            <div class="timeline-dot">
-                <div class="timeline-dot-inner"></div>
-            </div>
-            <div class="timeline-line"></div>
-        </div>
+                    <!-- Bio with 1:1 Inline Dashed Skill Badges -->
+                    <p class="sidebar-bio">
+                        Full-stack developer building production-oriented web apps using 
+                        <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" class="skill-badge">
+                            <svg viewBox="0 0 128 128"><g fill="#61DAFB"><circle cx="64" cy="64" r="11.4"></circle><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13.2-.2-22.5-6.6-26.1-1.9-1.1-4-1.6-6.4-1.6-7 0-15.9 5.2-24.9 13.9-9-8.7-17.9-13.9-24.9-13.9-2.4 0-4.5.5-6.4 1.6-6.4 3.7-8.7 13-6.6 26.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C8.2 50 1.4 56.6 1.4 64s6.9 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13.2.2 22.5 6.6 26.1 1.9 1.1 4 1.6 6.4 1.6 7.1 0 16-5.2 24.9-13.9 9 8.7 17.9 13.9 24.9 13.9 2.4 0 4.5-.5 6.4-1.6 6.4-3.7 8.7-13 6.6-26.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8z"/></g></svg>
+                            <span>React</span>
+                        </a>, 
+                        <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" class="skill-badge">
+                            <svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="64" fill="#000"></circle><path fill="#fff" d="M106.317 112.014 49.167 38.4H38.4v51.179h8.614v-40.24l52.54 67.884a64.216 64.216 0 0 0 6.763-5.209z"></path><path fill="#fff" d="M81.778 38.4h8.533v51.2h-8.533z"></path></svg>
+                            <span>Next.js</span>
+                        </a>, 
+                        <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer" class="skill-badge">
+                            <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                            <span>TypeScript</span>
+                        </a>, 
+                        <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" class="skill-badge">
+                            <svg viewBox="0 0 128 128"><path fill="#5fa04e" d="M63.999 0a5.617 5.617 0 0 0-2.789.744L11.445 29.646 28.852 61.58 64.592.053A8.177 8.177 0 0 0 64.003 0Zm2.316.605v.002l35.194 60.577 16.545-30.449a5.483 5.483 0 0 0-1.028-.817L91.38 15.024 66.7.754h-.007c-.12-.061-.252-.099-.378-.15Z"></path></svg>
+                            <span>Node.js</span>
+                        </a> and 
+                        <a href="https://supabase.com/" target="_blank" rel="noopener noreferrer" class="skill-badge">
+                            <svg viewBox="0 0 100 100"><path fill="#3ECF8E" d="M53.4 4.8c1.6-2.5 5.5-1.3 5.5 1.7v40.3h33.8c3.2 0 4.9 3.8 2.7 6.1L46.6 95.2c-1.6 2.5-5.5 1.3-5.5-1.7V53.2H7.3c-3.2 0-4.9-3.8-2.7-6.1L53.4 4.8z"/></svg>
+                            <span>Supabase</span>
+                        </a>. Comfortable with <b>AI integrations</b> via <b>Gemini & OpenAI APIs</b>, and a strong background in <b>Python</b> and data analytics.
+                    </p>
 
-        <!-- Hero Section -->
-        <section id="hero" class="hero-section">
-            <div class="hero-intro-wrapper">
-                <h1 class="hero-title">Oh, hello there.</h1>
+                    <!-- Action Buttons: Rainbow Glowing Resume with Eye Pupils, Magnetic Get In Touch, Magnetic Sponsor -->
+                    <div class="sidebar-buttons">
+                        <!-- Rainbow Rotating Conic Border Glow -->
+                        <div class="resume-border-glow">
+                            <a href="C:/Users/Acer/OneDrive/Documents/Resume/Krishnanand_Tiwari_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-resume magnetic-btn" aria-label="View Resume">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M210.78,39.25l-130.25-23A16,16,0,0,0,62,29.23l-29.75,169a16,16,0,0,0,13,18.53l130.25,23h0a16,16,0,0,0,18.54-13l29.75-169A16,16,0,0,0,210.78,39.25ZM178.26,224h0L48,201,77.75,32,208,55ZM89.34,58.42a8,8,0,0,1,9.27-6.48l83,14.65a8,8,0,0,1-1.39,15.88,8.36,8.36,0,0,1-1.4-.12l-83-14.66A8,8,0,0,1,89.34,58.42Z"></path></svg>
+                                <span>Resume</span>
+                                <div class="btn-resume-eyes">
+                                    <div class="eye-socket"><div class="eye-pupil"></div></div>
+                                    <div class="eye-socket"><div class="eye-pupil"></div></div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <a href="mailto:nandkrishna2320@gmail.com" class="btn-get-in-touch magnetic-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+                            <span>Get in touch</span>
+                        </a>
+
+                        <a href="https://github.com/Krishnanand-10" target="_blank" rel="noopener noreferrer" class="btn-sponsor magnetic-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z"/></svg>
+                            <span>Sponsor</span>
+                        </a>
+                    </div>
+
+                    <!-- Social Icons Row -->
+                    <div class="sidebar-socials">
+                        <a href="https://x.com/Krishna_exe7" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="X (Twitter)">
+                            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="https://github.com/Krishnanand-10" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        <a href="mailto:nandkrishna2320@gmail.com" class="social-link" aria-label="Email">
+                            <svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.573l8.073-6.08c1.618-1.214 3.927-.059 3.927 1.964z"/></svg>
+                        </a>
+                    </div>
+
+                </div>
+            </aside>
+
+            <!-- RIGHT COLUMN: Main Feed -->
+            <main class="feed-content">
                 
-                <div class="intro-details">
-                    <p class="intro-paragraph">
-                        <span class="emoji">👨‍🎓</span>
-                        <span>I’m <span class="name-underline">Krishna Nand Tiwari</span>, a student developer.</span>
-                    </p>
-                    <p class="intro-paragraph">
-                        <span class="emoji">👨‍💻</span>
-                        <span>A self-taught programmer and a lover of all things tech.</span>
-                    </p>
-                    <p class="intro-paragraph">
-                        <span class="emoji">⚒️</span>
-                        <span>I specialize in building <span class="highlight-text">Full-Stack Web Applications</span> and <span class="highlight-text">Interactive AI Tools</span>.</span>
-                    </p>
-                    <p class="intro-paragraph">
-                        <span class="emoji">🏡</span>
-                        <span>Currently living in the beautiful city of <span class="highlight-text">Bengaluru in India</span>.</span>
-                    </p>
+                <!-- Featured Projects (3D Perspective Tilt Cards with Red Spotlight Flare) -->
+                <section id="projects" class="feed-section">
+                    <h2 class="section-title">Projects</h2>
+
+                    <div class="projects-grid">
+                        
+                        <!-- Project 1: RepurposeAI -->
+                        <div class="tilt-wrapper">
+                            <div class="kroszborg-card">
+                                <div class="card-cover">
+                                    <img src="images/repurpose_ai_preview.png" alt="RepurposeAI" class="card-preview-image" loading="lazy">
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title-row">
+                                        <a href="repurpose-ai.html" class="card-title-link">RepurposeAI</a>
+                                        <a href="https://repurposeai-rp.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open RepurposeAI">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                                        </a>
+                                    </div>
+                                    <p class="card-desc">
+                                        AI-powered multi-platform content repurposing SaaS. Ingests YouTube URLs, articles, and audio to generate LinkedIn carousels, X threads, video scripts, and SEO packs.
+                                    </p>
+                                    <div class="card-stack-section">
+                                        <div class="card-stack-label">STACK</div>
+                                        <div class="card-stack-icons">
+                                            <span class="stack-icon-btn" title="Next.js">
+                                                <svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="64" fill="#000"></circle><path fill="#fff" d="M106.317 112.014 49.167 38.4H38.4v51.179h8.614v-40.24l52.54 67.884a64.216 64.216 0 0 0 6.763-5.209z"></path><path fill="#fff" d="M81.778 38.4h8.533v51.2h-8.533z"></path></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="TypeScript">
+                                                <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="Tailwind CSS">
+                                                <svg viewBox="0 0 128 128"><path d="M64.004 25.602c-17.067 0-27.73 8.53-32 25.597 6.398-8.531 13.867-11.73 22.398-9.597 4.871 1.214 8.352 4.746 12.207 8.66C72.883 56.629 80.145 64 96.004 64c17.066 0 27.73-8.531 32-25.602-6.399 8.536-13.867 11.735-22.399 9.602-4.87-1.215-8.347-4.746-12.207-8.66-6.27-6.367-13.53-13.738-29.394-13.738z" fill="#38bdf8"></path></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="Gemini AI">
+                                                <svg viewBox="0 0 24 24" fill="#a855f7"><path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"></path></svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="repurpose-ai.html" class="card-view-details">
+                                        <span>View Details</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2: Resume Roaster -->
+                        <div class="tilt-wrapper">
+                            <div class="kroszborg-card">
+                                <div class="card-cover">
+                                    <img src="images/resume_roaster_preview.png" alt="Resume Roaster" class="card-preview-image" loading="lazy">
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title-row">
+                                        <a href="resume-roaster.html" class="card-title-link">Resume Roaster</a>
+                                        <a href="https://resume-roaster-ro.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Resume Roaster">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                                        </a>
+                                    </div>
+                                    <p class="card-desc">
+                                        An AI-powered resume analyzer delivering honest feedback, ATS audits, and multi-provider LLM fallbacks between Google Gemini and OpenAI.
+                                    </p>
+                                    <div class="card-stack-section">
+                                        <div class="card-stack-label">STACK</div>
+                                        <div class="card-stack-icons">
+                                            <span class="stack-icon-btn" title="Node.js">
+                                                <svg viewBox="0 0 128 128"><path fill="#5fa04e" d="M63.999 0a5.617 5.617 0 0 0-2.789.744L11.445 29.646 28.852 61.58 64.592.053A8.177 8.177 0 0 0 64.003 0Zm2.316.605v.002l35.194 60.577 16.545-30.449a5.483 5.483 0 0 0-1.028-.817L91.38 15.024 66.7.754h-.007c-.12-.061-.252-.099-.378-.15Z"></path></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="JavaScript">
+                                                <svg viewBox="0 0 128 128"><path fill="#f7df1e" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#000" d="M29.5 101.4c3.4 5.5 8.1 9.5 16.4 9.5 7 0 11.5-3.5 11.5-8.4 0-5.8-4.7-7.9-12.7-11.4-11.4-4.9-19-10-19-22 0-12.2 9.5-21.4 24.3-21.4 10.5 0 18.2 4.2 23.3 12.8l-12.5 8c-2.7-4.8-5.8-6.8-10.8-6.8-4.8 0-7.8 3.1-7.8 6.9 0 4.8 3.2 6.8 10.8 10.1 13.5 5.8 21.1 11.3 21.1 23.5 0 14.2-11.2 22.3-26.6 22.3-15.1 0-24.8-7.3-29.6-17l12.4-8.1zM82.2 110.9v-62h15.4v62H82.2z"></path></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="Gemini AI">
+                                                <svg viewBox="0 0 24 24" fill="#a855f7"><path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"></path></svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="resume-roaster.html" class="card-view-details">
+                                        <span>View Details</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3: Smart Learn -->
+                        <div class="tilt-wrapper">
+                            <div class="kroszborg-card">
+                                <div class="card-cover">
+                                    <img src="images/smart_learn_preview.png" alt="Smart Learn" class="card-preview-image" loading="lazy">
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title-row">
+                                        <a href="smart-learn.html" class="card-title-link">Smart Learn</a>
+                                        <a href="https://smart-learn-web.vercel.app" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Smart Learn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                                        </a>
+                                    </div>
+                                    <p class="card-desc">
+                                        An AI-powered study companion with Vector RAG pipelines. Chat with your lecture slides, generate flashcards, and test retention with quizzes.
+                                    </p>
+                                    <div class="card-stack-section">
+                                        <div class="card-stack-label">STACK</div>
+                                        <div class="card-stack-icons">
+                                            <span class="stack-icon-btn" title="Next.js">
+                                                <svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="64" fill="#000"></circle><path fill="#fff" d="M106.317 112.014 49.167 38.4H38.4v51.179h8.614v-40.24l52.54 67.884a64.216 64.216 0 0 0 6.763-5.209z"></path><path fill="#fff" d="M81.778 38.4h8.533v51.2h-8.533z"></path></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="Supabase">
+                                                <svg viewBox="0 0 100 100"><path fill="#3ECF8E" d="M53.4 4.8c1.6-2.5 5.5-1.3 5.5 1.7v40.3h33.8c3.2 0 4.9 3.8 2.7 6.1L46.6 95.2c-1.6 2.5-5.5 1.3-5.5-1.7V53.2H7.3c-3.2 0-4.9-3.8-2.7-6.1L53.4 4.8z"/></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="TypeScript">
+                                                <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="smart-learn.html" class="card-view-details">
+                                        <span>View Details</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 4: Kinship -->
+                        <div class="tilt-wrapper">
+                            <div class="kroszborg-card">
+                                <div class="card-cover">
+                                    <img src="images/kinship_preview.png" alt="Kinship Family Tree" class="card-preview-image" loading="lazy">
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title-row">
+                                        <a href="kinship.html" class="card-title-link">Kinship Family Tree</a>
+                                        <a href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Kinship">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
+                                        </a>
+                                    </div>
+                                    <p class="card-desc">
+                                        Zoomable interactive canvas family tree built with React Flow, custom spouse junctions, sibling alignment algorithms, and vector PDF exports.
+                                    </p>
+                                    <div class="card-stack-section">
+                                        <div class="card-stack-label">STACK</div>
+                                        <div class="card-stack-icons">
+                                            <span class="stack-icon-btn" title="React Flow">
+                                                <svg viewBox="0 0 128 128"><g fill="#61DAFB"><circle cx="64" cy="64" r="11.4"></circle><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13.2-.2-22.5-6.6-26.1-1.9-1.1-4-1.6-6.4-1.6-7 0-15.9 5.2-24.9 13.9-9-8.7-17.9-13.9-24.9-13.9-2.4 0-4.5.5-6.4 1.6-6.4 3.7-8.7 13-6.6 26.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C8.2 50 1.4 56.6 1.4 64s6.9 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13.2.2 22.5 6.6 26.1 1.9 1.1 4 1.6 6.4 1.6 7.1 0 16-5.2 24.9-13.9 9 8.7 17.9 13.9 24.9 13.9 2.4 0 4.5-.5 6.4-1.6 6.4-3.7 8.7-13 6.6-26.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8z"/></g></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="TypeScript">
+                                                <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                                            </span>
+                                            <span class="stack-icon-btn" title="Supabase">
+                                                <svg viewBox="0 0 100 100"><path fill="#3ECF8E" d="M53.4 4.8c1.6-2.5 5.5-1.3 5.5 1.7v40.3h33.8c3.2 0 4.9 3.8 2.7 6.1L46.6 95.2c-1.6 2.5-5.5 1.3-5.5-1.7V53.2H7.3c-3.2 0-4.9-3.8-2.7-6.1L53.4 4.8z"/></svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="kinship.html" class="card-view-details">
+                                        <span>View Details</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="view-all-projects-wrap">
+                        <a href="projects.html" class="view-all-experience-btn">
+                            <span>View all projects</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- About Section & Tech Stack Grid (1:1 kroszborg) -->
+                <section id="about" class="feed-section">
+                    <h2 class="section-title">About</h2>
+                    <div class="about-card-split">
+                        <div class="about-img-wrap">
+                            <img src="images/catt.png" alt="Krishna" class="about-portrait-img" loading="lazy">
+                        </div>
+                        <div class="about-text-content">
+                            <h3 class="about-author-name">Krishna Nand Tiwari</h3>
+                            <p class="about-text">
+                                I'm a full-stack developer based in <b>Bengaluru, India</b>, currently pursuing my <b>MCA at Dayananda Sagar University</b>. I specialize in building production-ready web applications using React, Next.js, TypeScript, and Node.js, with hands-on experience integrating AI through <b>Google Gemini</b> and <b>OpenAI APIs</b>. I also have a background in <b>Python and data analytics</b> from my internship at Dyashin Technosoft. I enjoy crafting interactive tools, solving real-world problems, and shipping things that actually work.
+                            </p>
+                            
+                            <div class="all-tech-grid">
+                                <span class="tech-icon-pill" title="React">
+                                    <svg viewBox="0 0 128 128"><g fill="#61DAFB"><circle cx="64" cy="64" r="11.4"></circle><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13.2-.2-22.5-6.6-26.1-1.9-1.1-4-1.6-6.4-1.6-7 0-15.9 5.2-24.9 13.9-9-8.7-17.9-13.9-24.9-13.9-2.4 0-4.5.5-6.4 1.6-6.4 3.7-8.7 13-6.6 26.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C8.2 50 1.4 56.6 1.4 64s6.9 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13.2.2 22.5 6.6 26.1 1.9 1.1 4 1.6 6.4 1.6 7.1 0 16-5.2 24.9-13.9 9 8.7 17.9 13.9 24.9 13.9 2.4 0 4.5-.5 6.4-1.6 6.4-3.7 8.7-13 6.6-26.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8z"/></g></svg>
+                                    <span>React</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Next.js">
+                                    <svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="64" fill="#000"></circle><path fill="#fff" d="M106.317 112.014 49.167 38.4H38.4v51.179h8.614v-40.24l52.54 67.884a64.216 64.216 0 0 0 6.763-5.209z"></path><path fill="#fff" d="M81.778 38.4h8.533v51.2h-8.533z"></path></svg>
+                                    <span>Next.js</span>
+                                </span>
+                                <span class="tech-icon-pill" title="TypeScript">
+                                    <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
+                                    <span>TypeScript</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Node.js">
+                                    <svg viewBox="0 0 128 128"><path fill="#5fa04e" d="M63.999 0a5.617 5.617 0 0 0-2.789.744L11.445 29.646 28.852 61.58 64.592.053A8.177 8.177 0 0 0 64.003 0Zm2.316.605v.002l35.194 60.577 16.545-30.449a5.483 5.483 0 0 0-1.028-.817L91.38 15.024 66.7.754h-.007c-.12-.061-.252-.099-.378-.15Z"></path></svg>
+                                    <span>Node.js</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Supabase">
+                                    <svg viewBox="0 0 100 100"><path fill="#3ECF8E" d="M53.4 4.8c1.6-2.5 5.5-1.3 5.5 1.7v40.3h33.8c3.2 0 4.9 3.8 2.7 6.1L46.6 95.2c-1.6 2.5-5.5 1.3-5.5-1.7V53.2H7.3c-3.2 0-4.9-3.8-2.7-6.1L53.4 4.8z"/></svg>
+                                    <span>Supabase</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Tailwind CSS">
+                                    <svg viewBox="0 0 128 128"><path d="M64.004 25.602c-17.067 0-27.73 8.53-32 25.597 6.398-8.531 13.867-11.73 22.398-9.597 4.871 1.214 8.352 4.746 12.207 8.66C72.883 56.629 80.145 64 96.004 64c17.066 0 27.73-8.531 32-25.602-6.399 8.536-13.867 11.735-22.399 9.602-4.87-1.215-8.347-4.746-12.207-8.66-6.27-6.367-13.53-13.738-29.394-13.738z" fill="#38bdf8"></path></svg>
+                                    <span>Tailwind CSS</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Gemini AI">
+                                    <svg viewBox="0 0 24 24" fill="#a855f7"><path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z"></path></svg>
+                                    <span>Gemini API</span>
+                                </span>
+                                <span class="tech-icon-pill" title="PostgreSQL">
+                                    <svg viewBox="0 0 128 128"><path fill="#336791" d="M115.731 77.44c-13.925 2.873-14.882-1.842-14.882-1.842 14.703-21.816 20.849-49.51 15.545-56.287C101.924.823 76.875 9.566 76.457 9.793l-.135.024c-2.751-.571-5.83-.911-9.291-.967-6.301-.103-11.08 1.652-14.707 4.402 0 0-44.684-18.408-42.606 23.151.442 8.842 12.672 66.899 27.26 49.363 5.332-6.412 10.483-11.834 10.483-11.834 2.559 1.699 5.622 2.567 8.833 2.255l.25-.212c-.078.796-.042 1.575.1 2.497-3.758 4.199-2.654 4.936-10.167 6.482-7.602 1.566-3.136 4.355-.22 5.084 3.534.884 11.712 2.136 17.237-5.598l-.221.882c1.473 1.18 2.507 7.672 2.334 13.557-.174 5.885-.29 9.926.871 13.082 1.16 3.156 2.316 10.256 12.192 8.14 8.252-1.768 12.528-6.351 13.124-13.995.422-5.435 1.377-4.631 1.438-9.49l.767-2.3c.884-7.367.14-9.743 5.225-8.638l1.235.108c3.742.17 8.639-.602 11.514-1.938 6.19-2.871 9.861-7.667 3.758-6.408z"/></svg>
+                                    <span>PostgreSQL</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Docker">
+                                    <svg viewBox="0 0 128 128"><path fill="#2496ED" d="M122.9 50.8c-1.3-.9-5.1-3.6-14.8-2.7-2.6-6.6-8.2-11.4-15.1-13.5-1.1-.3-2.1-.5-3.3-.6l-1.9-.2-.7 1.8c-3.1 7.7-2.8 14.5-2.2 18.2-2.1 1.1-4.8 1.9-8 2.4H3.8c-1.8 0-3.3 1.3-3.7 3.1C-1.8 81.3 2.9 98.4 14.2 109c11 10.3 26.6 15.6 46.4 15.6 37 0 66.8-20.4 75.9-52.9 7.8-.8 11.2-5.8 11.4-6.1 1.2-1.9 1-4.2-.4-5.2zM21.9 44.9h12.5v11.5H21.9V44.9zm0-14.6h12.5v11.5H21.9V30.3zm15.6 14.6H50v11.5H37.5V44.9zm0-14.6H50v11.5H37.5V30.3zm15.7 14.6h12.5v11.5H53.2V44.9zm0-14.6h12.5v11.5H53.2V30.3zm15.6 14.6h12.5v11.5H68.8V44.9zm0-14.6h12.5v11.5H68.8V30.3z"/></svg>
+                                    <span>Docker</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Git">
+                                    <svg viewBox="0 0 128 128"><path fill="#F05032" d="M124.9 57.5L70.5 3.1c-4.1-4.1-10.8-4.1-14.9 0L44.8 14l18.8 18.8c4.3-1.5 9.4-.5 12.8 2.9 3.5 3.5 4.5 8.7 2.9 13.1l18.1 18.1c4.4-1.6 9.6-.6 13.1 2.9 4.9 4.9 4.9 12.8 0 17.7-4.9 4.9-12.8 4.9-17.7 0-3.8-3.8-4.7-9.5-2.5-14.1L72.2 55.3v34.4c1.1.5 2.1 1.2 3 2.1 4.9 4.9 4.9 12.8 0 17.7-4.9 4.9-12.8 4.9-17.7 0-4.9-4.9-4.9-12.8 0-17.7.9-.9 1.9-1.6 3-2.1V54.9c-1.1-.5-2.1-1.2-3-2.1-3.8-3.8-4.7-9.5-2.6-14.1L36.1 20 3.1 53c-4.1 4.1-4.1 10.8 0 14.9l54.4 54.4c4.1 4.1 10.8 4.1 14.9 0l52.5-52.5c4.1-4.1 4.1-10.8 0-14.9z"/></svg>
+                                    <span>Git</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Figma">
+                                    <svg viewBox="0 0 128 128"><path fill="#0acf83" d="M45.5 129c11.9 0 21.5-9.6 21.5-21.5V86H45.5C33.6 86 24 95.6 24 107.5S33.6 129 45.5 129z"/><path fill="#a259ff" d="M24 64.5C24 52.6 33.6 43 45.5 43H67v43H45.5C33.6 86 24 76.4 24 64.5z"/><path fill="#f24e1e" d="M24 21.5C24 9.6 33.6 0 45.5 0H67v43H45.5C33.6 43 24 33.4 24 21.5z"/><path fill="#ff7262" d="M67 0h21.5C100.4 0 110 9.6 110 21.5S100.4 43 88.5 43H67z"/><path fill="#1abcfe" d="M110 64.5c0 11.9-9.6 21.5-21.5 21.5S67 76.4 67 64.5 76.6 43 88.5 43 110 52.6 110 64.5z"/></svg>
+                                    <span>Figma</span>
+                                </span>
+                                <span class="tech-icon-pill" title="Vercel">
+                                    <svg viewBox="0 0 128 128"><path fill="#fff" d="M64 12.5l58 103H6L64 12.5z"/></svg>
+                                    <span>Vercel</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- GitHub Contribution Heatmap Widget -->
+                <section class="feed-section">
+                    <div class="github-heatmap-container">
+                        <div class="heatmap-header">
+                            <span class="heatmap-title">Recent Contributions</span>
+                            <span class="heatmap-sub">GitHub Activity</span>
+                        </div>
+                        <div class="heatmap-grid" id="heatmap-grid">
+                            <!-- Populated with green contribution squares via script -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Journey & Gears Links Section (1:1 kroszborg) -->
+                <section id="journey" class="feed-section">
+                    <h2 class="section-title">Journey</h2>
+                    <div class="journey-links-list">
+                        <a href="https://github.com/Krishnanand-10" target="_blank" rel="noopener noreferrer" class="journey-item-link">
+                            <div class="journey-item-left">
+                                <div class="journey-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="journey-title">My Journey</p>
+                                    <p class="journey-subtitle">A timeline of my learning, projects, and milestones.</p>
+                                </div>
+                            </div>
+                            <svg class="journey-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                        </a>
+
+                        <a href="#about" class="journey-item-link">
+                            <div class="journey-item-left">
+                                <div class="journey-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="journey-title">Gears Used</p>
+                                    <p class="journey-subtitle">Productivity tools, setup, and gear I use to get work done.</p>
+                                </div>
+                            </div>
+                            <svg class="journey-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Case Studies & Blogs Section -->
+                <section id="blog" class="feed-section">
+                    <h2 class="section-title">Blogs</h2>
+                    <div class="blog-list">
+                        <a href="repurpose-ai.html" class="blog-card-item">
+                            <div>
+                                <h3 class="blog-card-title">RepurposeAI: Architecture of an AI Content Engine</h3>
+                                <p class="blog-card-desc">Automating multi-platform content repurposing from YouTube videos and articles.</p>
+                            </div>
+                            <span class="blog-card-arrow">→</span>
+                        </a>
+
+                        <a href="resume-roaster.html" class="blog-card-item">
+                            <div>
+                                <h3 class="blog-card-title">Resume Roaster: Multi-Provider LLM Fallbacks &amp; ATS Audits</h3>
+                                <p class="blog-card-desc">Zero-downtime failovers between Google Gemini and OpenAI for resume parsing.</p>
+                            </div>
+                            <span class="blog-card-arrow">→</span>
+                        </a>
+
+                        <a href="smart-learn.html" class="blog-card-item">
+                            <div>
+                                <h3 class="blog-card-title">Smart Learn: Vector RAG for Slide Exploration</h3>
+                                <p class="blog-card-desc">Semantic search, embeddings with Supabase, and interactive quiz generation.</p>
+                            </div>
+                            <span class="blog-card-arrow">→</span>
+                        </a>
+
+                        <a href="kinship.html" class="blog-card-item">
+                            <div>
+                                <h3 class="blog-card-title">Kinship: Graph Trees with React Flow</h3>
+                                <p class="blog-card-desc">Complex junction nodes, zoomable viewports, and vector PDF exporting.</p>
+                            </div>
+                            <span class="blog-card-arrow">→</span>
+                        </a>
+                    </div>
+
+                    <div class="view-all-projects-wrap">
+                        <a href="blog.html" class="view-all-experience-btn">
+                            <span>View all posts</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- "Hey, you scrolled this far" CTA Card (1:1 kroszborg) -->
+                <div class="cta-banner-card">
+                    <div>
+                        <h3 class="cta-banner-title">Hey, you scrolled this far, let's talk.</h3>
+                        <p class="cta-banner-desc">Have a project in mind, want to collaborate, or just want to say hi? My inbox is always open.</p>
+                    </div>
+                    <a href="mailto:nandkrishna2320@gmail.com" class="cta-banner-btn magnetic-btn">
+                        <div class="cta-btn-avatar">
+                            <img src="images/avatar.jpg" alt="Krishna">
+                        </div>
+                        <span>Book a call</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
 
-                <!-- Social Handles (Official Brand SVGs) -->
-                <div class="social-links-row">
-                    <a class="social-icon-link" href="https://github.com/Krishnanand-10" target="_blank" aria-label="GitHub">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    </a>
-                    <a class="social-icon-link" href="https://x.com/Krishna_exe7" target="_blank" aria-label="X (Twitter)">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                    </a>
-                    <a class="social-icon-link" href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                    <a class="social-icon-link" href="mailto:nandkrishna2320@gmail.com" aria-label="Email">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L12 9.573l8.073-6.08c1.618-1.214 3.927-.059 3.927 1.964z"/></svg>
-                    </a>
+                <!-- Quote Box (Exact kroszborg Solo Leveling Quote) -->
+                <div class="quote-card">
+                    “I will protect my vision, even if it means turning all the doubts in the world into my stepping stones.”
+                    <span class="quote-author">— Sung Jin-Woo, Solo Leveling</span>
                 </div>
 
-                <!-- Sub-intro description text (Matches dev-suyash "This blog will serve as a home...") -->
-                <p class="sub-intro-text">
-                    This blog will serve as a home for all my thoughts, notes and projects, ranging from programming to web development and more. Scroll down and check ‘em out!
-                </p>
-            </div>
-        </section>
-
-        <!-- Blog Section -->
-        <section id="blog" class="projects-section">
-            <h2 class="section-title-projects">Blog</h2>
-            
-            <div class="blogs-list">
-                <!-- Blog 1: RepurposeAI -->
-                <a class="blog-card" href="repurpose-ai.html" aria-label="Read RepurposeAI blog article">
-                    <div class="project-hover-overlay"></div>
-                    <div class="blog-card-content">
-                        <h3 class="blog-card-title">RepurposeAI</h3>
-                        <p class="blog-card-desc">An AI-powered multi-platform content repurposing SaaS converting YouTube videos and articles into viral distribution assets....</p>
-                    </div>
-                </a>
-
-                <!-- Blog 2: Resume Roaster -->
-                <a class="blog-card" href="resume-roaster.html" aria-label="Read Resume Roaster blog article">
-                    <div class="project-hover-overlay"></div>
-                    <div class="blog-card-content">
-                        <h3 class="blog-card-title">Resume Roaster</h3>
-                        <p class="blog-card-desc">An AI-powered resume analyzer and roaster delivering honest feedback, ATS audits, and multi-provider LLM fallbacks....</p>
-                    </div>
-                </a>
-
-                <!-- Blog 3: Smart Learn -->
-                <a class="blog-card" href="smart-learn.html" aria-label="Read Smart Learn blog article">
-                    <div class="project-hover-overlay"></div>
-                    <div class="blog-card-content">
-                        <h3 class="blog-card-title">Smart Learn</h3>
-                        <p class="blog-card-desc">An AI-powered learning platform with Vector RAG pipelines and interactive quiz generators....</p>
-                    </div>
-                </a>
-
-                <!-- Blog 4: Kinship -->
-                <a class="blog-card" href="kinship.html" aria-label="Read Kinship Family Tree blog article">
-                    <div class="project-hover-overlay"></div>
-                    <div class="blog-card-content">
-                        <h3 class="blog-card-title">Kinship Family Tree</h3>
-                        <p class="blog-card-desc">A zoomable family tree canvas built with React Flow, spouse junctions, and PDF exports....</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <p>&copy; 2026 Krishna Nand Tiwari.</p>
+            </main>
         </div>
+    </div>
+
+    <!-- Command Palette (Ctrl+K) Modal -->
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-window">
+            <div class="cmd-search-input-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--secondary);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
+        </div>
+    </div>
+
+    <!-- Minimal Site Footer -->
+    <footer class="site-footer">
+        <p>Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
     </footer>
 
-    <!-- Script file -->
-    <script src="script.js"></script>
+    <!-- Companion Script (oneko) & Interactive Features Script -->
+    <script src="oneko.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

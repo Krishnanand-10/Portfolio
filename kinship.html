@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kinship Family Tree | Project Details</title>
     <!-- Meta Description for SEO -->
     <meta name="description" content="Development details and canvas engineering layout of the Kinship Family Tree platform.">
-    <!-- Google Fonts: Inter -->
+    <meta name="author" content="Krishna Nand Tiwari">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+    <!-- Fonts: Clash Display & Hanken Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    <!-- Preload Oneko retro cat companion -->
+    <link rel="preload" href="oneko.gif" as="image">
 </head>
-<body class="dark-theme">
-    <!-- Header Navigation -->
-    <header id="main-header">
-        <div class="container header-container">
-            <a href="/" class="logo-link">Krishna Nand Tiwari</a>
-            
-            <nav class="nav-menu" id="nav-menu">
-                <ul>
-                    <li><a href="projects.html" class="nav-link">Projects</a></li>
-                    <li><a href="https://github.com/Krishnanand-10" target="_blank" class="nav-link">GitHub</a></li>
-                    <li><a href="https://www.linkedin.com/in/krishna-nand-tiwari-547037258/" target="_blank" class="nav-link">LinkedIn</a></li>
-                </ul>
-            </nav>
+<body>
+    <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
 
-            <div class="header-actions">
-                <button id="menu-toggle" class="icon-btn mobile-menu-btn" aria-label="Open menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
-                </button>
+    <!-- Floating Pill Navigation (Exact kroszborg 64px, 560px max-width, rounded-24px) -->
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item">Projects</a>
+                <a href="index.html#about" class="nav-menu-item">About</a>
+                <a href="blog.html" class="nav-menu-item">Blogs</a>
             </div>
         </div>
-    </header>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span>Search</span>
+                <kbd>Ctrl + K</kbd>
+            </button>
+        </div>
+    </nav>
 
     <!-- Main Content Container -->
     <main class="main-content">
         <div class="article-container">
             <!-- Back navigation links (Styled matching dev-suyash back link) -->
-            <a class="back-link" href="/">
+            <a class="back-link" href="blog.html">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 See all posts
             </a>
@@ -111,14 +123,26 @@ const getMarriageJunction = (fatherPos, motherPos) => {
         </div>
     </main>
 
+    <!-- Command Palette (Ctrl+K) Modal -->
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-window">
+            <div class="cmd-search-input-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, case studies, or social links..." autocomplete="off">
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-container">
-            <p>&copy; 2026 Krishna Nand Tiwari.</p>
+            <p>&copy; 2026 Krishna Nand Tiwari. Crafted with clean HTML, CSS & JavaScript.</p>
         </div>
     </footer>
 
-    <!-- Script file -->
-    <script src="script.js"></script>
+    <!-- Companion Script (oneko) & Interactive Features Script -->
+    <script src="oneko.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

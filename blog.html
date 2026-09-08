@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Krishna Nand Tiwari</title>
+    <!-- Meta Description for SEO -->
+    <meta name="description" content="Technical deep dives, engineering notes, and case studies on building production AI applications and modern full-stack web platforms by Krishna Nand Tiwari.">
+    <meta name="author" content="Krishna Nand Tiwari">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+
+    <!-- Fonts: Clash Display from Fontshare & Google Fonts Hanken Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Preload Oneko retro cat companion -->
+    <link rel="preload" href="oneko.gif" as="image">
+</head>
+<body>
+    <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
+
+    <!-- Floating Pill Navigation (Exact kroszborg 64px, 560px max-width, rounded-24px) -->
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item">Projects</a>
+                <a href="index.html#about" class="nav-menu-item">About</a>
+                <a href="blog.html" class="nav-menu-item active">Blogs</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span>Search</span>
+                <kbd>Ctrl + K</kbd>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Blog Container (max-w-3xl kroszborg structure) -->
+    <main class="blog-page-container">
+        <div class="blog-header-section">
+            <h1 class="blog-page-title">Blog</h1>
+            <p class="blog-page-subtitle">
+                This blog will serve as a home for all my thoughts, notes and projects, ranging from programming to web development and more. Scroll down and check ‘em out!
+            </p>
+            <div class="blog-separator"></div>
+        </div>
+
+        <div class="blog-grid">
+            <!-- Article 1: Repurpose AI -->
+            <a href="repurpose-ai.html" class="blog-card">
+                <div class="blog-card-media">
+                    <img src="images/repurpose_ai_preview.png" alt="Building Repurpose AI" class="blog-card-img" loading="lazy">
+                </div>
+                <div class="blog-card-content">
+                    <h2 class="blog-card-heading">Building Repurpose AI: Multi-Platform Content Automation</h2>
+                    <p class="blog-card-summary">
+                        How I built an intelligent content transformation pipeline with AST parsing, token-budgeted prompt graphs, and automated multi-channel delivery.
+                    </p>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-card-tags">
+                        <span class="blog-card-tag">Next.js</span>
+                        <span class="blog-card-tag">FastAPI</span>
+                        <span class="blog-card-tag">OpenAI</span>
+                        <span class="blog-card-tag">Redis</span>
+                    </div>
+                    <div class="blog-card-meta">
+                        <time class="blog-card-date" datetime="2026-08-20">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path></svg>
+                            August 20, 2026
+                        </time>
+                        <span class="blog-card-readmore">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Article 2: Resume Roaster -->
+            <a href="resume-roaster.html" class="blog-card">
+                <div class="blog-card-media">
+                    <img src="images/resume_roaster_preview.png" alt="Building Resume Roaster" class="blog-card-img" loading="lazy">
+                </div>
+                <div class="blog-card-content">
+                    <h2 class="blog-card-heading">Building Resume Roaster: LLM Career Intelligence</h2>
+                    <p class="blog-card-summary">
+                        How I architected a multi-provider fallback engine between OpenAI and Gemini for zero-downtime resume evaluations, ATS keyword scoring, and constructive critiques.
+                    </p>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-card-tags">
+                        <span class="blog-card-tag">React</span>
+                        <span class="blog-card-tag">Node.js</span>
+                        <span class="blog-card-tag">Gemini API</span>
+                        <span class="blog-card-tag">Tailwind</span>
+                    </div>
+                    <div class="blog-card-meta">
+                        <time class="blog-card-date" datetime="2026-08-12">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path></svg>
+                            August 12, 2026
+                        </time>
+                        <span class="blog-card-readmore">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Article 3: Smart Learn -->
+            <a href="smart-learn.html" class="blog-card">
+                <div class="blog-card-media">
+                    <img src="images/smart_learn_preview.png" alt="Building Smart Learn" class="blog-card-img" loading="lazy">
+                </div>
+                <div class="blog-card-content">
+                    <h2 class="blog-card-heading">Building Smart Learn: Adaptive AI Curriculum Engine</h2>
+                    <p class="blog-card-summary">
+                        How I implemented slide vector search using Supabase pgvector embeddings, conversational memory graphs, and dynamic question generation.
+                    </p>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-card-tags">
+                        <span class="blog-card-tag">Next.js</span>
+                        <span class="blog-card-tag">Supabase</span>
+                        <span class="blog-card-tag">pgvector</span>
+                        <span class="blog-card-tag">LangChain</span>
+                    </div>
+                    <div class="blog-card-meta">
+                        <time class="blog-card-date" datetime="2026-07-28">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path></svg>
+                            July 28, 2026
+                        </time>
+                        <span class="blog-card-readmore">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Article 4: Kinship -->
+            <a href="kinship.html" class="blog-card">
+                <div class="blog-card-media">
+                    <img src="images/kinship_preview.png" alt="Building Kinship" class="blog-card-img" loading="lazy">
+                </div>
+                <div class="blog-card-content">
+                    <h2 class="blog-card-heading">Building Kinship: Private Micro-Social Network</h2>
+                    <p class="blog-card-summary">
+                        How I designed a zoomable infinite canvas family tree with React Flow, custom spouse connection nodes, layout recalculation algorithms, and vector PDF rendering.
+                    </p>
+                </div>
+                <div class="blog-card-footer">
+                    <div class="blog-card-tags">
+                        <span class="blog-card-tag">React Flow</span>
+                        <span class="blog-card-tag">Supabase</span>
+                        <span class="blog-card-tag">TypeScript</span>
+                        <span class="blog-card-tag">Tailwind</span>
+                    </div>
+                    <div class="blog-card-meta">
+                        <time class="blog-card-date" datetime="2026-07-15">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path></svg>
+                            July 15, 2026
+                        </time>
+                        <span class="blog-card-readmore">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- Command Palette Search Modal (Ctrl + K) -->
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list">
+                <!-- Dynamically populated -->
+            </div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimal Site Footer -->
+    <footer class="site-footer">
+        <p>Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
+    </footer>
+
+    <!-- Companion Script (oneko) & Interactive Features Script -->
+    <script src="oneko.js" defer></script>
+    <script src="script.js" defer></script>
+</body>
+</html>
