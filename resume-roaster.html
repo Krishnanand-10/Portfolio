@@ -4,31 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Roaster | Project Details</title>
-    <!-- Meta Description for SEO -->
+    
     <meta name="description" content="Development details and architecture of Resume Roaster - an AI-powered resume analyzer and ATS auditor.">
     <meta name="author" content="Krishna Nand Tiwari">
     <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
-    <!-- Fonts: Clash Display & Hanken Grotesk -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="styles.css">
-    <!-- Preload Oneko retro cat companion -->
+    
     <link rel="preload" href="oneko.gif" as="image">
-    <!-- Umami Analytics -->
+    
     <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
 </head>
 <body>
-    <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
+    
     <canvas id="shader-canvas" class="shader-bg"></canvas>
     <div class="shader-bg noise-layer"></div>
     <div class="shader-bg grid-layer"></div>
     <div class="edge-glow-left"></div>
     <div class="edge-glow-right"></div>
 
-    <!-- Floating Pill Navigation (Exact kroszborg 64px, 560px max-width, rounded-24px) -->
     <nav id="main-nav" aria-label="Main Navigation">
         <div class="nav-left">
             <a href="index.html" class="nav-brand">
@@ -48,16 +47,14 @@
         </div>
     </nav>
 
-    <!-- Main Content Container -->
     <main class="main-content">
         <div class="article-container">
-            <!-- Back navigation links -->
+            
             <a class="back-link" href="blog.html">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 See all posts
             </a>
 
-            <!-- Article Body Details -->
             <article class="article-body">
                 <header class="article-header">
                     <time class="published-date">Published on August 5, 2026</time>
@@ -68,7 +65,6 @@
                     <strong>Resume Roaster</strong> is an interactive AI application built to deliver brutally honest, actionable feedback on developer resumes. It combines automated ATS parsing with multi-provider LLM fallbacks (Google Gemini & OpenAI) to audit formatting, phrasing impact, and keyword alignment.
                 </p>
 
-                <!-- Landing Page Screenshot -->
                 <div class="article-image-wrapper">
                     <img src="images/resume_roaster_preview.png" alt="Resume Roaster Application Preview" class="article-image" />
                 </div>
@@ -87,7 +83,6 @@
                     <li><strong>Brutally Honest AI Critique:</strong> Evaluates bullet impact (STAR method metrics, action verbs, scope) and scores the resume with witty, memorable feedback.</li>
                 </ul>
 
-                <!-- Dashboard Screenshot -->
                 <div class="article-image-wrapper">
                     <img src="images/resume_roaster_dashboard.png" alt="Resume Roaster Feedback Dashboard" class="article-image" />
                 </div>
@@ -111,7 +106,6 @@
         </div>
     </main>
 
-    <!-- Command Palette (Ctrl+K) Modal -->
     <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
         <div class="cmd-modal-dialog">
             <div class="cmd-search-bar">
@@ -128,14 +122,12 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container footer-container">
             <p>&copy; 2026 Krishna Nand Tiwari. Crafted with pure HTML, CSS & JavaScript.</p>
         </div>
     </footer>
 
-    <!-- Companion Script (oneko) & Interactive Features Script -->
     <script src="oneko.js" defer></script>
     <script src="script.js" defer></script>
 </body>

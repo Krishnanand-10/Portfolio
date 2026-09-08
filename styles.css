@@ -1,8 +1,4 @@
-/* ==========================================================================
-   KRISHNA NAND TIWARI - EXACT KROSZBORG.CO PARITY DESIGN SYSTEM
-   Dark Theme, Clash Display, 3D Tilt Physics, Red Flare Spotlight,
-   Rainbow Conic Glow, Eye Pupil Tracking, Floating AI Assistant & Oneko
-   ========================================================================== */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap');
@@ -50,9 +46,6 @@ body {
     min-height: 100vh;
 }
 
-/* ==========================================================================
-   EXACT 1:1 KROSZBORG.CO BACKGROUND SHADER & AMBIENT GLOWS
-   ========================================================================== */
 .shader-bg {
     position: fixed;
     top: 0;
@@ -81,13 +74,11 @@ body {
     display: none;
 }
 
-/* Atmospheric subtle edge ambient glows - disabled for true kroszborg deep #000000 contrast */
 .edge-glow-left,
 .edge-glow-right {
     display: none;
 }
 
-/* Scroll Reveal with Blur (1:1 kroszborg Framer Motion fadeInBlur) */
 .scroll-reveal {
     opacity: 0;
     filter: blur(6px);
@@ -115,9 +106,6 @@ button {
     cursor: pointer;
 }
 
-/* ==========================================================================
-   FLOATING PILL NAVIGATION (Exact 1:1 kroszborg.co Spring Scroll & Static Layout)
-   ========================================================================== */
 #main-nav {
     position: fixed;
     top: 24px;
@@ -146,7 +134,6 @@ button {
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Scrolled state */
 #main-nav.nav-scrolled {
     background: rgba(9, 9, 11, 0.88);
     border-color: rgba(255, 255, 255, 0.14);
@@ -158,7 +145,7 @@ button {
         padding: 0 18px;
     }
     .nav-right {
-        display: none !important; /* 1:1 with Kroszborg hidden md:flex */
+        display: none !important; 
     }
 }
 
@@ -247,7 +234,6 @@ button {
     gap: 8px;
 }
 
-/* Kroszborg 1:1 Search Button */
 .nav-search-btn {
     display: inline-flex;
     align-items: center;
@@ -300,13 +286,10 @@ button {
     color: var(--muted-foreground);
 }
 
-/* ==========================================================================
-   PAGE CONTAINER & 2-COLUMN SPLIT LAYOUT
-   ========================================================================== */
 .page-container {
     position: relative;
     z-index: 10;
-    max-width: 1152px; /* max-w-6xl */
+    max-width: 1152px; 
     margin: 0 auto;
     padding: 140px 24px 80px;
 }
@@ -324,9 +307,6 @@ button {
     }
 }
 
-/* ==========================================================================
-   LEFT HERO SIDEBAR (Sticky)
-   ========================================================================== */
 .hero-sidebar {
     width: 100%;
 }
@@ -352,7 +332,6 @@ button {
     gap: 24px;
 }
 
-/* Avatar with Glitch Effect (#hero-avatar-glitch) */
 .avatar-glitch-wrapper {
     position: relative;
     width: 84px;
@@ -423,7 +402,6 @@ button {
     line-height: 1.65;
 }
 
-/* Skill Inner Shadow Dashed Badges (1:1 kroszborg) */
 .skill-badge {
     display: inline-flex;
     align-items: center;
@@ -454,7 +432,6 @@ button {
     flex-shrink: 0;
 }
 
-/* Action Buttons Container */
 .sidebar-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -463,7 +440,6 @@ button {
     margin-top: 4px;
 }
 
-/* Rotating Rainbow Conic Border for Resume Button (Signature kroszborg) */
 .resume-border-glow {
     position: relative;
     padding: 2px;
@@ -543,7 +519,6 @@ button {
     transition: transform 0.05s ease-out;
 }
 
-/* "Get in touch" CTA button */
 .btn-get-in-touch {
     display: inline-flex;
     align-items: center;
@@ -563,7 +538,6 @@ button {
     background: #f4f4f5;
 }
 
-/* "Sponsor" button with pink accent */
 .btn-sponsor {
     display: inline-flex;
     align-items: center;
@@ -592,12 +566,10 @@ button {
     transform: scale(1.25);
 }
 
-/* Magnetic buttons base */
 .magnetic-btn {
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Social icons */
 .sidebar-socials {
     display: flex;
     align-items: center;
@@ -626,9 +598,6 @@ button {
     fill: currentColor;
 }
 
-/* ==========================================================================
-   FEED CONTENT (Right Column)
-   ========================================================================== */
 .feed-content {
     flex: 1;
     min-width: 0;
@@ -656,9 +625,6 @@ button {
     margin-bottom: 24px;
 }
 
-/* ==========================================================================
-   EXPERIENCE SECTION (1:1 Accordions)
-   ========================================================================== */
 .experience-list {
     display: flex;
     flex-direction: column;
@@ -819,9 +785,6 @@ button {
     transform: translateX(4px);
 }
 
-/* ==========================================================================
-   PROJECTS SECTION (3D Perspective Tilt with Red Spotlight Flare)
-   ========================================================================== */
 .projects-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -839,7 +802,7 @@ button {
     transform-style: preserve-3d;
 }
 
-.kroszborg-card {
+.portfolio-card {
     background: var(--card);
     border: 1px solid var(--card-border);
     border-radius: 12px;
@@ -853,12 +816,11 @@ button {
     will-change: transform;
 }
 
-.kroszborg-card:hover {
+.portfolio-card:hover {
     border-color: rgba(255, 255, 255, 0.22);
 }
 
-/* Projects Page: Full-card Live Demo Link */
-a.kroszborg-card.project-live-card {
+a.portfolio-card.project-live-card {
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -866,20 +828,20 @@ a.kroszborg-card.project-live-card {
     cursor: pointer;
 }
 
-a.kroszborg-card.project-live-card * {
+a.portfolio-card.project-live-card * {
     cursor: pointer;
 }
 
-a.kroszborg-card.project-live-card:hover .card-title-link {
+a.portfolio-card.project-live-card:hover .card-title-link {
     text-decoration: underline;
     text-underline-offset: 4px;
 }
 
-a.kroszborg-card.project-live-card:hover .card-external-icon {
+a.portfolio-card.project-live-card:hover .card-external-icon {
     color: #ffffff;
 }
 
-a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
+a.portfolio-card.project-live-card:hover .card-live-demo-btn {
     color: #ffffff;
     text-decoration: underline;
     text-underline-offset: 4px;
@@ -901,7 +863,7 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     transition: transform 0.3s ease;
 }
 
-.kroszborg-card:hover .card-preview-image {
+.portfolio-card:hover .card-preview-image {
     transform: scale(1.03);
 }
 
@@ -1060,10 +1022,7 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     margin-top: 20px;
 }
 
-/* ==========================================================================
-   ABOUT SECTION (1:1 Kroszborg Styling - Flat, Open, 240px Photo, 24px Icons)
-   ========================================================================== */
-.about-kroszborg-wrap {
+.about-content-wrap {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -1148,9 +1107,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     object-fit: contain;
 }
 
-/* ==========================================================================
-   GITHUB ACTIVITY (1:1 kroszborg.co layout & react-activity-calendar)
-   ========================================================================== */
 .github-section-header {
     display: flex;
     align-items: flex-end;
@@ -1228,9 +1184,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     to { transform: rotate(360deg); }
 }
 
-/* ==========================================================================
-   BLOGS SECTION
-   ========================================================================== */
 .blog-list {
     display: flex;
     flex-direction: column;
@@ -1276,9 +1229,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     transform: translateX(4px);
 }
 
-/* ==========================================================================
-   CTA BANNER CARD & SOLO LEVELING QUOTE
-   ========================================================================== */
 .cta-banner-card {
     background: rgba(24, 24, 27, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1385,9 +1335,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     transition: opacity 0.2s ease;
 }
 
-/* ==========================================================================
-   COMMAND PALETTE MODAL (Ctrl + K) - Exact Kroszborg Styling
-   ========================================================================== */
 .cmd-modal-backdrop {
     position: fixed;
     inset: 0;
@@ -1539,9 +1486,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     font-size: 0.7rem;
 }
 
-/* ==========================================================================
-   FLOATING AI ASSISTANT CHAT WIDGET (Exact kroszborg.co replica)
-   ========================================================================== */
 .ai-chat-widget {
     position: fixed;
     bottom: 24px;
@@ -1765,9 +1709,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     opacity: 0.9;
 }
 
-/* ==========================================================================
-   FOOTER
-   ========================================================================== */
 .site-footer {
     padding: 40px 20px;
     text-align: center;
@@ -1782,9 +1723,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     color: #ffffff;
 }
 
-/* ==========================================================================
-   PRIVATE OWNER VIEW COUNTER BADGE (Low-contrast, raw, visible only to owner)
-   ========================================================================== */
 .owner-views-badge {
     margin-top: 14px;
     display: inline-flex;
@@ -1828,9 +1766,6 @@ a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
     color: #a1a1aa;
 }
 
-/* ==========================================================================
-   ARTICLE / CASE STUDY PAGES
-   ========================================================================== */
 .article-container {
     max-width: 780px;
     margin: 0 auto;
@@ -1983,9 +1918,6 @@ code {
     transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   DEDICATED BLOG PAGE (1:1 kroszborg.co/blog)
-   ========================================================================== */
 .blog-page-container {
     max-width: 768px;
     margin: 0 auto;
@@ -2043,9 +1975,6 @@ code {
     }
 }
 
-/* ==========================================================================
-   DEDICATED PROJECTS PAGE (1:1 kroszborg.co/projects)
-   ========================================================================== */
 .projects-page-container {
     max-width: 768px;
     margin: 0 auto;

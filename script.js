@@ -1,17 +1,3 @@
-/**
- * KRISHNA NAND TIWARI - EXACT KROSZBORG.CO PARITY SCRIPTS
- * Features:
- * - 3D Perspective Card Tilt Physics with Dynamic Red Flare Spotlight
- * - Eyeball Pupil Tracking on Rainbow Conic Resume Button
- * - Magnetic Physics on Action Buttons
- * - Matrix Text Scramble on Hero Name
- * - Experience Accordion Toggle
- * - GitHub Activity Heatmap Generation
- * - Command Palette (Ctrl+K) Search Modal
- * - Floating AI Portfolio Assistant Chat Widget with Smart Responses
- * - Smooth Navigation
- */
-
 document.addEventListener('DOMContentLoaded', () => {
     initShaderBackground();
     initGrainOverlay();
@@ -30,15 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
     initProjectLiveCards();
 });
 
-/* ==========================================================================
-   1. 3D PERSPECTIVE CARD TILT (1:1 kroszborg)
-   ========================================================================== */
 function init3DCardTiltAndFlare() {
     const tiltWrappers = document.querySelectorAll('.tilt-wrapper');
     if (!tiltWrappers.length) return;
 
     tiltWrappers.forEach(wrapper => {
-        const card = wrapper.querySelector('.kroszborg-card, .blog-card');
+        const card = wrapper.querySelector('.portfolio-card, .blog-card');
         if (!card) return;
 
         let isHovered = false;
@@ -71,9 +54,6 @@ function init3DCardTiltAndFlare() {
     });
 }
 
-/* ==========================================================================
-   1B. PROJECTS PAGE: LIVE DEMO FULL-CARD CLICK GUARANTEE
-   ========================================================================== */
 function initProjectLiveCards() {
     const liveCards = document.querySelectorAll('.project-live-card');
     if (!liveCards.length) return;
@@ -82,17 +62,14 @@ function initProjectLiveCards() {
         const liveUrl = card.getAttribute('href');
         if (!liveUrl) return;
 
-        // If any click inside the card occurs (including child elements or stack badges)
         card.addEventListener('click', (e) => {
-            // Standard left click on native anchor will navigate natively.
-            // If any child element or touch handler swallowed it, guarantee navigation:
+
             if (e.target.closest('.stack-icon-btn')) {
                 e.preventDefault();
                 window.open(liveUrl, '_blank', 'noopener,noreferrer');
             }
         });
 
-        // Also make sure wrapper clicks route to the live URL
         const wrapper = card.closest('.tilt-wrapper');
         if (wrapper) {
             wrapper.style.cursor = 'pointer';
@@ -105,9 +82,6 @@ function initProjectLiveCards() {
     });
 }
 
-/* ==========================================================================
-   2. EYEBALL PUPIL TRACKING ON RESUME BUTTON
-   ========================================================================== */
 function initEyeTracking() {
     const resumeBtn = document.querySelector('.btn-resume');
     const pupils = document.querySelectorAll('.eye-pupil');
@@ -122,7 +96,6 @@ function initEyeTracking() {
         const deltaY = e.clientY - btnCenterY;
         const angle = Math.atan2(deltaY, deltaX);
 
-        // Distance capped at 2.6px radius within 15px socket
         const maxDist = 2.8;
         const moveX = Math.cos(angle) * maxDist;
         const moveY = Math.sin(angle) * maxDist;
@@ -133,9 +106,6 @@ function initEyeTracking() {
     }, { passive: true });
 }
 
-/* ==========================================================================
-   3. MAGNETIC BUTTON PHYSICS
-   ========================================================================== */
 function initMagneticButtons() {
     const magneticBtns = document.querySelectorAll('.magnetic-btn');
     if (!magneticBtns.length) return;
@@ -146,7 +116,6 @@ function initMagneticButtons() {
             const x = e.clientX - (rect.left + rect.width / 2);
             const y = e.clientY - (rect.top + rect.height / 2);
 
-            // Subtle magnetic pull
             const pullStrength = 0.22;
             btn.style.transform = `translate(${x * pullStrength}px, ${y * pullStrength}px)`;
         });
@@ -157,9 +126,6 @@ function initMagneticButtons() {
     });
 }
 
-/* ==========================================================================
-   4. MATRIX TEXT SCRAMBLE ON HERO NAME
-   ========================================================================== */
 function initMatrixTextScramble() {
     const titleEl = document.getElementById('scramble-name');
     if (!titleEl) return;
@@ -196,12 +162,9 @@ function initMatrixTextScramble() {
     });
 }
 
-/* ==========================================================================
-   5. EXPERIENCE ACCORDIONS (1:1 kroszborg)
-   ========================================================================== */
 function initAccordions() {
     const experienceCards = document.querySelectorAll('.experience-card');
-    
+
     experienceCards.forEach(card => {
         const row = card.querySelector('.experience-row-main');
         const chevronBtn = card.querySelector('.accordion-chevron-btn');
@@ -223,9 +186,6 @@ function initAccordions() {
     });
 }
 
-/* ==========================================================================
-   6. GITHUB ACTIVITY CALENDAR (1:1 kroszborg.co Sync with @Krishnanand-10)
-   ========================================================================== */
 async function initHeatmap() {
     const wrap = document.getElementById('github-calendar-wrap');
     const countEl = document.getElementById('github-count-number');
@@ -237,11 +197,10 @@ async function initHeatmap() {
 
     const blockSize = 11;
     const blockMargin = 3;
-    const step = blockSize + blockMargin; // 14
+    const step = blockSize + blockMargin;
     const offsetX = 26;
     const offsetY = 20;
 
-    // Theme colors matching kroszborg.co dark theme exactly:
     const theme = [
         "rgb(22, 27, 34)",
         "rgb(14, 68, 41)",
@@ -288,17 +247,14 @@ async function initHeatmap() {
 
         let svg = `<svg class="react-activity-calendar" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" style="color: rgb(139, 148, 158);">`;
 
-        // Month text labels
         monthPositions.forEach(mp => {
             svg += `<text x="${mp.x}" y="12" font-size="11" fill="rgb(139, 148, 158)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">${mp.month}</text>`;
         });
 
-        // Weekday text labels
         weekdayLabels.forEach(wl => {
             svg += `<text x="4" y="${wl.y}" font-size="11" fill="rgb(139, 148, 158)" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">${wl.label}</text>`;
         });
 
-        // Day blocks
         weeks.forEach((week, wIdx) => {
             const x = offsetX + wIdx * step;
             week.forEach(day => {
@@ -327,11 +283,9 @@ async function initHeatmap() {
         if (countEl) countEl.textContent = total.toLocaleString();
         if (yearCountEl) yearCountEl.style.display = 'block';
 
-        // Auto-scroll to end (most recent date) like kroszborg
         wrap.scrollLeft = wrap.scrollWidth;
     }
 
-    // Drag-to-scroll interaction (exact kroszborg grab cursor functionality)
     let isDown = false;
     let startX = 0;
     let scrollLeft = 0;
@@ -356,15 +310,13 @@ async function initHeatmap() {
         wrap.scrollLeft = scrollLeft - walk;
     });
 
-    // 1. Instant load from localStorage cache
     try {
-        const cached = localStorage.getItem('krishna_gh_contribs_krosz');
+        const cached = localStorage.getItem('krishna_gh_contribs');
         if (cached) {
             render(JSON.parse(cached));
         }
     } catch (e) {}
 
-    // 2. Live fetch from GitHub API
     try {
         const res = await fetch(API_URL);
         if (res.ok) {
@@ -372,7 +324,7 @@ async function initHeatmap() {
             if (data && data.contributions) {
                 render(data);
                 try {
-                    localStorage.setItem('krishna_gh_contribs_krosz', JSON.stringify(data));
+                    localStorage.setItem('krishna_gh_contribs', JSON.stringify(data));
                 } catch (e) {}
             }
         }
@@ -381,9 +333,6 @@ async function initHeatmap() {
     }
 }
 
-/* ==========================================================================
-   7. DYNAMIC NAVBAR SCROLL ANIMATION (Exact 1:1 Kroszborg Framer Motion Spring Scroll)
-   ========================================================================== */
 function initNavbarScroll() {
     const nav = document.getElementById('main-nav');
     if (!nav) return;
@@ -393,8 +342,6 @@ function initNavbarScroll() {
     let velocity = 0;
     let rafId = null;
 
-    // Exact Framer Motion spring parameters from krosz_layout.js:
-    // { stiffness: 90, damping: 24, mass: 0.6 }
     const stiffness = 90;
     const damping = 24;
     const mass = 0.6;
@@ -402,18 +349,11 @@ function initNavbarScroll() {
 
     function applyTransform(y) {
         const isDesktop = window.innerWidth >= 768;
-        // Transform range [0, 280] from Kroszborg
+
         const progress = Math.min(1, Math.max(0, y / 280));
 
-        // Exact Kroszborg interpolation points:
-        // Desktop max-width: 1024 -> 640
-        // Mobile max-width: 560 -> 380
-        // Padding: 24 -> 16
-        // Height: 64 -> 52
-        // Border-radius: 24 -> 9999
-        // Top: 24 -> 14
-        const maxW = isDesktop 
-            ? (1024 - (1024 - 640) * progress) 
+        const maxW = isDesktop
+            ? (1024 - (1024 - 640) * progress)
             : (560 - (560 - 380) * progress);
         const top = 24 - (24 - 14) * progress;
         const height = 64 - (64 - 52) * progress;
@@ -474,13 +414,9 @@ function initNavbarScroll() {
         applyTransform(currentY);
     }, { passive: true });
 
-    // Initial render
     applyTransform(currentY);
 }
 
-/* ==========================================================================
-   8. COMMAND PALETTE SEARCH MODAL (Ctrl + K) - Exact Kroszborg Parity
-   ========================================================================== */
 function initCommandPalette() {
     const modalBackdrop = document.getElementById('cmd-modal');
     const searchBtn = document.getElementById('cmd-k-btn');
@@ -488,7 +424,6 @@ function initCommandPalette() {
     const resultsContainer = document.getElementById('cmd-results-list');
     if (!modalBackdrop || !searchInput || !resultsContainer) return;
 
-    // Detect Mac vs Windows for shortcut keys
     const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
     document.querySelectorAll('.nav-search-kbd').forEach(el => {
         el.innerHTML = isMac ? '<span class="kbd-mod">⌘</span>K' : '<span class="kbd-mod">Ctrl +</span>K';
@@ -515,7 +450,7 @@ function initCommandPalette() {
 
     function renderResults(query = '') {
         const cleanQuery = query.toLowerCase().trim();
-        const filtered = searchableItems.filter(item => 
+        const filtered = searchableItems.filter(item =>
             item.title.toLowerCase().includes(cleanQuery) ||
             item.desc.toLowerCase().includes(cleanQuery) ||
             item.category.toLowerCase().includes(cleanQuery)
@@ -538,7 +473,6 @@ function initCommandPalette() {
             </div>
         `).join('');
 
-        // Item click
         resultsContainer.querySelectorAll('.cmd-result-item').forEach((el, idx) => {
             el.addEventListener('click', () => {
                 navigateTo(el.dataset.url);
@@ -584,7 +518,7 @@ function initCommandPalette() {
     });
 
     window.addEventListener('keydown', (e) => {
-        // Toggle on Ctrl+K / Cmd+K
+
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
             e.preventDefault();
             if (modalBackdrop.classList.contains('active')) {
@@ -622,9 +556,6 @@ function initCommandPalette() {
     });
 }
 
-/* ==========================================================================
-   8. FLOATING AI PORTFOLIO ASSISTANT CHAT WIDGET (1:1 kroszborg)
-   ========================================================================== */
 function initAIAssistantWidget() {
     const toggleBtn = document.getElementById('ai-chat-toggle-btn');
     const closeBtn = document.getElementById('ai-chat-close-btn');
@@ -673,7 +604,6 @@ function initAIAssistantWidget() {
         appendMessage(text, 'user');
         if (chatInput) chatInput.value = '';
 
-        // Simulate fast realistic response
         setTimeout(() => {
             const lower = text.toLowerCase();
             let response = '';
@@ -694,7 +624,6 @@ function initAIAssistantWidget() {
         }, 400);
     }
 
-    // Suggestions chips click
     const chips = document.querySelectorAll('.chip-btn');
     chips.forEach(chip => {
         chip.addEventListener('click', () => {
@@ -714,9 +643,6 @@ function initAIAssistantWidget() {
     }
 }
 
-/* ==========================================================================
-   9. SMOOTH SCROLL FOR NAV ANCHORS
-   ========================================================================== */
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -745,9 +671,6 @@ function escapeHtml(str) {
         .replace(/'/g, '&#039;');
 }
 
-/* ==========================================================================
-   10. SCROLL REVEAL (1:1 kroszborg Framer Motion fadeInBlur)
-   ========================================================================== */
 function initScrollReveal() {
     const targets = document.querySelectorAll('.feed-section, .cta-banner-card, .quote-card');
     if (!targets.length) return;
@@ -769,9 +692,6 @@ function initScrollReveal() {
     targets.forEach(el => observer.observe(el));
 }
 
-/* ==========================================================================
-   11. DYNAMIC BHAGAVAD GITA QUOTES (Changes on every visit & on click)
-   ========================================================================== */
 const BHAGAVAD_GITA_QUOTES = [
     {
         quote: "You have a right to perform your prescribed duty, but you are not entitled to the fruits of action.",
@@ -887,11 +807,9 @@ function initGitaQuotes() {
         return nextIdx;
     }
 
-    // Set dynamic quote for this visit
     let currentIdx = getNextQuoteIndex();
     renderQuote(currentIdx, false);
 
-    // Clicking quote card cycles to another verse with smooth fade
     if (quoteCard) {
         quoteCard.addEventListener('click', () => {
             currentIdx = getNextQuoteIndex();
@@ -900,23 +818,19 @@ function initGitaQuotes() {
     }
 }
 
-/* ==========================================================================
-   12. EXACT 1:1 KROSZBORG.CO WEBGL ANIMATED SHADER BACKGROUND
-   ========================================================================== */
 function initShaderBackground() {
     const canvas = document.getElementById('shader-canvas');
     if (!canvas) return;
 
-    // Initialize WebGL context
     let gl = null;
     try {
-        gl = canvas.getContext('webgl', { 
-            alpha: false, 
-            antialias: false, 
-            depth: false, 
-            stencil: false, 
+        gl = canvas.getContext('webgl', {
+            alpha: false,
+            antialias: false,
+            depth: false,
+            stencil: false,
             preserveDrawingBuffer: false,
-            powerPreference: 'high-performance' 
+            powerPreference: 'high-performance'
         }) || canvas.getContext('experimental-webgl');
     } catch (e) {
         console.warn('WebGL initialization failed:', e);
@@ -928,7 +842,6 @@ function initShaderBackground() {
         return;
     }
 
-    // Vertex Shader: full-screen quad
     const vsSource = `
         attribute vec2 position;
         varying vec2 vUv;
@@ -938,7 +851,6 @@ function initShaderBackground() {
         }
     `;
 
-    // Fragment Shader: Exact 1:1 math from kroszborg.co module 52685 (ShaderBackground)
     const fsSource = `
         precision highp float;
         uniform float uTime;
@@ -947,7 +859,6 @@ function initShaderBackground() {
         uniform vec2 uMouse;
         varying vec2 vUv;
 
-        // ── Simplex noise ──────────────────────────────────────────────────
         vec3 permute(vec3 x) { return mod(((x * 34.0) + 1.0) * x, 289.0); }
 
         float snoise(vec2 v) {
@@ -981,7 +892,6 @@ function initShaderBackground() {
             return 130.0 * dot(m, g);
         }
 
-        // ── Fractional Brownian Motion (FBM) ──────────────────────────────
         float fbm(vec2 st) {
             float v = 0.0;
             float a = 0.5;
@@ -994,36 +904,26 @@ function initShaderBackground() {
             return v;
         }
 
-        // ── Interleaved gradient noise (Dithering) ─────────────────────────
         float ign(vec2 pos) {
             return fract(52.9829189 * fract(dot(pos, vec2(0.06711056, 0.00583715))));
         }
 
         void main() {
             float aspect = uResolution.x / uResolution.y;
-            
-            // Exact Three.js perspective camera projection from kroszborg:
-            // Camera at (0, 0, 1), fov = 75 deg, mesh: planeGeometry(2, 2) at (0, 0, 0)
-            // Visible frustum half-height at z=0: tan(75° / 2) = 0.7673269879789604
-            // Half-height of plane in NDC: 1.0 / 0.7673269879789604 = 1.3032253728412058
-            // Half-width of plane in NDC: 1.3032253728412058 / aspect
+
             vec2 ndc = (vUv - 0.5) * 2.0;
-            
+
             float halfH = 1.30322537;
             float halfW = halfH / aspect;
-            
-            // Check if fragment is outside the 3D plane horizontally
+
             float edgeDist = halfW - abs(ndc.x);
             if (edgeDist < 0.0) {
-                // Outside the plane: pure black, matching Three.js clear color
                 gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
                 return;
             }
-            
-            // Smooth anti-aliasing across 1.5 pixels at the plane boundary
+
             float edgeAlpha = clamp(edgeDist * (uResolution.x * 0.5), 0.0, 1.0);
-            
-            // Inside the plane: uv goes from 0.0 to 1.0 across the 3D planeGeometry(2, 2)
+
             vec2 uv = vec2(
                 (ndc.x / halfW) * 0.5 + 0.5,
                 (ndc.y / halfH) * 0.5 + 0.5
@@ -1031,33 +931,27 @@ function initShaderBackground() {
 
             float t = uTime * 0.05;
 
-            // ── Layer 1: large slow warp (Exact 1:1 kroszborg movement) ───────
             vec2 q;
             q.x = fbm(uv * 1.8 + vec2(0.00, 0.00) + t * 0.6);
             q.y = fbm(uv * 1.8 + vec2(5.20, 1.30) + t * 0.5);
 
-            // ── Layer 2: medium warp driven by layer 1 ─────────────────────────
             vec2 r;
             r.x = fbm(uv * 2.4 + q * 2.2 + vec2(1.70, 9.20) + t * 0.7);
             r.y = fbm(uv * 2.4 + q * 2.2 + vec2(8.30, 2.80) + t * 0.65);
 
-            // ── Final noise value, deeply warped ───────────────────────────────
             float f = fbm(uv * 3.0 + r * 1.8 + t * 0.5);
             f = f * 0.5 + 0.5;
 
             if (uIsDark > 0.5) {
-                // ── DARK MODE: Exact 1:1 kroszborg.co contrast curve (Module 52685) ───────
                 float bright = smoothstep(0.30, 0.80, f);
                 bright = pow(bright, 1.6);
-                bright = bright * 0.12 + 0.015; // Range: 0.015 to 0.135
+                bright = bright * 0.12 + 0.015;
 
-                // ── Ordered dither (Exact 1:1 kroszborg math to eliminate banding) ────────
                 float noise = ign(gl_FragCoord.xy);
                 float dither = (noise - 0.5) * 0.015 * (1.0 + bright * 2.0);
                 bright += dither;
                 bright = clamp(bright, 0.0, 1.0);
 
-                // ── Vignette (Exact 1:1 kroszborg formula) ────────────────────────
                 vec2 vigUv = uv - 0.5;
                 vigUv.x *= 0.85;
                 float vignette = 1.0 - dot(vigUv, vigUv) * 2.8;
@@ -1067,7 +961,6 @@ function initShaderBackground() {
                 bright *= vignette;
                 bright = max(bright, 0.012);
 
-                // Blend cleanly with the plane edge
                 bright *= edgeAlpha;
 
                 gl_FragColor = vec4(vec3(bright), 1.0);
@@ -1121,7 +1014,6 @@ function initShaderBackground() {
 
     gl.useProgram(program);
 
-    // Full-screen quad geometry (two triangles)
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
@@ -1137,13 +1029,11 @@ function initShaderBackground() {
     gl.enableVertexAttribArray(posLocation);
     gl.vertexAttribPointer(posLocation, 2, gl.FLOAT, false, 0, 0);
 
-    // Uniform locations
     const uTimeLoc = gl.getUniformLocation(program, 'uTime');
     const uResLoc = gl.getUniformLocation(program, 'uResolution');
     const uIsDarkLoc = gl.getUniformLocation(program, 'uIsDark');
     const uMouseLoc = gl.getUniformLocation(program, 'uMouse');
 
-    // Handle viewport resizing
     let width = 0;
     let height = 0;
     let mouse = { x: 0.5, y: 0.5 };
@@ -1179,7 +1069,6 @@ function initShaderBackground() {
         rafId = requestAnimationFrame(render);
     }
 
-    // Pause when tab is not visible to conserve battery
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             if (rafId) cancelAnimationFrame(rafId);
@@ -1191,9 +1080,6 @@ function initShaderBackground() {
     rafId = requestAnimationFrame(render);
 }
 
-/* ==========================================================================
-   12. EXACT 1:1 KROSZBORG.CO DYNAMIC GRAIN OVERLAY
-   ========================================================================== */
 function initGrainOverlay() {
     const gridLayer = document.querySelector('.shader-bg.grid-layer');
     if (!gridLayer) return;
@@ -1211,7 +1097,7 @@ function initGrainOverlay() {
             imgData.data[i] = val;
             imgData.data[i + 1] = val;
             imgData.data[i + 2] = val;
-            imgData.data[i + 3] = 12; // subtle film grain dither
+            imgData.data[i + 3] = 12;
         }
         ctx.putImageData(imgData, 0, 0);
         gridLayer.style.backgroundImage = `url("${canvas.toDataURL()}")`;
@@ -1220,18 +1106,14 @@ function initGrainOverlay() {
     }
 }
 
-/* ==========================================================================
-   13. PRIVATE OWNER VIEW COUNTER (Only visible to owner, raw & low-contrast)
-   ========================================================================== */
 function initOwnerViewBadge() {
     const badge = document.getElementById('owner-views-badge');
     const countEl = document.getElementById('owner-views-count');
     if (!badge || !countEl) return;
 
-    // 1. Check if owner mode is enabled via URL parameter or local environment
     const urlParams = new URLSearchParams(window.location.search);
-    const isLocal = window.location.hostname === 'localhost' || 
-                    window.location.hostname === '127.0.0.1' || 
+    const isLocal = window.location.hostname === 'localhost' ||
+                    window.location.hostname === '127.0.0.1' ||
                     window.location.protocol === 'file:';
 
     if (urlParams.has('owner') || urlParams.has('admin') || urlParams.has('me')) {
@@ -1243,7 +1125,7 @@ function initOwnerViewBadge() {
             localStorage.removeItem('krishna_portfolio_owner');
         } catch (e) {}
     } else if (isLocal && !localStorage.getItem('krishna_portfolio_owner')) {
-        // Auto-enable for Krishna during local development
+
         try {
             localStorage.setItem('krishna_portfolio_owner', 'true');
         } catch (e) {}
@@ -1265,10 +1147,8 @@ function initOwnerViewBadge() {
         }
     }
 
-    // Initialize visibility: hidden for public visitors, visible to owner
     updateVisibility();
 
-    // 2. Secret Shortcut: Ctrl + Shift + V toggles Owner Mode
     window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.shiftKey && (e.key === 'V' || e.key === 'v')) {
             e.preventDefault();
@@ -1280,7 +1160,6 @@ function initOwnerViewBadge() {
         }
     });
 
-    // 3. Triple Click Footer: Allows unlocking owner mode on mobile devices
     const footerCopy = document.getElementById('footer-copy');
     if (footerCopy) {
         let clickCount = 0;
@@ -1303,7 +1182,6 @@ function initOwnerViewBadge() {
         });
     }
 
-    // 4. Display cached count immediately for low-contrast raw UI
     try {
         const cached = localStorage.getItem('cached_portfolio_views');
         if (cached) {
@@ -1321,7 +1199,6 @@ function initOwnerViewBadge() {
         }
     }
 
-    // 5. Fetch live count (incrementing on new session)
     try {
         const sessionKey = 'portfolio_counted_session';
         const isNewSession = !sessionStorage.getItem(sessionKey);
@@ -1348,7 +1225,6 @@ function initOwnerViewBadge() {
             });
     } catch (err) {}
 
-    // 6. Optional: Sync directly with Umami Share URL token if configured
     try {
         const shareToken = localStorage.getItem('umami_share_token');
         if (shareToken) {
@@ -1374,4 +1250,3 @@ function initOwnerViewBadge() {
         }
     } catch (e) {}
 }
-
