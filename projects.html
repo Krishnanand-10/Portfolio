@@ -20,6 +20,9 @@
 
     <!-- Preload Oneko retro cat companion -->
     <link rel="preload" href="oneko.gif" as="image">
+
+    <!-- Umami Analytics -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
 </head>
 <body>
     <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
@@ -43,8 +46,8 @@
         </div>
         <div class="nav-right">
             <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
-                <span>Search</span>
-                <kbd>Ctrl + K</kbd>
+                <span class="nav-search-label">Search</span>
+                <span class="nav-search-kbd"><span class="kbd-mod">Ctrl +</span>K</span>
             </button>
         </div>
     </nav>
@@ -59,16 +62,16 @@
         <div class="projects-grid">
             <!-- Project 1: RepurposeAI -->
             <div class="tilt-wrapper">
-                <div class="kroszborg-card">
-                    <a href="repurpose-ai.html" class="card-cover">
+                <a href="https://repurposeai-rp.vercel.app/" target="_blank" rel="noopener noreferrer" class="kroszborg-card project-live-card" aria-label="Open RepurposeAI live project">
+                    <div class="card-cover">
                         <img src="images/repurpose_ai_preview.png" alt="RepurposeAI" class="card-preview-image" loading="lazy">
-                    </a>
+                    </div>
                     <div class="card-body">
                         <div class="card-title-row">
-                            <a href="repurpose-ai.html" class="card-title-link">RepurposeAI</a>
-                            <a href="https://repurposeai-rp.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open RepurposeAI live app">
+                            <span class="card-title-link">RepurposeAI</span>
+                            <span class="card-external-icon" aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
-                            </a>
+                            </span>
                         </div>
                         <p class="card-desc">
                             AI-powered multi-platform content repurposing SaaS. Ingests YouTube URLs, articles, and audio transcripts to generate LinkedIn carousels, X threads, video scripts, and SEO packs.
@@ -91,21 +94,27 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="card-footer">
+                        <span class="card-view-details card-live-demo-btn">
+                            <span>Live Demo</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </a>
             </div>
 
             <!-- Project 2: Resume Roaster -->
             <div class="tilt-wrapper">
-                <div class="kroszborg-card">
-                    <a href="resume-roaster.html" class="card-cover">
+                <a href="https://resume-roaster-ro.vercel.app/" target="_blank" rel="noopener noreferrer" class="kroszborg-card project-live-card" aria-label="Open Resume Roaster live project">
+                    <div class="card-cover">
                         <img src="images/resume_roaster_preview.png" alt="Resume Roaster" class="card-preview-image" loading="lazy">
-                    </a>
+                    </div>
                     <div class="card-body">
                         <div class="card-title-row">
-                            <a href="resume-roaster.html" class="card-title-link">Resume Roaster</a>
-                            <a href="https://resume-roaster-ro.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Resume Roaster live app">
+                            <span class="card-title-link">Resume Roaster</span>
+                            <span class="card-external-icon" aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
-                            </a>
+                            </span>
                         </div>
                         <p class="card-desc">
                             An AI-powered resume analyzer and roaster giving candidates constructive critique, roast ratings, and ATS feedback with multi-provider LLM fallback.
@@ -125,21 +134,27 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="card-footer">
+                        <span class="card-view-details card-live-demo-btn">
+                            <span>Live Demo</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </a>
             </div>
 
             <!-- Project 3: Smart Learn -->
             <div class="tilt-wrapper">
-                <div class="kroszborg-card">
-                    <a href="smart-learn.html" class="card-cover">
+                <a href="https://smart-learn-web.vercel.app" target="_blank" rel="noopener noreferrer" class="kroszborg-card project-live-card" aria-label="Open Smart Learn live project">
+                    <div class="card-cover">
                         <img src="images/smart_learn_preview.png" alt="Smart Learn" class="card-preview-image" loading="lazy">
-                    </a>
+                    </div>
                     <div class="card-body">
                         <div class="card-title-row">
-                            <a href="smart-learn.html" class="card-title-link">Smart Learn</a>
-                            <a href="https://smart-learn-web.vercel.app" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Smart Learn live app">
+                            <span class="card-title-link">Smart Learn</span>
+                            <span class="card-external-icon" aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
-                            </a>
+                            </span>
                         </div>
                         <p class="card-desc">
                             An AI-powered learning platform. Upload PDFs, videos, or paste links to chat with an AI tutor, generate flashcards, and master topics through quizzes.
@@ -159,21 +174,27 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="card-footer">
+                        <span class="card-view-details card-live-demo-btn">
+                            <span>Live Demo</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </a>
             </div>
 
             <!-- Project 4: Kinship -->
             <div class="tilt-wrapper">
-                <div class="kroszborg-card">
-                    <a href="kinship.html" class="card-cover">
+                <a href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" class="kroszborg-card project-live-card" aria-label="Open Kinship Family Tree live project">
+                    <div class="card-cover">
                         <img src="images/kinship_preview.png" alt="Kinship Family Tree" class="card-preview-image" loading="lazy">
-                    </a>
+                    </div>
                     <div class="card-body">
                         <div class="card-title-row">
-                            <a href="kinship.html" class="card-title-link">Kinship Family Tree</a>
-                            <a href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" class="card-external-icon" aria-label="Open Kinship live app">
+                            <span class="card-title-link">Kinship Family Tree</span>
+                            <span class="card-external-icon" aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm87.62,96H175.79C174,83.49,159.94,57.67,148.41,42.4A88.19,88.19,0,0,1,215.63,120ZM96.23,136h63.54c-2.31,41.61-22.23,67.11-31.77,77C118.45,203.1,98.54,177.6,96.23,136Zm0-16C98.54,78.39,118.46,52.89,128,43c9.55,9.93,29.46,35.43,31.77,77Zm11.36-77.6C96.06,57.67,82,83.49,80.21,120H40.37A88.19,88.19,0,0,1,107.59,42.4ZM40.37,136H80.21c1.82,36.51,15.85,62.33,27.38,77.6A88.19,88.19,0,0,1,40.37,136Zm108,77.6c11.53-15.27,25.56-41.09,27.38-77.6h39.84A88.19,88.19,0,0,1,148.41,213.6Z"></path></svg>
-                            </a>
+                            </span>
                         </div>
                         <p class="card-desc">
                             A high-end family tree platform with a zoomable React Flow canvas, spouse junctions, sibling row alignment, and PDF export capabilities.
@@ -182,7 +203,7 @@
                             <div class="card-stack-label">STACK</div>
                             <div class="card-stack-icons">
                                 <span class="stack-icon-btn" title="React Flow">
-                                    <svg viewBox="0 0 128 128"><g fill="#61DAFB"><circle cx="64" cy="64" r="11.4"></circle><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13.2-.2-22.5-6.6-26.1-1.9-1.1-4-1.6-6.4-1.6-7 0-15.9 5.2-24.9 13.9-9-8.7-17.9-13.9-24.9-13.9-2.4 0-4.5.5-6.4 1.6-6.4 3.7-8.7 13-6.6 26.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C8.2 50 1.4 56.6 1.4 64s6.9 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13.2.2 22.5 6.6 26.1 1.9 1.1 4 1.6 6.4 1.6 7.1 0 16-5.2 24.9-13.9 9 8.7 17.9 13.9 24.9 13.9 2.4 0 4.5-.5 6.4-1.6 6.4-3.7 8.7-13 6.6-26.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8z"/></g></svg>
+                                    <svg viewBox="0 0 128 128"><g fill="#61DAFB"><circle cx="64" cy="64" r="11.4"></circle><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13.2-.2-22.5-6.6-26.1-1.9-1.1-4-1.6-6.4-1.6-7 0-15.9 5.2-24.9 13.9-9-8.7-17.9-13.9-24.9-13.9-2.4 0-4.5-.5-6.4-1.6-6.4-3.7 8.7-13 6.6-26.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C8.2 50 1.4 56.6 1.4 64s6.9 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13.2.2 22.5 6.6 26.1 1.9 1.1 4 1.6 6.4 1.6 7.1 0 16-5.2 24.9-13.9 9 8.7 17.9 13.9 24.9 13.9 2.4 0 4.5-.5 6.4-1.6 6.4-3.7 8.7-13 6.6-26.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8z"/></g></svg>
                                 </span>
                                 <span class="stack-icon-btn" title="TypeScript">
                                     <svg viewBox="0 0 128 128"><path fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5z"></path><path fill="#fff" d="M102.23 58.91a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path></svg>
@@ -193,19 +214,31 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="card-footer">
+                        <span class="card-view-details card-live-demo-btn">
+                            <span>Live Demo</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+                        </span>
+                    </div>
+                </a>
             </div>
         </div>
     </main>
 
     <!-- Command Palette (Ctrl+K) Modal -->
     <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
-        <div class="cmd-modal-window">
-            <div class="cmd-search-input-wrap">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--secondary);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
                 <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
             </div>
             <div id="cmd-results-list" class="cmd-results-list"></div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
         </div>
     </div>
 

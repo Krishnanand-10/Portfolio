@@ -23,6 +23,9 @@
 
     <!-- Preload Oneko retro cat companion -->
     <link rel="preload" href="oneko.gif" as="image">
+
+    <!-- Umami Analytics -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
 </head>
 <body>
     <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
@@ -46,8 +49,8 @@
         </div>
         <div class="nav-right">
             <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
-                <span>Search</span>
-                <kbd>Ctrl + K</kbd>
+                <span class="nav-search-label">Search</span>
+                <span class="nav-search-kbd"><span class="kbd-mod">Ctrl +</span>K</span>
             </button>
         </div>
     </nav>
@@ -95,7 +98,7 @@
                         <a href="https://supabase.com/" target="_blank" rel="noopener noreferrer" class="skill-badge">
                             <svg viewBox="0 0 100 100"><path fill="#3ECF8E" d="M53.4 4.8c1.6-2.5 5.5-1.3 5.5 1.7v40.3h33.8c3.2 0 4.9 3.8 2.7 6.1L46.6 95.2c-1.6 2.5-5.5 1.3-5.5-1.7V53.2H7.3c-3.2 0-4.9-3.8-2.7-6.1L53.4 4.8z"/></svg>
                             <span>Supabase</span>
-                        </a>. Comfortable with AI integrations via <b>Google Gemini</b> &amp; <b>OpenAI APIs</b>, with a strong background in <b>Python</b> and data analytics.
+                        </a>. Comfortable working with AI integrations to build smarter, more capable applications.
                     </p>
 
                     <!-- Action Buttons: Normal Resume with Eye Pupils, Magnetic Get In Touch -->
@@ -143,10 +146,10 @@
                     <div class="about-details-wrap">
                         <h3 class="about-author-name">Krishna Nand Tiwari</h3>
                         <p class="about-text">
-                            I'm a full-stack developer based in <b>Bengaluru, India</b>, currently pursuing my <b>MCA at Dayananda Sagar University</b>. I specialize in building production-ready web applications using <b>React</b>, <b>Next.js</b>, <b>TypeScript</b>, and <b>Node.js</b>, with hands-on experience integrating AI through <b>Google Gemini</b> and <b>OpenAI APIs</b>.
+                            I'm a full-stack developer based in <b>Bengaluru, India</b>, currently pursuing my <b>MCA at Dayananda Sagar University</b>. I specialize in building production-ready web applications using <b>React</b>, <b>Next.js</b>, <b>TypeScript</b>, and <b>Node.js</b>, with hands-on experience integrating AI capabilities into real-world products.
                         </p>
                         <p class="about-text">
-                            I also have a strong foundation in <b>Python and data analytics</b> from my internship at Dyashin Technosoft. I enjoy crafting interactive tools, solving real-world problems, and shipping software that actually works.
+                            I enjoy crafting interactive tools, solving real-world problems, and shipping software that actually works.
                         </p>
                             <div class="about-tech-stack-wrap">
                                 <div class="about-tech-icons">
@@ -212,9 +215,9 @@
                         <!-- Project 1: RepurposeAI -->
                         <div class="tilt-wrapper">
                             <div class="kroszborg-card">
-                                <div class="card-cover">
+                                <a href="repurpose-ai.html" class="card-cover">
                                     <img src="images/repurpose_ai_preview.png" alt="RepurposeAI" class="card-preview-image" loading="lazy">
-                                </div>
+                                </a>
                                 <div class="card-body">
                                     <div class="card-title-row">
                                         <a href="repurpose-ai.html" class="card-title-link">RepurposeAI</a>
@@ -255,9 +258,9 @@
                         <!-- Project 2: Resume Roaster -->
                         <div class="tilt-wrapper">
                             <div class="kroszborg-card">
-                                <div class="card-cover">
+                                <a href="resume-roaster.html" class="card-cover">
                                     <img src="images/resume_roaster_preview.png" alt="Resume Roaster" class="card-preview-image" loading="lazy">
-                                </div>
+                                </a>
                                 <div class="card-body">
                                     <div class="card-title-row">
                                         <a href="resume-roaster.html" class="card-title-link">Resume Roaster</a>
@@ -295,9 +298,9 @@
                         <!-- Project 3: Smart Learn -->
                         <div class="tilt-wrapper">
                             <div class="kroszborg-card">
-                                <div class="card-cover">
+                                <a href="smart-learn.html" class="card-cover">
                                     <img src="images/smart_learn_preview.png" alt="Smart Learn" class="card-preview-image" loading="lazy">
-                                </div>
+                                </a>
                                 <div class="card-body">
                                     <div class="card-title-row">
                                         <a href="smart-learn.html" class="card-title-link">Smart Learn</a>
@@ -335,9 +338,9 @@
                         <!-- Project 4: Kinship -->
                         <div class="tilt-wrapper">
                             <div class="kroszborg-card">
-                                <div class="card-cover">
+                                <a href="kinship.html" class="card-cover">
                                     <img src="images/kinship_preview.png" alt="Kinship Family Tree" class="card-preview-image" loading="lazy">
-                                </div>
+                                </a>
                                 <div class="card-body">
                                     <div class="card-title-row">
                                         <a href="kinship.html" class="card-title-link">Kinship Family Tree</a>
@@ -425,18 +428,34 @@
 
     <!-- Command Palette (Ctrl+K) Modal -->
     <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
-        <div class="cmd-modal-window">
-            <div class="cmd-search-input-wrap">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--secondary);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
                 <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
             </div>
             <div id="cmd-results-list" class="cmd-results-list"></div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
         </div>
     </div>
 
     <!-- Minimal Site Footer -->
     <footer class="site-footer">
-        <p>Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
+        <p id="footer-copy">Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
+        <!-- Private Owner View Counter (Only visible to owner) -->
+        <div id="owner-views-badge" class="owner-views-badge" style="display: none;">
+            <a href="https://cloud.umami.is" target="_blank" rel="noopener noreferrer" class="owner-views-pill" title="Private Analytics · Click to open Umami Dashboard">
+                <svg class="views-eye-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span id="owner-views-count">--</span>
+            </a>
+        </div>
     </footer>
 
     <!-- Companion Script (oneko) & Interactive Features Script -->

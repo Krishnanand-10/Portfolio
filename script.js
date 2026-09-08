@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initScrollReveal();
     initGitaQuotes();
+    initOwnerViewBadge();
+    initNavbarScroll();
+    initProjectLiveCards();
 });
 
 /* ==========================================================================
@@ -65,6 +68,40 @@ function init3DCardTiltAndFlare() {
             card.style.transition = 'transform 0.35s ease-out, border-color 0.2s ease';
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
         });
+    });
+}
+
+/* ==========================================================================
+   1B. PROJECTS PAGE: LIVE DEMO FULL-CARD CLICK GUARANTEE
+   ========================================================================== */
+function initProjectLiveCards() {
+    const liveCards = document.querySelectorAll('.project-live-card');
+    if (!liveCards.length) return;
+
+    liveCards.forEach(card => {
+        const liveUrl = card.getAttribute('href');
+        if (!liveUrl) return;
+
+        // If any click inside the card occurs (including child elements or stack badges)
+        card.addEventListener('click', (e) => {
+            // Standard left click on native anchor will navigate natively.
+            // If any child element or touch handler swallowed it, guarantee navigation:
+            if (e.target.closest('.stack-icon-btn')) {
+                e.preventDefault();
+                window.open(liveUrl, '_blank', 'noopener,noreferrer');
+            }
+        });
+
+        // Also make sure wrapper clicks route to the live URL
+        const wrapper = card.closest('.tilt-wrapper');
+        if (wrapper) {
+            wrapper.style.cursor = 'pointer';
+            wrapper.addEventListener('click', (e) => {
+                if (!e.target.closest('a')) {
+                    window.open(liveUrl, '_blank', 'noopener,noreferrer');
+                }
+            });
+        }
     });
 }
 
@@ -345,7 +382,104 @@ async function initHeatmap() {
 }
 
 /* ==========================================================================
-   7. COMMAND PALETTE SEARCH MODAL (Ctrl + K)
+   7. DYNAMIC NAVBAR SCROLL ANIMATION (Exact 1:1 Kroszborg Framer Motion Spring Scroll)
+   ========================================================================== */
+function initNavbarScroll() {
+    const nav = document.getElementById('main-nav');
+    if (!nav) return;
+
+    let targetY = window.scrollY || window.pageYOffset;
+    let currentY = targetY;
+    let velocity = 0;
+    let rafId = null;
+
+    // Exact Framer Motion spring parameters from krosz_layout.js:
+    // { stiffness: 90, damping: 24, mass: 0.6 }
+    const stiffness = 90;
+    const damping = 24;
+    const mass = 0.6;
+    let lastTime = performance.now();
+
+    function applyTransform(y) {
+        const isDesktop = window.innerWidth >= 768;
+        // Transform range [0, 280] from Kroszborg
+        const progress = Math.min(1, Math.max(0, y / 280));
+
+        // Exact Kroszborg interpolation points:
+        // Desktop max-width: 1024 -> 640
+        // Mobile max-width: 560 -> 380
+        // Padding: 24 -> 16
+        // Height: 64 -> 52
+        // Border-radius: 24 -> 9999
+        // Top: 24 -> 14
+        const maxW = isDesktop 
+            ? (1024 - (1024 - 640) * progress) 
+            : (560 - (560 - 380) * progress);
+        const top = 24 - (24 - 14) * progress;
+        const height = 64 - (64 - 52) * progress;
+        const radius = 24 + (9999 - 24) * progress;
+        const pad = 24 - (24 - 16) * progress;
+
+        nav.style.maxWidth = `${maxW.toFixed(1)}px`;
+        nav.style.top = `${top.toFixed(1)}px`;
+        nav.style.height = `${height.toFixed(1)}px`;
+        nav.style.borderRadius = `${radius.toFixed(0)}px`;
+        nav.style.paddingLeft = `${pad.toFixed(1)}px`;
+        nav.style.paddingRight = `${pad.toFixed(1)}px`;
+
+        if (progress > 0.05) {
+            nav.classList.add('nav-scrolled');
+        } else {
+            nav.classList.remove('nav-scrolled');
+        }
+    }
+
+    function step(now) {
+        const dt = Math.min((now - lastTime) * 0.001, 0.033);
+        lastTime = now;
+
+        const displacement = currentY - targetY;
+        const springForce = -stiffness * displacement;
+        const dampingForce = -damping * velocity;
+        const acceleration = (springForce + dampingForce) / mass;
+
+        velocity += acceleration * dt;
+        currentY += velocity * dt;
+
+        applyTransform(currentY);
+
+        if (Math.abs(currentY - targetY) > 0.1 || Math.abs(velocity) > 0.1) {
+            rafId = requestAnimationFrame(step);
+        } else {
+            currentY = targetY;
+            velocity = 0;
+            applyTransform(currentY);
+            rafId = null;
+        }
+    }
+
+    function onScroll() {
+        targetY = window.scrollY || window.pageYOffset;
+        if (!rafId) {
+            lastTime = performance.now();
+            rafId = requestAnimationFrame(step);
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => {
+        targetY = window.scrollY || window.pageYOffset;
+        currentY = targetY;
+        velocity = 0;
+        applyTransform(currentY);
+    }, { passive: true });
+
+    // Initial render
+    applyTransform(currentY);
+}
+
+/* ==========================================================================
+   8. COMMAND PALETTE SEARCH MODAL (Ctrl + K) - Exact Kroszborg Parity
    ========================================================================== */
 function initCommandPalette() {
     const modalBackdrop = document.getElementById('cmd-modal');
@@ -353,6 +487,12 @@ function initCommandPalette() {
     const searchInput = document.getElementById('cmd-search-input');
     const resultsContainer = document.getElementById('cmd-results-list');
     if (!modalBackdrop || !searchInput || !resultsContainer) return;
+
+    // Detect Mac vs Windows for shortcut keys
+    const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+    document.querySelectorAll('.nav-search-kbd').forEach(el => {
+        el.innerHTML = isMac ? '<span class="kbd-mod">⌘</span>K' : '<span class="kbd-mod">Ctrl +</span>K';
+    });
 
     const searchableItems = [
         { title: 'All Projects', desc: 'Browse all featured full-stack and AI projects', category: 'Navigation', url: 'projects.html' },
@@ -1078,5 +1218,160 @@ function initGrainOverlay() {
     } catch (e) {
         console.warn('Grain overlay canvas error:', e);
     }
+}
+
+/* ==========================================================================
+   13. PRIVATE OWNER VIEW COUNTER (Only visible to owner, raw & low-contrast)
+   ========================================================================== */
+function initOwnerViewBadge() {
+    const badge = document.getElementById('owner-views-badge');
+    const countEl = document.getElementById('owner-views-count');
+    if (!badge || !countEl) return;
+
+    // 1. Check if owner mode is enabled via URL parameter or local environment
+    const urlParams = new URLSearchParams(window.location.search);
+    const isLocal = window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' || 
+                    window.location.protocol === 'file:';
+
+    if (urlParams.has('owner') || urlParams.has('admin') || urlParams.has('me')) {
+        try {
+            localStorage.setItem('krishna_portfolio_owner', 'true');
+        } catch (e) {}
+    } else if (urlParams.get('owner') === 'false') {
+        try {
+            localStorage.removeItem('krishna_portfolio_owner');
+        } catch (e) {}
+    } else if (isLocal && !localStorage.getItem('krishna_portfolio_owner')) {
+        // Auto-enable for Krishna during local development
+        try {
+            localStorage.setItem('krishna_portfolio_owner', 'true');
+        } catch (e) {}
+    }
+
+    function isOwner() {
+        try {
+            return localStorage.getItem('krishna_portfolio_owner') === 'true';
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function updateVisibility() {
+        if (isOwner()) {
+            badge.style.display = 'inline-flex';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    // Initialize visibility: hidden for public visitors, visible to owner
+    updateVisibility();
+
+    // 2. Secret Shortcut: Ctrl + Shift + V toggles Owner Mode
+    window.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.shiftKey && (e.key === 'V' || e.key === 'v')) {
+            e.preventDefault();
+            const current = isOwner();
+            try {
+                localStorage.setItem('krishna_portfolio_owner', (!current).toString());
+            } catch (err) {}
+            updateVisibility();
+        }
+    });
+
+    // 3. Triple Click Footer: Allows unlocking owner mode on mobile devices
+    const footerCopy = document.getElementById('footer-copy');
+    if (footerCopy) {
+        let clickCount = 0;
+        let clickTimer = null;
+        footerCopy.addEventListener('click', () => {
+            clickCount++;
+            clearTimeout(clickTimer);
+            if (clickCount >= 3) {
+                clickCount = 0;
+                const current = isOwner();
+                try {
+                    localStorage.setItem('krishna_portfolio_owner', (!current).toString());
+                } catch (err) {}
+                updateVisibility();
+            } else {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 500);
+            }
+        });
+    }
+
+    // 4. Display cached count immediately for low-contrast raw UI
+    try {
+        const cached = localStorage.getItem('cached_portfolio_views');
+        if (cached) {
+            countEl.textContent = Number(cached).toLocaleString();
+        }
+    } catch (e) {}
+
+    function updateCounterUI(val) {
+        const num = Number(val);
+        if (!isNaN(num) && num > 0) {
+            countEl.textContent = num.toLocaleString();
+            try {
+                localStorage.setItem('cached_portfolio_views', num.toString());
+            } catch (e) {}
+        }
+    }
+
+    // 5. Fetch live count (incrementing on new session)
+    try {
+        const sessionKey = 'portfolio_counted_session';
+        const isNewSession = !sessionStorage.getItem(sessionKey);
+        const endpoint = isNewSession
+            ? 'https://countapi.mileshilliard.com/api/v1/hit/krishnanand_portfolio_views'
+            : 'https://countapi.mileshilliard.com/api/v1/get/krishnanand_portfolio_views';
+
+        fetch(endpoint)
+            .then(res => res.json())
+            .then(data => {
+                if (data && typeof data.value === 'number') {
+                    updateCounterUI(data.value);
+                    if (isNewSession) {
+                        try {
+                            sessionStorage.setItem(sessionKey, '1');
+                        } catch (e) {}
+                    }
+                }
+            })
+            .catch(() => {
+                if (!localStorage.getItem('cached_portfolio_views')) {
+                    countEl.textContent = '--';
+                }
+            });
+    } catch (err) {}
+
+    // 6. Optional: Sync directly with Umami Share URL token if configured
+    try {
+        const shareToken = localStorage.getItem('umami_share_token');
+        if (shareToken) {
+            fetch(`https://cloud.umami.is/api/share/${shareToken}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data && data.websiteId) {
+                        const now = Date.now();
+                        const start = now - 30 * 24 * 60 * 60 * 1000;
+                        return fetch(`https://cloud.umami.is/api/websites/${data.websiteId}/stats?startAt=${start}&endAt=${now}`, {
+                            headers: { 'x-umami-share-token': shareToken }
+                        });
+                    }
+                })
+                .then(r => r ? r.json() : null)
+                .then(stats => {
+                    if (stats && stats.pageviews) {
+                        const views = stats.pageviews.value || stats.pageviews;
+                        updateCounterUI(views);
+                    }
+                })
+                .catch(() => {});
+        }
+    } catch (e) {}
 }
 

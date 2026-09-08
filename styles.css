@@ -116,7 +116,7 @@ button {
 }
 
 /* ==========================================================================
-   FLOATING PILL NAVBAR (Exact 64px, 560px max-width, 24px rounded)
+   FLOATING PILL NAVIGATION (Exact 1:1 kroszborg.co Spring Scroll & Static Layout)
    ========================================================================== */
 #main-nav {
     position: fixed;
@@ -125,102 +125,179 @@ button {
     transform: translateX(-50%);
     z-index: 50;
     width: calc(100% - 2rem);
-    max-width: 560px;
+    max-width: 1024px;
     height: 64px;
     border-radius: 24px;
     padding: 0 24px;
-    background: rgba(10, 10, 12, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+    background: rgba(9, 9, 11, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.35);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    will-change: max-width, height, top, border-radius, padding;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 #main-nav:hover {
-    border-color: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Scrolled state */
+#main-nav.nav-scrolled {
+    background: rgba(9, 9, 11, 0.88);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 767px) {
+    #main-nav {
+        max-width: 560px;
+        padding: 0 18px;
+    }
+    .nav-right {
+        display: none !important; /* 1:1 with Kroszborg hidden md:flex */
+    }
 }
 
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+}
+
+@media (min-width: 768px) {
+    .nav-left {
+        gap: 24px;
+    }
 }
 
 .nav-brand {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
+    text-decoration: none;
 }
 
 .nav-brand-img {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     border-radius: 6px;
     object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.2);
     transition: opacity 0.2s ease;
 }
 
 .nav-brand:hover .nav-brand-img {
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .nav-brand-name {
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: #ffffff;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--foreground);
     letter-spacing: -0.01em;
+}
+
+@media (min-width: 768px) {
+    .nav-brand-name {
+        font-size: 1.125rem;
+    }
 }
 
 .nav-menu-links {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 14px;
+}
+
+@media (min-width: 768px) {
+    .nav-menu-links {
+        gap: 20px;
+    }
 }
 
 .nav-menu-item {
-    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
     color: var(--muted-foreground);
+    text-decoration: none;
+    white-space: nowrap;
     transition: color 0.15s ease;
     font-weight: 500;
 }
 
-.nav-menu-item:hover,
-.nav-menu-item.active {
-    color: #ffffff;
+@media (min-width: 768px) {
+    .nav-menu-item {
+        font-size: 0.95rem;
+    }
 }
 
-.nav-search-btn {
+.nav-menu-item:hover,
+.nav-menu-item.active {
+    color: var(--foreground);
+}
+
+.nav-right {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+/* Kroszborg 1:1 Search Button */
+.nav-search-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
     height: 36px;
     padding: 0 12px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
     color: var(--muted-foreground);
-    font-size: 0.85rem;
-    transition: all 0.2s ease;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+    outline: none;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .nav-search-btn:hover {
-    background: rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    color: var(--foreground);
 }
 
-.nav-search-btn kbd {
-    font-family: inherit;
-    font-size: 0.72rem;
-    padding: 1px 5px;
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.nav-search-label {
+    display: none;
+    color: var(--muted-foreground);
+}
+
+@media (min-width: 768px) {
+    .nav-search-label {
+        display: inline-flex;
+    }
+}
+
+.nav-search-kbd {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--foreground);
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.kbd-mod {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
 }
 
 /* ==========================================================================
@@ -780,7 +857,36 @@ button {
     border-color: rgba(255, 255, 255, 0.22);
 }
 
+/* Projects Page: Full-card Live Demo Link */
+a.kroszborg-card.project-live-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+a.kroszborg-card.project-live-card * {
+    cursor: pointer;
+}
+
+a.kroszborg-card.project-live-card:hover .card-title-link {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+a.kroszborg-card.project-live-card:hover .card-external-icon {
+    color: #ffffff;
+}
+
+a.kroszborg-card.project-live-card:hover .card-live-demo-btn {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
 .card-cover {
+    display: block;
     position: relative;
     overflow: hidden;
     aspect-ratio: 16 / 9;
@@ -1280,18 +1386,19 @@ button {
 }
 
 /* ==========================================================================
-   COMMAND PALETTE MODAL (Ctrl + K)
+   COMMAND PALETTE MODAL (Ctrl + K) - Exact Kroszborg Styling
    ========================================================================== */
 .cmd-modal-backdrop {
     position: fixed;
     inset: 0;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(12px);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 15vh;
+    padding-top: 14vh;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
@@ -1302,28 +1409,38 @@ button {
     pointer-events: auto;
 }
 
+.cmd-modal-dialog,
 .cmd-modal-window {
     width: 90%;
     max-width: 580px;
-    background: #0d0d10;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
+    background: #09090b;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95);
     overflow: hidden;
-    transform: translateY(-10px);
-    transition: transform 0.2s ease;
+    transform: translateY(-8px) scale(0.98);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.cmd-modal-backdrop.active .cmd-modal-dialog,
 .cmd-modal-backdrop.active .cmd-modal-window {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
+.cmd-search-bar,
 .cmd-search-input-wrap {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cmd-search-icon {
+    color: var(--muted-foreground);
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
 }
 
 .cmd-search-input {
@@ -1332,16 +1449,28 @@ button {
     border: none;
     outline: none;
     color: #ffffff;
-    font-size: 1rem;
-    font-family: inherit;
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
 }
 
 .cmd-search-input::placeholder {
-    color: var(--secondary);
+    color: #71717a;
+}
+
+.cmd-esc-badge {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #a1a1aa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
 }
 
 .cmd-results-list {
-    max-height: 340px;
+    max-height: 330px;
     overflow-y: auto;
     padding: 8px;
 }
@@ -1353,7 +1482,7 @@ button {
     padding: 10px 14px;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.15s ease;
+    transition: background 0.12s ease;
 }
 
 .cmd-result-item:hover,
@@ -1362,24 +1491,52 @@ button {
 }
 
 .cmd-item-title {
-    font-size: 0.92rem;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
     font-weight: 600;
     color: #ffffff;
 }
 
 .cmd-item-desc {
+    font-family: var(--font-sans);
     font-size: 0.78rem;
     color: var(--muted-foreground);
+    margin-top: 2px;
 }
 
 .cmd-item-cat {
-    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
     font-weight: 600;
-    padding: 2px 7px;
+    padding: 2px 6px;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--secondary);
+    background: rgba(255, 255, 255, 0.06);
+    color: #a1a1aa;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cmd-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.35);
+    font-size: 0.75rem;
+    color: #71717a;
+    font-family: var(--font-sans);
+}
+
+.cmd-modal-footer kbd {
+    font-family: var(--font-sans);
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #a1a1aa;
+    font-size: 0.7rem;
 }
 
 /* ==========================================================================
@@ -1623,6 +1780,52 @@ button {
 
 .site-footer b {
     color: #ffffff;
+}
+
+/* ==========================================================================
+   PRIVATE OWNER VIEW COUNTER BADGE (Low-contrast, raw, visible only to owner)
+   ========================================================================== */
+.owner-views-badge {
+    margin-top: 14px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.owner-views-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 6px;
+    color: #71717a;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: none;
+    transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.owner-views-pill:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.14);
+    color: #a1a1aa;
+}
+
+.views-eye-icon {
+    width: 13px;
+    height: 13px;
+    color: #71717a;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+}
+
+.owner-views-pill:hover .views-eye-icon {
+    color: #a1a1aa;
 }
 
 /* ==========================================================================

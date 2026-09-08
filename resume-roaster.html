@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Preload Oneko retro cat companion -->
     <link rel="preload" href="oneko.gif" as="image">
+    <!-- Umami Analytics -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
 </head>
 <body>
     <!-- Background Shaders & Ambient Glow (Exact 1:1 kroszborg.co WebGL Animated Shader) -->
@@ -40,8 +42,8 @@
         </div>
         <div class="nav-right">
             <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
-                <span>Search</span>
-                <kbd>Ctrl + K</kbd>
+                <span class="nav-search-label">Search</span>
+                <span class="nav-search-kbd"><span class="kbd-mod">Ctrl +</span>K</span>
             </button>
         </div>
     </nav>
@@ -108,6 +110,23 @@
             </article>
         </div>
     </main>
+
+    <!-- Command Palette (Ctrl+K) Modal -->
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
