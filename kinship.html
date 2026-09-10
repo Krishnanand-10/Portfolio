@@ -3,22 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kinship Family Tree | Project Details</title>
+    <title>Building Kinship: High-Performance Family Tree Canvas with React Flow &amp; Supabase | Krishna Nand Tiwari</title>
     
-    <meta name="description" content="Development details and canvas engineering layout of the Kinship Family Tree platform.">
+    <meta name="description" content="Technical deep-dive into building Kinship: an interactive infinite canvas family tree platform with React Flow, symmetric marriage junctions, sibling alignment algorithms, and persistent Supabase storage.">
     <meta name="author" content="Krishna Nand Tiwari">
     <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css">
-    
+    <link rel="stylesheet" href="styles.css?v=17">
     <link rel="preload" href="oneko.gif" as="image">
     
     <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
+
+    <!-- Mermaid.js for Architecture Flowcharts -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                darkMode: true,
+                background: '#09090b',
+                primaryColor: '#18181b',
+                primaryTextColor: '#f4f4f5',
+                primaryBorderColor: '#61dafb',
+                lineColor: '#61dafb',
+                secondaryColor: '#121215',
+                tertiaryColor: '#09090b',
+                clusterBkg: '#0d0d11',
+                clusterBorder: 'rgba(97, 218, 251, 0.35)',
+                titleColor: '#61dafb',
+                edgeLabelBackground: '#18181b',
+                nodeBorder: '#61dafb',
+                nodeTextColor: '#f4f4f5',
+                fontFamily: 'Hanken Grotesk, -apple-system, sans-serif',
+                fontSize: '13px'
+            }
+        });
+    </script>
 </head>
 <body>
     
@@ -57,56 +82,184 @@
 
             <article class="article-body">
                 <header class="article-header">
-                    <time class="published-date">Published on June 15, 2026</time>
-                    <h1 class="article-title">Kinship Family Tree</h1>
+                    <time class="published-date">Published on July 15, 2026</time>
+                    <h1 class="article-title">Building Kinship: High-Performance Family Tree Canvas with React Flow &amp; Supabase</h1>
                 </header>
 
                 <p>
-                    <strong>Kinship</strong> is a full-stack family tree mapping platform featuring an infinite panning and zooming vector canvas. It is designed to visualize complex lineage nodes clearly without overlapping, tracking member relationships, spouses, and descendants persistently.
+                    <strong>Kinship</strong> is a modern, full-stack lineage visualization platform engineered around an interactive infinite panning and zooming canvas. It eliminates the clunky, tangled trees typical of legacy genealogy software by introducing <strong>automated symmetric marriage junctions, collision-free sibling row alignment, persistent spatial coordinate memory</strong>, and granular collaborator permissions powered by <strong>Supabase</strong>.
                 </p>
 
-                <div class="article-image-wrapper">
-                    <img src="images/kinship_landing.png" alt="Kinship Family Tree Landing Page" class="article-image" />
+                <div class="article-tech-row" style="margin-bottom: 0.5rem;">
+                    <a href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">🌐 Live App: familytree-livid.vercel.app</a>
+                    <a href="https://github.com/Krishnanand-10/familytree" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">💻 GitHub Repository</a>
+                    <span class="article-tag">⚖️ MIT License</span>
                 </div>
 
-                <h2>What it is</h2>
+                <h2>The Problem: The Geometric Complexity of Genealogy Graphs</h2>
                 <p>
-                    The family tree visualizer operates on an interactive canvas, allowing users to build large relational family networks. Instead of standard rigid tree lists, it features an infinite panning whiteboard workspace where marriage connectors and sibling rows auto-space dynamically as the tree expands.
+                    Family trees are deceptive. While superficially resembling standard hierarchical trees (like organizational charts or file systems), <strong>genealogical graphs are Directed Acyclic Graphs (DAGs) with bidirectional lateral constraints</strong>:
                 </p>
-
-                <div class="article-image-wrapper">
-                    <img src="images/kinship_preview.png" alt="Kinship Interactive Family Tree Canvas and Member Details" class="article-image" />
-                </div>
-
-                <h2>How it is built</h2>
-                <p>
-                    Built with React (Vite) and React Flow for rendering vector nodes on a fluid canvas. Custom coordinate algorithms center spouse junctions dynamically and align sibling rows automatically. Relational database storage is handled by Supabase, utilizing Supabase Auth to protect private family charts.
-                </p>
-                
-                <pre><code>const getMarriageJunction = (fatherPos, motherPos) => {
-  const middleX = (fatherPos.x + motherPos.x) / 2;
-  const middleY = (fatherPos.y + motherPos.y) / 2;
-  return { x: middleX, y: middleY + 40 };
-};</code></pre>
-
-                <h2>Core Features</h2>
                 <ul>
-                    <li>🌳 Zoomable/pannable infinite React Flow workspace mapping family hierarchies.</li>
-                    <li>💍 Automatically centered marital connection nodes.</li>
-                    <li>📄 Export options to download family trees to PDF or PNG image layouts.</li>
-                    <li>💾 Relational persistence keeping tree member positions saved in database tables.</li>
+                    <li><strong>Spouse Pairing Dilemma:</strong> Two unrelated nodes (spouses) must sit on the exact same vertical tier, joined horizontally, without pushing other branches out of scope.</li>
+                    <li><strong>Line-Crossing Chaos:</strong> Children belong equally to two parents. In naive force-directed layouts, connection lines cross directly over other family members, quickly becoming an unreadable "spaghetti graph."</li>
+                    <li><strong>Loss of Spatial Mental Models:</strong> Most web visualizers recalculate node coordinates on every browser refresh. Users lose their visual bearings because grandparents and cousins jump to completely arbitrary screen positions.</li>
                 </ul>
 
-                <h2>Technologies Used</h2>
-                <div class="article-tech-row">
-                    <span class="article-tag">React (Vite)</span>
-                    <span class="article-tag">React Flow</span>
-                    <span class="article-tag">Supabase</span>
-                    <span class="article-tag">Framer Motion</span>
-                    <span class="article-tag">html2canvas</span>
+                <h2>System Architecture &amp; Data Flow</h2>
+                <p>
+                    Kinship decouples the infinite vector canvas rendering from coordinate calculation math and cloud database persistence:
+                </p>
+
+                <div class="article-image-wrapper" style="padding: 1.5rem; background: #09090b; overflow-x: auto;">
+                    <div class="mermaid">
+flowchart TD
+    subgraph Canvas ["1. Interactive Infinite Canvas (React Flow + Vite)"]
+        N1["Person Nodes (Photos, Vital Metadata, Gender)"]
+        J1["Symmetric Marriage Junction Nodes"]
+        R1["Orthogonal Comb & L-Edge Routing Engine"]
+        N1 --- J1
+        J1 --- R1
+    end
+
+    subgraph Algorithms ["2. Coordinate & Layout Engine"]
+        A1["Spouse Midpoint Calculus: (x1+x2)/2, (y1+y2)/2"]
+        A2["Sibling Row Alignment & Horizontal Spacing"]
+        A3["Viewport Transform Memory & Collision Avoidance"]
+        A1 --> A3
+        A2 --> A3
+    end
+
+    subgraph Backend ["3. Relational Storage & BaaS (Supabase)"]
+        AUTH["Supabase Auth (OAuth + Sessions)"]
+        DB_P["people (Coordinates & Vital Dates)"]
+        DB_R["relationships (Parent, Spouse, Sibling)"]
+        DB_S["branch_shares (RBAC: Viewer / Editor)"]
+        AUTH --- DB_P
+        DB_P --- DB_R
+        DB_R --- DB_S
+    end
+
+    subgraph Export ["4. Document & Raster Export"]
+        H2C["html2canvas Viewport Rasterizer"]
+        PDF["jspdf Vector Document Compiler"]
+        H2C --> PDF
+    end
+
+    J1 <--> A1
+    R1 <--> A3
+    N1 <--> DB_P
+    J1 <--> DB_R
+    Canvas --> H2C
+                    </div>
                 </div>
 
-                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <h2>1. Symmetric Marriage Junction Algorithm</h2>
+                <p>
+                    In Kinship, spouses are not linked with messy intersecting bezier curves. Instead, a dedicated, invisible-yet-snappable <strong>Marriage Junction Node</strong> is dynamically injected into the graph between married partners:
+                </p>
+                <p>
+                    The junction node calculates its position precisely halfway between both partners along the X axis, positioned slightly below their node baseline:
+                </p>
+
+                <pre><code>// Dynamic marriage junction coordinate calculator
+export function calculateMarriageJunction(partnerA, partnerB, verticalGutter = 48) {
+  const midX = (partnerA.position.x + partnerB.position.x) / 2;
+  const midY = Math.max(partnerA.position.y, partnerB.position.y) + verticalGutter;
+
+  return {
+    id: `junction-${partnerA.id}-${partnerB.id}`,
+    type: 'marriageJunction',
+    position: { x: midX, y: midY },
+    data: { spouses: [partnerA.id, partnerB.id] },
+    selectable: false,
+    draggable: false,
+  };
+}</code></pre>
+
+                <p>
+                    All shared children then connect directly to this single junction node via <strong>"Comb" orthogonal edge routing</strong>. This guarantees zero edge intersections between spouses and eliminates visual clutter.
+                </p>
+
+                <div class="article-image-wrapper">
+                    <img src="images/kinship_preview.png" alt="Kinship Interactive Infinite Canvas with Marriage Junctions and Member Cards" class="article-image" />
+                </div>
+
+                <h2>2. Sibling Row Alignment &amp; Collision Avoidance</h2>
+                <p>
+                    When a couple has multiple children, placing them manually can be tedious. Kinship incorporates an automated sibling alignment pass:
+                </p>
+                <ul>
+                    <li><strong>Subtree Bounding Box Calculation:</strong> Determines the cumulative width of each child's own downstream descendants.</li>
+                    <li><strong>Single-Row Equal Distribution:</strong> Arranges all direct siblings on a uniform horizontal plane with predictable padding (e.g., 220px gutter between cards).</li>
+                    <li><strong>Lineage Centering:</strong> Centers the sibling row directly beneath the parental marriage junction, ensuring clean bilateral symmetry.</li>
+                </ul>
+
+                <h2>3. Spatial Persistence &amp; Database Architecture</h2>
+                <p>
+                    Unlike temporary chart viewers, Kinship preserves exact user layout customizations. Every person in the family tree stores their <code>x</code> and <code>y</code> canvas coordinates directly in Supabase PostgreSQL:
+                </p>
+
+                <pre><code>-- Kinship Database Schema (Supabase PostgreSQL)
+CREATE TABLE public.people (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    full_name TEXT NOT NULL,
+    birth_date DATE,
+    death_date DATE,
+    gender TEXT CHECK (gender IN ('male', 'female', 'other')),
+    photo_url TEXT,
+    notes TEXT,
+    x FLOAT DEFAULT NULL, -- Spatial Canvas Coordinates
+    y FLOAT DEFAULT NULL,
+    branch_id UUID REFERENCES public.family_branches(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE public.relationships (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    person_a UUID REFERENCES public.people(id) ON DELETE CASCADE,
+    person_b UUID REFERENCES public.people(id) ON DELETE CASCADE,
+    type TEXT DEFAULT 'parent' CHECK (type IN ('parent', 'spouse', 'sibling')),
+    created_at TIMESTAMPTZ DEFAULT now()
+);</code></pre>
+
+                <p>
+                    Users can freely reposition nodes on the canvas. As soon as a node drag finishes, the updated coordinate pair is debounced and synced to Supabase via Row Level Security (RLS) policies.
+                </p>
+
+                <h2>4. Multi-Tenant Branch Sharing &amp; RBAC</h2>
+                <p>
+                    Genealogy is collaborative. Kinship supports multi-tenant branch ownership and granular collaborator invitations through <code>branch_shares</code>:
+                </p>
+                <ul>
+                    <li><strong>Viewer Role:</strong> Allows distant relatives to pan, zoom, inspect member bios, and view photos without altering the lineage structure.</li>
+                    <li><strong>Editor Role:</strong> Empowers trusted family members to add new generations, update dates, attach media, and refine relationships.</li>
+                    <li><strong>Invitation State Machine:</strong> Collaborator requests maintain clean <code>pending</code>, <code>accepted</code>, and <code>declined</code> status transitions.</li>
+                </ul>
+
+                <h2>5. High-Resolution Vector &amp; Document Export</h2>
+                <p>
+                    Families love printing wall charts and archival books. Kinship integrates <code>html2canvas</code> and <code>jspdf</code> to capture the entire active graph viewport:
+                </p>
+                <ul>
+                    <li>Calculates the global bounding box enclosing all family nodes.</li>
+                    <li>Temporarily scales the canvas pixel ratio (2x or 3x) to render ultra-sharp text and photos.</li>
+                    <li>Compiles the output directly into a multi-page PDF or a high-res PNG poster suitable for physical framing.</li>
+                </ul>
+
+                <h2>Technologies &amp; Architecture Overview</h2>
+                <div class="article-tags-row">
+                    <span class="article-tag">React (Vite)</span>
+                    <span class="article-tag">React Flow (@xyflow/react)</span>
+                    <span class="article-tag">Supabase Auth &amp; DB</span>
+                    <span class="article-tag">PostgreSQL RLS</span>
+                    <span class="article-tag">Framer Motion</span>
+                    <span class="article-tag">html2canvas</span>
+                    <span class="article-tag">jspdf</span>
+                    <span class="article-tag">Lucide Icons</span>
+                </div>
+
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
                     <a href="https://familytree-livid.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn">
                         Open Live App ↗
                     </a>
@@ -134,13 +287,11 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container footer-container">
-            <p>&copy; 2026 Krishna Nand Tiwari. Crafted with clean HTML, CSS & JavaScript.</p>
-        </div>
+    <footer class="site-footer">
+        <p id="footer-copy">Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
     </footer>
 
     <script src="oneko.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="script.js?v=16" defer></script>
 </body>
 </html>

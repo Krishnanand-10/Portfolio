@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building p2pcopy: Zero-Cloud Peer-to-Peer Streaming with WebRTC | Krishna Nand Tiwari</title>
+    
+    <meta name="description" content="Technical deep-dive into p2pcopy — an open-source, zero-cloud, end-to-end encrypted file and clipboard streaming protocol across developer terminals and web browsers via WebRTC DataChannels.">
+    <meta name="author" content="Krishna Nand Tiwari">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="preload" href="oneko.gif" as="image">
+    
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
+
+    <!-- Mermaid.js for Interactive Protocol Sequence Diagrams -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#09090b',
+                primaryColor: '#00d2ff',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: 'rgba(255,255,255,0.18)',
+                lineColor: '#34d399',
+                secondaryColor: '#18181b',
+                tertiaryColor: '#0c0c0e',
+                noteBkgColor: '#18181b',
+                noteTextColor: '#ededed',
+                noteBorderColor: 'rgba(255,255,255,0.1)'
+            }
+        });
+    </script>
+</head>
+<body>
+    
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
+
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item">Projects</a>
+                <a href="blog.html" class="nav-menu-item">Blogs</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span class="nav-search-label">Search</span>
+                <span class="nav-search-kbd"><span class="kbd-mod">Ctrl +</span>K</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="article-container">
+            
+            <a class="back-link" href="blog.html">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on September 10, 2026</time>
+                    <h1 class="article-title">Building p2pcopy: Zero-Cloud Peer-to-Peer Streaming with WebRTC</h1>
+                </header>
+
+                <p>
+                    <strong>p2pcopy</strong> is a high-performance, open-source peer-to-peer transfer engine that streams files and clipboard payloads directly between developer terminals and web browsers over <strong>WebRTC DataChannels</strong>. There are <strong>zero cloud storage buckets, no accounts, and no intermediate file uploads</strong>. An ephemeral signaling exchange connects peers via an intuitive 6-digit room code, after which all data streams directly device-to-device with end-to-end <strong>DTLS 1.3 / SCTP</strong> encryption.
+                </p>
+
+                <div class="article-tech-row" style="margin-bottom: 0.5rem;">
+                    <a href="https://www.npmjs.com/package/p2pcopy" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">📦 npm: v0.1.0</a>
+                    <a href="https://p2pcopy.vercel.app" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">🌐 Web App: p2pcopy.vercel.app</a>
+                    <span class="article-tag">⚖️ MIT License</span>
+                </div>
+
+                <div class="article-image-wrapper">
+                    <img src="images/p2pcopy_preview.png" alt="p2pcopy Terminal CLI and Live Web Dashboard Interface" class="article-image" />
+                </div>
+
+                <h2>The Problem: The Insecurity of Cloud Intermediaries</h2>
+                <p>
+                    Sharing files or terminal snippets between developer machines, headless VPS instances, and mobile devices routinely relies on third-party cloud services—such as WeTransfer, Google Drive, Slack, or temporary S3 buckets. This standard workflow introduces severe limitations:
+                </p>
+                <ul>
+                    <li><strong>Secret Leakage:</strong> Sensitive payloads (SSH keys, environment configs, database snapshots, confidential code) sit unencrypted on remote third-party hard drives.</li>
+                    <li><strong>Context Switching:</strong> Developers must leave the terminal, open a browser, sign in, generate upload links, and copy URLs across channels.</li>
+                    <li><strong>Arbitrary Size & Bandwidth Caps:</strong> Free tiers throttle speeds, impose strict file size limits, or delete assets before colleagues download them.</li>
+                </ul>
+
+                <h2>Core Engineering Principles</h2>
+                <p>
+                    To solve this, <code>p2pcopy</code> was architected around four non-negotiable engineering principles:
+                </p>
+                <ul>
+                    <li><strong>Zero Cloud Storage & Zero Knowledge:</strong> No cloud disks, no databases. The signaling server is an in-memory WebSocket broker that exists solely to exchange SDP strings and ICE candidates. Once the DataChannel connects, the room is destroyed immediately from RAM.</li>
+                    <li><strong>Full Terminal ⇄ Web Interoperability:</strong> Terminal endpoints use native C++ WebRTC bindings (<code>node-datachannel</code>), while browsers leverage standard W3C <code>RTCPeerConnection</code>. Both use identical wire formats (DTLS 1.3 / SCTP).</li>
+                    <li><strong>Constant-Memory Streaming with Backpressure:</strong> Files are read as continuous streams divided into 64KB binary chunks with low-water mark throttling (<code>bufferedAmountLowThreshold</code>). This enables multi-gigabyte transfers with less than 20MB of RAM.</li>
+                    <li><strong>Cryptographic Checksum Verification:</strong> Senders and receivers compute incremental SHA-256 hashes concurrently during transit to guarantee zero corruption or bit rot.</li>
+                </ul>
+
+                <h2>System Topology & WebRTC Architecture</h2>
+                <p>
+                    <code>p2pcopy</code> combines a lightweight, ephemeral signaling relay with direct peer-to-peer WebRTC DataChannels. <strong>Payloads never touch any intermediate server</strong> — neither the signaling server nor any cloud bucket ever sees your files or clipboard data:
+                </p>
+
+                <div class="article-image-wrapper" style="padding: 1.5rem; background: #09090b; overflow-x: auto;">
+                    <div class="mermaid">
+flowchart TD
+    subgraph Relay ["Ephemeral Signaling Relay (wss://p2pcopy.onrender.com)"]
+        S1["In-Memory Room Code Registry"]
+        S2["SDP Offer / Answer and ICE Candidate Relay"]
+        S3["Zero Storage: Auto-Purged on Connect"]
+        S1 --- S2 --- S3
+    end
+
+    subgraph Sender ["Sender (CLI or Browser)"]
+        A1["Input: File Stream or System Clipboard"]
+        A2["Backpressure Flow Controller (64KB Chunks)"]
+        A3["SHA-256 Digest Generator"]
+        A4["WebRTC DataChannel (DTLS 1.3 / SCTP)"]
+        A1 --> A2 --> A3 --> A4
+    end
+
+    subgraph Receiver ["Receiver (CLI or Browser)"]
+        B4["WebRTC DataChannel (DTLS 1.3 / SCTP)"]
+        B3["Chunk Assembler and Stream Sink"]
+        B2["SHA-256 Integrity Verifier"]
+        B1["Output: Safe Disk Writer or OS Pasteboard"]
+        B4 --> B3 --> B2 --> B1
+    end
+
+    A4 -. "1. Ephemeral SDP and ICE Handshake" .-> S2
+    S2 -. "2. Relayed Peer Rendezvous" .-> B4
+    A4 == "3. Direct P2P Stream (Zero-Cloud, DTLS 1.3 E2EE)" ==> B4
+                    </div>
+                </div>
+
+                <h2>Protocol Handshake & Sequence Flow</h2>
+                <p>
+                    Below is the live protocol flow executed during a <code>p2pcopy</code> transfer session:
+                </p>
+
+                <div class="article-image-wrapper" style="padding: 1.5rem; background: #09090b; overflow-x: auto;">
+                    <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor A as Sender (CLI / Browser)
+    participant S as Ephemeral Signaling Relay<br/>(wss://p2pcopy.onrender.com)
+    actor B as Receiver (CLI / Browser)
+
+    Note over A,S: 1. Ephemeral Room Creation
+    A->>S: create_room("842-194")
+    S-->>A: room_created
+    Note over A: Generates SDP Offer and gathers ICE candidates
+
+    Note over B,S: 2. Peer Rendezvous
+    B->>S: join_room("842-194")
+    S-->>B: room_joined
+    S-->>A: peer_joined
+
+    Note over A,B: 3. Ephemeral SDP & ICE Exchange
+    A->>S: send_signal(SDP Offer + ICE)
+    S->>B: relay_signal(SDP Offer + ICE)
+    Note over B: Sets Remote SDP Offer and creates SDP Answer
+    B->>S: send_signal(SDP Answer + ICE)
+    S->>A: relay_signal(SDP Answer + ICE)
+
+    Note over A,B: 4. Direct E2EE WebRTC DataChannel (DTLS 1.3 / SCTP)
+    A--x S: Disconnect signaling WebSocket
+    B--x S: Disconnect signaling WebSocket
+    Note over S: Room "842-194" auto-purged from memory
+
+    Note over A,B: 5. Direct Zero-Cloud Stream
+    A->>B: Metadata Handshake (fileName, fileSize, mimeType, isClip)
+    loop 64KB Chunk Streaming with Backpressure
+        A->>B: Binary Chunk (64KB payload)
+        Note over A: Throttled via bufferedAmountLowThreshold
+        Note over B: Streams chunks into disk/RAM + computes SHA-256
+    end
+    A->>B: Transfer Complete (SHA-256 Checksum)
+    Note over B: Validates checksum & saves to disk or OS pasteboard
+                    </div>
+                </div>
+
+                <h2>4 Cross-Platform Transfer Combinations</h2>
+                <p>
+                    Because <code>p2pcopy</code> provides both a lightweight CLI and a zero-install browser interface, it supports all four communication vectors:
+                </p>
+
+                <div class="table-wrapper" style="overflow-x: auto; margin: 1rem 0; border: 1px solid var(--border); border-radius: 10px; background: #09090b;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.03);">
+                                <th style="padding: 12px 16px; color: #ffffff;">Combination</th>
+                                <th style="padding: 12px 16px; color: #ffffff;">Flow</th>
+                                <th style="padding: 12px 16px; color: #ffffff;">Real-World Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border-subtle);">
+                                <td style="padding: 12px 16px; font-weight: 600; color: #00d2ff;">Terminal ➔ Terminal</td>
+                                <td style="padding: 12px 16px;"><code>p2pcopy send &lt;file&gt;</code> ➔ <code>p2pcopy receive &lt;code&gt;</code></td>
+                                <td style="padding: 12px 16px; color: #a1a1aa;">Machine-to-machine streaming between developer terminals.</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border-subtle);">
+                                <td style="padding: 12px 16px; font-weight: 600; color: #34d399;">Terminal ➔ Browser</td>
+                                <td style="padding: 12px 16px;"><code>p2pcopy send &lt;file&gt;</code> ➔ Web tab</td>
+                                <td style="padding: 12px 16px; color: #a1a1aa;">Beam archives from a headless cloud server directly to a phone or laptop browser.</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border-subtle);">
+                                <td style="padding: 12px 16px; font-weight: 600; color: #a855f7;">Browser ➔ Terminal</td>
+                                <td style="padding: 12px 16px;">Web tab ➔ <code>p2pcopy receive &lt;code&gt;</code></td>
+                                <td style="padding: 12px 16px; color: #a1a1aa;">Teammate drops a file in their browser; you receive it directly into your terminal folder.</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px 16px; font-weight: 600; color: #f59e0b;">Browser ➔ Browser</td>
+                                <td style="padding: 12px 16px;">Web tab ➔ Web tab</td>
+                                <td style="padding: 12px 16px; color: #a1a1aa;">100% zero-install, direct peer-to-peer web transfers between any two devices.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>Chunked Streaming with Backpressure Flow Control</h2>
+                <p>
+                    WebRTC DataChannels operate over SCTP. Without flow control, blasting gigabytes of data into a socket will rapidly overflow kernel memory or trigger unrecoverable packet drops. <code>p2pcopy</code> implements precise backpressure throttling using <code>bufferedAmountLowThreshold</code>:
+                </p>
+
+                <pre><code>// Chunked SCTP streaming with bufferedAmountLow backpressure flow control
+const streamFileOverDataChannel = async (channel: RTCDataChannel, fileStream: fs.ReadStream) => {
+  const CHUNK_SIZE = 64 * 1024; // 64KB SCTP chunks
+  channel.bufferedAmountLowThreshold = 256 * 1024; // 256KB low-water mark
+
+  for await (const chunk of fileStream) {
+    if (channel.bufferedAmount > 1024 * 1024) { // Pause read when buffer reaches 1MB
+      await new Promise((resolve) => { 
+        channel.onbufferedamountlow = () => {
+          channel.onbufferedamountlow = null;
+          resolve(true);
+        };
+      });
+    }
+    channel.send(chunk);
+  }
+};</code></pre>
+
+                <h2>Six Commands, Zero Config</h2>
+                <p>
+                    <code>p2pcopy</code> provides six streamlined CLI commands designed for maximum developer ergonomics:
+                </p>
+                <ul>
+                    <li><strong><code>p2pcopy send &lt;file&gt;</code>:</strong> Stream files or archives directly with real-time transfer progress and SHA-256 verification.</li>
+                    <li><strong><code>p2pcopy receive &lt;code&gt;</code>:</strong> Enter the 6-digit pairing code to download incoming files directly into your current directory.</li>
+                    <li><strong><code>p2pcopy clip</code>:</strong> Beam your system pasteboard or pipe command output (<code>cat id_rsa.pub | p2pcopy clip</code>).</li>
+                    <li><strong><code>p2pcopy clip get &lt;code&gt;</code>:</strong> Write directly to system pasteboard or stream to stdout for pipelines (<code>p2pcopy clip get 842-194 --no-copy | jq .</code>).</li>
+                    <li><strong><code>p2pcopy signal --port 9000</code>:</strong> Self-host a zero-storage WebSocket signaling relay on a private or air-gapped network.</li>
+                    <li><strong><code>--ice &lt;urls...&gt;</code>:</strong> Traverse strict corporate symmetric NATs, cellular CGNATs, or firewalls with custom STUN/TURN relays.</li>
+                </ul>
+
+                <h2>Sender Experience: 6-Digit Ephemeral Pairing</h2>
+                <p>
+                    Whether initiated from a developer terminal with <code>npx p2pcopy send &lt;file&gt;</code> or dragged into the browser interface at <a href="https://p2pcopy.vercel.app" target="_blank" rel="noopener noreferrer" style="color: #00d2ff; text-decoration: underline;">p2pcopy.vercel.app</a>, the sender registers an ephemeral room and displays a 6-digit pairing code. As soon as the receiver joins, chunked streaming begins:
+                </p>
+
+                <div class="article-image-wrapper">
+                    <img src="images/p2pcopy_send.png" alt="p2pcopy Sender Interface - Streaming File with 6-Digit Pairing Code" class="article-image" />
+                </div>
+
+                <h2>Receiver Experience: Instant Download & Verification</h2>
+                <p>
+                    The receiver inputs the 6-digit code or connects via URL. Chunks stream directly into local memory or disk, while an ongoing SHA-256 hash is verified against the sender's integrity digest before final write:
+                </p>
+
+                <div class="article-image-wrapper">
+                    <img src="images/p2pcopy_receive.png" alt="p2pcopy Receiver Interface - Direct Web and Terminal Download" class="article-image" />
+                </div>
+
+                <h2>In-Browser Web Application: Zero-Install Transfers</h2>
+                <p>
+                    For peers on devices without terminal access (such as mobile phones, tablets, or non-technical teammates), the live web app at <a href="https://p2pcopy.vercel.app" target="_blank" rel="noopener noreferrer" style="color: #00d2ff; text-decoration: underline;">p2pcopy.vercel.app</a> provides direct browser-to-browser and terminal-to-browser transfers:
+                </p>
+                <ul>
+                    <li><strong>Web Sender:</strong> Drag & drop any file or paste clipboard text to immediately generate an ephemeral 6-digit code.</li>
+                    <li><strong>Web Receiver:</strong> Enter the 6-digit pairing code to download streamed files or copy beamed clipboard content directly with 1 click.</li>
+                </ul>
+
+                <div class="article-image-wrapper">
+                    <img src="images/p2pcopy_dashboard.png" alt="p2pcopy In-Browser Web Transfer Interface - Send File or Beam Clipboard" class="article-image" />
+                </div>
+
+                <h2>Programmatic Library API</h2>
+                <p>
+                    In addition to the CLI and web app, <code>p2pcopy</code> is distributed as a typed TypeScript library for automated peer-to-peer data pipelines:
+                </p>
+
+                <pre><code>import { WebRTCPeer, SignalingClient, FileSender } from "p2pcopy";
+
+// 1. Connect to signaling relay
+const signal = new SignalingClient("wss://p2pcopy.onrender.com");
+await signal.connect();
+await signal.createRoom("842-194");
+
+// 2. Initialize WebRTC peer
+const peer = new WebRTCPeer({
+  name: "sender",
+  isInitiator: true,
+  roomId: "842-194",
+  signalingClient: signal,
+});
+await peer.start();
+
+// 3. Stream file directly device-to-device
+peer.on("connected", async (dataChannel) => {
+  const sender = new FileSender({
+    filePath: "./dataset.tar.gz",
+    dataChannel,
+    showProgress: true,
+  });
+  await sender.send();
+});</code></pre>
+
+                <h2>Systems Insight: 3-Tier NAT Traversal</h2>
+                <pre><code>[Tier 1: Direct LAN / UPnP]
+          │ (Zero NAT, Maximum Speed)
+          ▼
+[Tier 2: STUN Hole-Punching]
+          │ (Succeeds on ~85-90% of home & office NATs)
+          ▼
+[Tier 3: Encrypted TURN Blind Relay]
+            (Guaranteed delivery for Symmetric NATs, CGNAT, & strict enterprise firewalls)</code></pre>
+                <p>
+                    When direct UDP hole-punching fails due to strict enterprise symmetric NATs, <code>p2pcopy</code> automatically falls back to an encrypted TURN relay. Crucially, TURN relays only forward encrypted DTLS frames—no plaintext payload data is ever readable by the relay server.
+                </p>
+
+                <h2>Technologies Used</h2>
+                <div class="article-tech-row">
+                    <span class="article-tag">TypeScript</span>
+                    <span class="article-tag">WebRTC DataChannel</span>
+                    <span class="article-tag">Node.js (node-datachannel)</span>
+                    <span class="article-tag">WebSocket (ws)</span>
+                    <span class="article-tag">DTLS 1.3 / SCTP</span>
+                    <span class="article-tag">Vite & Tailwind CSS</span>
+                    <span class="article-tag">SHA-256 Crypto</span>
+                </div>
+
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://p2pcopy.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn">
+                        Open Live App ↗
+                    </a>
+                    <a href="https://github.com/Krishnanand-10/p2pcopy" target="_blank" rel="noopener noreferrer" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        View on GitHub
+                    </a>
+                    <a href="https://www.npmjs.com/package/p2pcopy" target="_blank" rel="noopener noreferrer" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        npm Package
+                    </a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Krishna Nand Tiwari. Crafted with clean HTML, CSS & JavaScript.</p>
+        </div>
+    </footer>
+
+    <script src="oneko.js" defer></script>
+    <script src="script.js?v=16" defer></script>
+</body>
+</html>

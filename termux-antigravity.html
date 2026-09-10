@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Android Apps Without a Laptop: Compiling CleanFiles on Device with Termux, Ubuntu &amp; Antigravity CLI | Krishna Nand Tiwari</title>
+    
+    <meta name="description" content="How I built and compiled CleanFiles, a clean ad-free native Android app, directly on my phone using Termux, an Ubuntu environment, and Antigravity CLI without touching a laptop.">
+    <meta name="author" content="Krishna Nand Tiwari">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="preload" href="oneko.gif" as="image">
+    
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
+
+    <!-- Mermaid.js for Architecture & Build Pipeline Diagrams -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#09090b',
+                primaryColor: '#10b981',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: 'rgba(255,255,255,0.18)',
+                lineColor: '#38bdf8',
+                secondaryColor: '#18181b',
+                tertiaryColor: '#0c0c0e',
+                noteBkgColor: '#18181b',
+                noteTextColor: '#ededed',
+                noteBorderColor: 'rgba(255,255,255,0.1)'
+            }
+        });
+    </script>
+</head>
+<body>
+    
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
+
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item">Projects</a>
+                <a href="blog.html" class="nav-menu-item active">Blogs</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span class="nav-search-label">Search</span>
+                <span class="nav-search-kbd"><span class="kbd-mod">Ctrl +</span>K</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="article-container">
+            
+            <a class="back-link" href="blog.html">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on September 3, 2026</time>
+                    <h1 class="article-title">Building Android Apps Without a Laptop: Compiling CleanFiles on Device with Termux, Ubuntu &amp; Antigravity CLI</h1>
+                </header>
+
+                <p>
+                    <strong>What if you didn’t need a laptop to build Android apps at all?</strong> No bulky workstation, no 12GB Android Studio setup, and no cloud build servers. Just an Android smartphone, a terminal app, a small Linux layer, and an AI coding agent compiling native code right in your hands.
+                </p>
+
+                <div class="article-tech-row" style="margin-bottom: 0.5rem;">
+                    <a href="https://www.linkedin.com/posts/krishna-nand-tiwari-547037258_what-if-you-didnt-need-a-laptop-to-build-ugcPost-7501171032255266816-l90u/" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">🔗 LinkedIn Post</a>
+                    <span class="article-tag">Android Native (ARM64)</span>
+                    <span class="article-tag">Termux + Ubuntu 24.04 PRoot</span>
+                    <span class="article-tag">Antigravity CLI Agent</span>
+                    <span class="article-tag">42 KB Signed APK</span>
+                </div>
+
+                <div class="article-image-wrapper" style="max-width: 580px; margin: 1.5rem auto;">
+                    <img src="images/cleanfiles_preview.png" alt="CleanFiles On-Device Autonomous Android Development with Termux and Antigravity CLI" class="article-image" />
+                </div>
+
+                <h2>The Spark: Can a Phone Replace a Laptop?</h2>
+                <p>
+                    This experiment started when my friend shared an interesting idea: <em>what if we ran the Antigravity CLI directly on an Android phone using Termux, and turned the phone itself into a complete development environment?</em>
+                </p>
+                <p>
+                    Today’s smartphones are remarkably fast. Modern phone processors are easily as capable as many laptops were just a few years back. Still, almost everyone assumes building an Android app requires a computer with a heavy IDE like Android Studio, gigabytes of build tools, and constant emulator testing.
+                </p>
+                <p>
+                    I was curious to see if that was actually true, or if we just do it out of habit. So I decided to test it myself: install Termux, set up an Ubuntu environment inside it, configure the Antigravity CLI agent, and see if I could write, compile, and run a real native app without touching a computer once.
+                </p>
+
+                <h2>Why I Built CleanFiles: Escaping the Ads</h2>
+                <p>
+                    I didn't want to build just another generic demo app; I wanted to solve an annoying problem I deal with every day. Like a lot of Android users, I was tired of the default file manager that came pre-installed on my phone. A basic utility that should just open folders and show downloaded files had become completely loaded with ads: <strong>full-screen popups, banner ads taking up screen space, random 'app recommendations', and unnecessary permission requests</strong>.
+                </p>
+                <p>
+                    Every time I needed to find a downloaded PDF, move camera photos, or clean up storage, I had to wait through an ad or be careful not to accidentally tap sponsored links.
+                </p>
+                <p>
+                    So the goal became clear: use this mobile setup to build <strong>CleanFiles</strong>—a clean, fast, and completely ad-free file manager with zero bloat and total privacy, built and compiled right on the phone.
+                </p>
+
+                <h2>System Architecture: How It Works on the Phone</h2>
+                <p>
+                    To run both the AI coding agent and the Android build tools on an unrooted phone, we set up a clean three-layer system:
+                </p>
+
+                <div class="article-image-wrapper" style="padding: 1.5rem; background: #09090b; overflow-x: auto;">
+                    <div class="mermaid">
+flowchart TD
+    subgraph Host ["1. Android Host OS"]
+        TERMUX["Termux Terminal App"]
+        BRIDGE["Storage Bridge (/sdcard/Download)"]
+        INSTALLER["Android Package Installer"]
+    end
+
+    subgraph PRoot ["2. Linux Environment (PRoot)"]
+        UBUNTU["Ubuntu 24.04 LTS (ARM64)"]
+        AGENT["Antigravity CLI Agent"]
+        SDK["Android CLI Build Tools (aapt, d8, zipalign, apksigner)"]
+    end
+
+    subgraph Pipeline ["3. On-Device Build Pipeline"]
+        PROMPT["User Prompt: 'Build CleanFiles Utility'"]
+        SRC["Java Sources + AndroidManifest.xml"]
+        R_JAVA["Resource Compilation &amp; R.java (aapt)"]
+        BYTECODE["Java Bytecode (javac)"]
+        DEX["Dalvik Executable (classes.dex via D8)"]
+        UNALIGNED["Unaligned Package (aapt)"]
+        ALIGNED["Memory Alignment (zipalign)"]
+        SIGNED_APK["Signed CleanFiles.apk (42 KB)"]
+    end
+
+    TERMUX --> UBUNTU
+    UBUNTU --> AGENT
+    PROMPT --> AGENT
+    AGENT --> SRC
+    SRC --> R_JAVA
+    R_JAVA --> BYTECODE
+    BYTECODE --> DEX
+    DEX --> UNALIGNED
+    UNALIGNED --> ALIGNED
+    ALIGNED --> SIGNED_APK
+    SIGNED_APK --> BRIDGE
+    BRIDGE --> INSTALLER
+                    </div>
+                </div>
+
+                <h2>The Workflow</h2>
+                <div class="article-tech-row" style="margin: 1rem 0 1.5rem;">
+                    <span class="article-tag" style="font-size: 0.95rem; font-weight: 600;">
+                        Android &rarr; Termux &rarr; Ubuntu 24.04 &rarr; Antigravity CLI &rarr; Native Project &rarr; APK
+                    </span>
+                </div>
+                <p>
+                    No laptop. No USB debugging cables. No remote servers. The phone itself wrote the code, packaged the resources, compiled the Java classes into Dalvik bytecode, signed the package, and installed the finished app right onto its own operating system.
+                </p>
+
+                <h2>Phase 1: Setting Up the Mobile Linux Environment</h2>
+                <p>
+                    Standard Android development uses Gradle, which downloads gigabytes of dependencies and easily overwhelms a mobile phone's memory. Instead, we used a lightweight, <strong>headless command-line toolchain</strong> inside Ubuntu 24.04 via PRoot:
+                </p>
+                <ul>
+                    <li><strong>Termux &amp; PRoot:</strong> Termux gives us a standard terminal, while <code>proot-distro</code> installs a clean Ubuntu 24.04 LTS Linux system with standard library support.</li>
+                    <li><strong>Java Compiler:</strong> <code>openjdk-17-jdk-headless</code> for fast Java compiling without any graphical bloat.</li>
+                    <li><strong>Android Build Tools:</strong> Standalone ARM64 command-line tools: <code>aapt</code> (packaging), <code>d8</code> (dex compiler), <code>zipalign</code>, and <code>apksigner</code> alongside <code>android.jar</code> (API 33).</li>
+                    <li><strong>Storage Access:</strong> Running <code>termux-setup-storage</code> gives the terminal permission to read and write directly to the phone's internal storage (like the <code>/sdcard/Download</code> folder).</li>
+                </ul>
+
+                <h2>Phase 2: Designing CleanFiles with the AI Agent</h2>
+                <p>
+                    I gave the prompt to Antigravity CLI straight from the phone's terminal. We worked through the project layout together, and let the agent create the files.
+                </p>
+                <p>
+                    We designed CleanFiles with the essential features a good file manager needs:
+                </p>
+                <ul>
+                    <li><strong>Live Storage Overview:</strong> Checking storage space in real time down to the byte, with a visual progress bar (like <em>56.3 GB used out of 64 GB, 87%</em>).</li>
+                    <li><strong>Quick Category Breakdown:</strong> Fast scanning across the device to calculate how much space is taken up by <strong>Photos</strong>, <strong>Videos</strong>, and <strong>Audio</strong>.</li>
+                    <li><strong>Folder Navigator:</strong> Easy tabbed browsing between <em>Internal Storage</em>, <em>Downloads</em>, and <em>Recent Files</em> with item counts and clear folder icons.</li>
+                    <li><strong>Zero Ads &amp; Complete Privacy:</strong> Built using only standard Android SDK components—no tracking scripts, no third-party ad networks, and instant launch times.</li>
+                </ul>
+
+                <h2>Phase 3: The 5-Step Headless Compilation Sequence</h2>
+                <p>
+                    Antigravity CLI organized the build steps, checked the manifest, and ran the whole compilation sequence right in the terminal. Here is the actual terminal screenshot showing the agent running each command:
+                </p>
+
+                <div class="article-image-wrapper" style="max-width: 310px; margin: 2rem auto; border-radius: 20px; border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 12px 32px rgba(0,0,0,0.6); overflow: hidden;">
+                    <img src="images/cleanfiles_termux_cli.jpg" alt="Antigravity CLI Compiling CleanFiles inside Termux on Android" class="article-image" style="width: 100%; display: block;" />
+                </div>
+                <p style="text-align: center; font-size: 0.85rem; color: var(--secondary); margin-top: -1rem; margin-bottom: 2rem;">1. Live Termux session: Antigravity CLI compiling bytecode, dexing, and signing the APK</p>
+
+                <h3>Step 1: Resource Packaging (<code>aapt</code>)</h3>
+                <p>
+                    Compiling app icons, layouts, and values into the resource table and generating the <code>R.java</code> file:
+                </p>
+                <pre><code># Compile resources and generate R.java
+aapt package -f -m     -J /root/CleanFiles/src     -M /root/CleanFiles/AndroidManifest.xml     -S /root/CleanFiles/res     -I /opt/android-sdk/platforms/android-33/android.jar</code></pre>
+
+                <h3>Step 2: Java Compilation (<code>javac</code>)</h3>
+                <p>
+                    Compiling all Java source files (activities, storage scanners, and <code>R.java</code>) into standard Java bytecode:
+                </p>
+                <pre><code>mkdir -p /root/CleanFiles/build/classes
+javac -d /root/CleanFiles/build/classes     -cp /opt/android-sdk/platforms/android-33/android.jar     $(find /root/CleanFiles/src -name "*.java")</code></pre>
+
+                <h3>Step 3: Creating Dalvik Bytecode (<code>d8</code>)</h3>
+                <p>
+                    Converting the Java <code>.class</code> files into Android's native Dalvik executable format (<code>classes.dex</code>):
+                </p>
+                <pre><code>mkdir -p /root/CleanFiles/build/dex
+d8 /root/CleanFiles/build/classes/com/cleanfiles/app/*.class     --lib /opt/android-sdk/platforms/android-33/android.jar     --output /root/CleanFiles/build/dex</code></pre>
+
+                <h3>Step 4: Packaging and Memory Alignment (<code>aapt</code> &amp; <code>zipalign</code>)</h3>
+                <p>
+                    Packing the <code>classes.dex</code> file and resources into an APK, then aligning it on 4-byte boundaries so the Android OS can load it quickly:
+                </p>
+                <pre><code># Package initial unaligned APK
+aapt package -f     -M /root/CleanFiles/AndroidManifest.xml     -S /root/CleanFiles/res     -I /opt/android-sdk/platforms/android-33/android.jar     -F /root/CleanFiles/build/cleanfiles-unaligned.apk     /root/CleanFiles/build/dex
+
+# Align on 4-byte boundaries for fast loading
+zipalign -p -f 4     /root/CleanFiles/build/cleanfiles-unaligned.apk     /root/CleanFiles/build/CleanFiles.apk</code></pre>
+
+                <h3>Step 5: Signing the APK (<code>apksigner</code>)</h3>
+                <p>
+                    Signing the final APK with an on-device security key using modern Android signing schemes (v1, v2, and v3):
+                </p>
+                <pre><code>apksigner sign --ks /root/release.keystore     --ks-key-alias release     --ks-pass pass:android     /root/CleanFiles/build/CleanFiles.apk</code></pre>
+
+                <p>
+                    The result? A super-lightweight, native Android app measuring just <strong>42 KB</strong>—smaller than almost any image on a modern website!
+                </p>
+
+                <h2>Phase 4: Installing and Running the App on Device</h2>
+                <p>
+                    One of the coolest parts of the whole experiment was installing the app. Usually with a laptop, you connect a USB cable, turn on USB debugging, and run <code>adb install</code>.
+                </p>
+                <p>
+                    In our setup, the agent simply copied the signed APK to the phone's Download folder and called a Termux command to trigger Android's native installer:
+                </p>
+                <pre><code># Copy signed APK to the phone's Download directory
+cp /root/CleanFiles/build/CleanFiles.apk /sdcard/Download/CleanFiles.apk
+
+# Tell Android to open and install the APK
+termux-open /sdcard/Download/CleanFiles.apk</code></pre>
+
+                <p>
+                    Right away, the phone's standard <em>"Do you want to install this app?"</em> dialog popped up on screen. With one tap, <strong>CleanFiles was installed and running live on the very phone that wrote and compiled it</strong>.
+                </p>
+
+                <div class="article-image-wrapper" style="max-width: 310px; margin: 2rem auto; border-radius: 20px; border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 12px 32px rgba(0,0,0,0.6); overflow: hidden;">
+                    <img src="images/cleanfiles_app_ui.jpg" alt="CleanFiles Native Android App Running on Device" class="article-image" style="width: 100%; display: block;" />
+                </div>
+                <p style="text-align: center; font-size: 0.85rem; color: var(--secondary); margin-top: -1rem; margin-bottom: 2rem;">2. CleanFiles running live on device: clean dark theme, zero ads, instant storage telemetry</p>
+
+                <h2>The Realities: What Worked and What Was Difficult</h2>
+                <p>
+                    While the experiment worked surprisingly well, developing on a phone isn't about to replace a dual-monitor desktop setup just yet. A few practical realities came up:
+                </p>
+                <ul>
+                    <li><strong>Typing on a Touchscreen:</strong> Entering commands, editing long paths, and selecting text with a virtual keyboard gets tiring quickly. If you want to do serious work this way, a small Bluetooth keyboard makes a huge difference.</li>
+                    <li><strong>Setting Up the Tools:</strong> Getting the Android command-line tools to play nicely inside an Ubuntu PRoot layer on Android takes some initial setup and patience with system paths.</li>
+                    <li><strong>Battery and Heat:</strong> Running an AI agent, compiling Java code, and packaging the APK puts real load on the phone's processor. It warms up the device and drains the battery faster than normal usage.</li>
+                    <li><strong>Checking the Code:</strong> Even with an agent helping you, you still need to review the code, catch layout mistakes, and verify that Android permissions are configured properly.</li>
+                </ul>
+
+                <h2>Key Takeaways: Building Software Anywhere</h2>
+                <p>
+                    Despite the small challenges, the takeaway from this project is genuinely exciting:
+                </p>
+                <ol>
+                    <li><strong>The Barrier to Building Has Dropped:</strong> You don't need a high-end computer or gigabytes of desktop software to create working native apps. A regular smartphone in your pocket can brainstorm, write code, compile it, and run the finished product.</li>
+                    <li><strong>AI Agents Can Work in Minimal Environments:</strong> Autonomous coding agents aren't limited to desktop code editors. When given access to a terminal, they can run compilers, fix build errors, and complete full development cycles independently.</li>
+                    <li><strong>True Computing Freedom:</strong> Whether you want to fix a bug on a train or build a quick tool while away from your desk, your phone is fully capable of being an actual creation tool.</li>
+                </ol>
+
+            </article>
+        </div>
+    </main>
+
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p id="footer-copy">Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
+        
+        <div id="owner-views-badge" class="owner-views-badge" style="display: none;">
+            <a href="https://cloud.umami.is" target="_blank" rel="noopener noreferrer" class="owner-views-pill" title="Private Analytics · Click to open Umami Dashboard">
+                <svg class="views-eye-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span id="owner-views-count">--</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="oneko.js" defer></script>
+    <script src="script.js?v=17" defer></script>
+</body>
+</html>

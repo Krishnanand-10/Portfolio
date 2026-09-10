@@ -19,7 +19,7 @@
     --primary: #ffffff;
     --primary-foreground: #000000;
     
-    --font-heading: 'Clash Display', 'Hanken Grotesk', -apple-system, sans-serif;
+    --font-heading: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-sans: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -379,7 +379,7 @@ button {
 }
 
 .sidebar-title {
-    font-family: var(--font-heading);
+    font-family: 'Clash Display', var(--font-sans);
     font-size: 2.75rem;
     line-height: 1.05;
     font-weight: 700;
@@ -800,6 +800,19 @@ button {
 .tilt-wrapper {
     perspective: 1000px;
     transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 300ms ease-out;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tilt-wrapper .portfolio-card,
+.tilt-wrapper .blog-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
 }
 
 .portfolio-card {
@@ -812,39 +825,56 @@ button {
     height: 100%;
     box-shadow: none;
     transition: border-color 0.2s ease;
-    transform-style: preserve-3d;
-    will-change: transform;
+    cursor: default;
 }
 
 .portfolio-card:hover {
     border-color: rgba(255, 255, 255, 0.22);
 }
 
-a.portfolio-card.project-live-card {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
+.portfolio-card:hover .card-title-link,
+.card-title-link,
+.card-title-link:hover {
+    color: #ffffff;
+    text-decoration: none !important;
+}
+
+.card-live-demo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--secondary) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease;
+    cursor: pointer !important;
+    position: relative;
+    z-index: 10;
+}
+
+.card-live-demo-link span {
     color: inherit;
-    cursor: pointer;
+    text-decoration: inherit;
 }
 
-a.portfolio-card.project-live-card * {
-    cursor: pointer;
+.card-live-demo-link svg {
+    width: 14px;
+    height: 14px;
+    color: inherit;
+    transition: transform 0.2s ease;
 }
 
-a.portfolio-card.project-live-card:hover .card-title-link {
-    text-decoration: underline;
-    text-underline-offset: 4px;
+/* Underline only when hovering directly on the Live Demo link/text itself */
+.card-live-demo-link:hover {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
 }
 
-a.portfolio-card.project-live-card:hover .card-external-icon {
-    color: #ffffff;
-}
-
-a.portfolio-card.project-live-card:hover .card-live-demo-btn {
-    color: #ffffff;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+.card-live-demo-link:hover svg {
+    color: #ffffff !important;
+    transform: translate(2px, -2px);
 }
 
 .card-cover {
@@ -868,11 +898,15 @@ a.portfolio-card.project-live-card:hover .card-live-demo-btn {
 }
 
 .card-body {
-    padding: 14px 16px 10px;
+    padding: 14px 16px 14px;
     display: flex;
     flex-direction: column;
     gap: 8px;
     flex: 1;
+}
+
+.portfolio-card:has(.card-footer) .card-body {
+    padding-bottom: 8px;
 }
 
 .card-title-row {
@@ -888,13 +922,13 @@ a.portfolio-card.project-live-card:hover .card-live-demo-btn {
     font-weight: 600;
     line-height: 1.25;
     color: #ffffff;
+    text-decoration: none !important;
     transition: color 0.15s ease;
 }
 
 .card-title-link:hover {
     color: #ffffff;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    text-decoration: none !important;
 }
 
 .card-external-icon {
@@ -1814,11 +1848,11 @@ a.portfolio-card.project-live-card:hover .card-live-demo-btn {
 }
 
 .article-title {
-    font-family: var(--font-heading);
-    font-size: 2.4rem;
+    font-family: var(--font-sans) !important;
+    font-size: clamp(2rem, 4vw, 2.5rem);
     font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
     color: #ffffff;
 }
 
@@ -1828,13 +1862,32 @@ a.portfolio-card.project-live-card:hover .card-live-demo-btn {
     line-height: 1.7;
 }
 
-.article-body h2 {
-    font-family: var(--font-heading);
-    font-size: 1.45rem;
-    font-weight: 700;
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+    font-family: var(--font-sans) !important;
     color: #ffffff;
-    margin-top: 16px;
-    margin-bottom: -8px;
+}
+
+.article-body h2 {
+    font-family: var(--font-sans) !important;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-top: 24px;
+    margin-bottom: -6px;
+}
+
+.article-body h3 {
+    font-family: var(--font-sans) !important;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: #ffffff;
+    margin-top: 18px;
+    margin-bottom: -6px;
 }
 
 .article-body ul {
@@ -2148,17 +2201,86 @@ code {
     gap: 6px;
     color: var(--muted-foreground);
     font-size: 0.875rem;
-    text-decoration: none;
-    transition: color 0.15s ease;
+    text-decoration: none !important;
+    transition: color 0.15s ease, transform 0.2s ease;
+    cursor: pointer;
+    padding: 6px 10px;
+    margin: -6px -10px;
+    border-radius: 6px;
+    position: relative;
+    z-index: 25;
 }
 
 .blog-card:hover .blog-card-readmore {
-    color: #ffffff;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    color: var(--foreground);
+}
+
+.blog-card-readmore:hover {
+    color: #ffffff !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
 }
 
 .blog-card-readmore svg {
     width: 14px;
     height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.blog-card-readmore:hover svg {
+    transform: translateX(3px);
+}
+
+/* ==========================================================================
+   MERMAID DIAGRAM HIGH-CONTRAST DARK THEME STYLING
+   ========================================================================== */
+.article-image-wrapper .mermaid {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    overflow-x: auto;
+}
+
+.mermaid svg {
+    max-width: 100% !important;
+    height: auto !important;
+    font-family: var(--font-sans) !important;
+}
+
+.mermaid text {
+    font-family: var(--font-sans) !important;
+    fill: #f4f4f5 !important;
+    font-size: 13px !important;
+}
+
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node polygon,
+.mermaid .node path {
+    fill: #141418 !important;
+    stroke: #38bdf8 !important;
+    stroke-width: 1.5px !important;
+}
+
+.mermaid .cluster rect {
+    fill: #0c0c0f !important;
+    stroke: rgba(255, 255, 255, 0.18) !important;
+    stroke-width: 1px !important;
+}
+
+.mermaid .cluster text {
+    fill: #38bdf8 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+
+.mermaid .edgePath path {
+    stroke: #60a5fa !important;
+    stroke-width: 1.75px !important;
+}
+
+.mermaid .arrowheadPath {
+    fill: #60a5fa !important;
 }
