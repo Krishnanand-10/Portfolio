@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Argus: Zero-Dependency Embedded Search Engine | Krishna Nand Tiwari</title>
+    
+    <meta name="description" content="Technical deep-dive into Argus — a high-performance, deterministic full-text search engine built from first principles in TypeScript with mechanical sympathy for V8.">
+    <meta name="author" content="Krishna Nand Tiwari">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="preload" href="oneko.gif" as="image">
+    
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
+
+    <!-- Mermaid.js for Architecture & Flow Diagrams -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#09090b',
+                primaryColor: '#00d2ff',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: 'rgba(255,255,255,0.18)',
+                lineColor: '#34d399',
+                secondaryColor: '#18181b',
+                tertiaryColor: '#0c0c0e',
+                noteBkgColor: '#18181b',
+                noteTextColor: '#ededed',
+                noteBorderColor: 'rgba(255,255,255,0.1)'
+            }
+        });
+    </script>
+</head>
+<body>
+    
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
+
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item">Projects</a>
+                <a href="blog.html" class="nav-menu-item">Blogs</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span class="nav-search-label">Search</span>
+                <span class="nav-search-kbd"><span class="kbd-mod">Ctrl +</span>K</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="article-container">
+            
+            <a class="back-link" href="blog.html">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on October 8, 2026</time>
+                    <h1 class="article-title">Building Argus: Zero-Dependency Embedded Search Engine</h1>
+                </header>
+
+                <p>
+                    <strong>Argus</strong> is a high-performance, deterministic full-text search engine engineered entirely from first principles in <strong>TypeScript</strong>. Designed with strict mechanical sympathy for the V8 runtime and modern JavaScript engines, Argus operates with <strong>zero third-party runtime dependencies</strong>. It features inverted positional indices, custom binary serialization with Delta and Variable-Byte compression, Okapi BM25 ranking, and an AST-based boolean and phrase query evaluator.
+                </p>
+
+                <div class="article-tech-row" style="margin-bottom: 0.5rem;">
+                    <a href="https://argus-search.vercel.app" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">🌐 Web App: argus-search.vercel.app</a>
+                    <span class="article-tag">⚖️ MIT License</span>
+                </div>
+
+                <div class="article-image-wrapper">
+                    <img src="images/argus_preview.png" alt="Argus Search Engine Interface and Terminal Query Execution" class="article-image" />
+                </div>
+
+                <h2>The Motivation: Why Build a Search Engine from First Principles?</h2>
+                <p>
+                    Full-text search in modern web applications typically offloads retrieval to heavyweight remote daemons (Elasticsearch, Meilisearch) or pulls in opaque WebAssembly binaries. In many embedded contexts—such as local CLI tools, edge workers, and client-side web apps—these solutions present significant hurdles:
+                </p>
+                <ul>
+                    <li><strong>Operational Overhead & Network Latency:</strong> Remote search services introduce network round-trips, separate infrastructure clusters, and complex provisioning pipelines.</li>
+                    <li><strong>Heavy Footprint:</strong> Native binaries and heavy libraries add megabytes to distribution bundles and complicate cross-platform deployment.</li>
+                    <li><strong>Lack of Determinism & Runtime Sympathy:</strong> High-level wrappers frequently trigger erratic V8 garbage collection pauses, deoptimizing hidden classes and allocating excessive intermediate objects.</li>
+                </ul>
+
+                <h2>Core Engineering Principles</h2>
+                <p>
+                    Argus was built from scratch around five strict architectural tenets:
+                </p>
+                <ul>
+                    <li><strong>Zero Runtime Dependencies:</strong> From Unicode character normalization and Porter stemming to binary bit packing and MinHeap priority queues, every component is authored in-house.</li>
+                    <li><strong>Mechanical Sympathy for V8:</strong> Monomorphic call sites, packed continuous typed arrays (`Uint32Array`), and zero-copy byte views prevent engine deoptimizations and GC churn.</li>
+                    <li><strong>Compact Binary Storage:</strong> Inverted postings lists are compressed using delta encoding (D-gaps) and Variable-Byte (VByte) varints, reducing index sizes by up to 75%.</li>
+                    <li><strong>State-of-the-Art Relevance Ranking:</strong> Employs Okapi BM25 scoring with exact term saturation, document length penalization, and Robertson-Spärck Jones inverse document frequency.</li>
+                    <li><strong>Rich Query Semantics:</strong> A formal lexer and recursive-descent parser build an Abstract Syntax Tree (AST) that evaluates boolean logic (`AND`, `OR`, `NOT`), prefix matching (`distrib*`), and positional phrase validation (`"distributed consensus"`).</li>
+                </ul>
+
+                <h2>End-to-End Ingestion & Query Architecture</h2>
+                <p>
+                    Argus separates the document lifecycle into an ingestion pipeline (character filtering, tokenization, stemming, inverted indexing) and an evaluation pipeline (AST parsing, candidate scoring, Top-K heap extraction):
+                </p>
+
+                <div class="article-image-wrapper" style="padding: 1rem; background: #09090b;">
+                    <div class="mermaid" style="width: 100%; max-width: 100%; overflow: hidden;">
+flowchart TD
+    subgraph Ingestion ["1. Document Ingestion Pipeline"]
+        direction LR
+        D["Documents"] --> TK["Tokenizer & Filter"] --> ST["Porter Stemmer"]
+    end
+
+    subgraph Storage ["2. Inverted Index & Binary Disk Storage"]
+        direction LR
+        Lex["Term Lexicon Trie"] --> Post["Positional Postings"] --> Comp["Delta + VByte (.argus)"]
+    end
+
+    subgraph Retrieval ["3. Query Parsing & Relevance Ranking"]
+        direction LR
+        Q["User Query"] --> AST["AST Boolean Parser"] --> BM["BM25 Scorer"] --> TopK["Min-Heap Top-K Hits"]
+    end
+
+    Ingestion --> Storage
+    Storage -. "Zero-Copy Lookup" .-> Retrieval
+                    </div>
+                </div>
+
+                <h2>Query Lifecycle & AST Evaluation Plan</h2>
+                <p>
+                    When a search query is submitted, Argus parses the token stream into a hierarchical Abstract Syntax Tree before scheduling postings list intersections:
+                </p>
+
+                <div class="article-image-wrapper" style="padding: 1rem; background: #09090b;">
+                    <div class="mermaid" style="width: 100%; max-width: 100%; overflow: hidden;">
+sequenceDiagram
+    autonumber
+    actor U as Client
+    participant P as AST Parser
+    participant E as Evaluator
+    participant I as Index Store
+    participant R as BM25 Heap
+
+    U->>P: search('consensus AND "fault tolerance"')
+    P->>E: AST Plan: AND(Term, Phrase)
+    E->>I: Fetch postings & skip lists
+    I-->>E: Postings lists & word offsets
+    Note over E: Intersect doc candidates in O(min(N,M))
+    loop Top candidate docIds
+        E->>R: Score via Okapi BM25
+        R->>R: Maintain Top-K in MinHeap
+    end
+    R-->>U: Ranked hits & highlighted snippets
+                    </div>
+                </div>
+
+                <h2>Technical Deep-Dive: Core Subsystems</h2>
+
+                <h3>1. Inverted Index & Positional Postings</h3>
+                <p>
+                    At the heart of Argus is a positional inverted index. Every unique term maps to a postings list recording document occurrences along with exact word offsets:
+                </p>
+
+                <pre><code>interface Posting {
+  docId: number;          // Monotonically increasing document ID
+  termFrequency: number;  // Occurrences in document
+  positions: number[];    // 0-indexed word offsets for phrase verification
+}</code></pre>
+
+                <p>
+                    To speed up multi-term conjunctions (<code>AND</code> queries), postings lists maintain skip pointers positioned at intervals of $\lfloor\sqrt{L}\rfloor$. This allows the evaluator to skip non-matching document blocks in $O(\min(N, M))$ time rather than scanning every entry linearly.
+                </p>
+
+                <h3>2. Binary Compression: D-Gaps & Variable-Byte Encoding</h3>
+                <p>
+                    Storing raw 32-bit document IDs for dense collections quickly consumes unnecessary memory. Argus applies two complementary compression techniques:
+                </p>
+                <ul>
+                    <li><strong>Delta Encoding (D-Gaps):</strong> Replaces strictly increasing document IDs with differences between consecutive IDs:
+                    <br><code>[104, 108, 125, 160] ➔ [104, 4, 17, 35]</code></li>
+                    <li><strong>Variable-Byte (VByte) Varint Packing:</strong> Encodes arbitrary integers into 7 data bits per byte, utilizing the highest bit as a continuation indicator. Values smaller than 128 compress from 4 bytes down to a single byte.</li>
+                </ul>
+
+                <pre><code>// Variable-Byte (VByte) integer encoder
+export function encodeVByte(value: number): number[] {
+  const bytes: number[] = [];
+  while (value >= 128) {
+    bytes.push((value & 0x7f) | 0x80);
+    value >>>= 7;
+  }
+  bytes.push(value & 0x7f);
+  return bytes;
+}
+
+export function decodeVByte(bytes: Uint8Array, offset: { ptr: number }): number {
+  let result = 0;
+  let shift = 0;
+  while (true) {
+    const byte = bytes[offset.ptr++];
+    result |= (byte & 0x7f) << shift;
+    if ((byte & 0x80) === 0) break;
+    shift += 7;
+  }
+  return result;
+}</code></pre>
+
+                <h3>3. Relevance Scoring via Okapi BM25</h3>
+                <p>
+                    Argus computes document relevance using the industry-standard Okapi BM25 formula with Robertson-Spärck Jones inverse document frequency:
+                </p>
+
+                <pre><code>IDF(t) = ln((N - n(t) + 0.5) / (n(t) + 0.5) + 1)
+
+Score(D, Q) = Σ [ IDF(t) * (f(t, D) * (k1 + 1)) / (f(t, D) + k1 * (1 - b + b * (|D| / avgdl))) ]</code></pre>
+
+                <p>
+                    Where $k_1 = 1.2$ manages term saturation and $b = 0.75$ controls document length normalization. Rather than allocating arrays to sort all candidate documents, Argus feeds calculated scores into a fixed-capacity binary <strong>MinHeap</strong>, guaranteeing $O(N \log K)$ runtime and minimal allocations.
+                </p>
+
+                <h2>Interactive CLI & Developer Experience</h2>
+                <p>
+                    Argus is packaged with a responsive terminal interface allowing developers to index files, execute complex queries, inspect corpus statistics, or launch an HTTP daemon:
+                </p>
+
+                <ul>
+                    <li><strong><code>npx argus index --source ./docs --output ./indices/docs.argus</code>:</strong> Ingests JSON, Markdown, or text corpora into a compiled binary index.</li>
+                    <li><strong><code>npx argus search --index ./indices/docs.argus "query"</code>:</strong> Executes sub-millisecond AST queries with syntax highlighting and snippet extraction.</li>
+                    <li><strong><code>npx argus stats --index ./indices/docs.argus</code>:</strong> Displays document totals, lexicon term counts, and storage metrics.</li>
+                    <li><strong><code>npx argus serve --index ./indices/docs.argus --port 8080</code>:</strong> Starts a local zero-dependency HTTP search endpoint.</li>
+                </ul>
+
+                <div class="article-image-wrapper">
+                    <img src="images/argus_terminal.png" alt="Argus Terminal CLI Interface - Indexing and Searching" class="article-image" />
+                </div>
+
+                <h2>In-Browser Web Application: Live Interactive Search</h2>
+                <p>
+                    In addition to the Node.js CLI, Argus is deployed as an in-browser interactive search engine at <a href="https://argus-search.vercel.app" target="_blank" rel="noopener noreferrer" style="color: #00d2ff; text-decoration: underline;">argus-search.vercel.app</a>. It compiles and evaluates user queries in real-time with sub-millisecond latency:
+                </p>
+
+                <div class="article-image-wrapper">
+                    <img src="images/argus_web.png" alt="Argus In-Browser Search Interface - Real-time BM25 Query Results" class="article-image" />
+                </div>
+
+                <h2>Programmatic TypeScript Library API</h2>
+                <p>
+                    Argus can be embedded directly into backend services, desktop utilities, or edge runtimes:
+                </p>
+
+                <pre><code>import { ArgusEngine } from 'argus-search';
+
+// 1. Initialize Engine with scoring parameters
+const engine = new ArgusEngine({
+  k1: 1.2,
+  b: 0.75,
+  stopWords: true,
+  stemming: true,
+});
+
+// 2. Ingest structured documents
+await engine.addDocuments([
+  {
+    id: 1,
+    title: "Distributed Systems Architecture",
+    body: "Consensus algorithms such as Paxos and Raft ensure high availability and fault tolerance.",
+  },
+  {
+    id: 2,
+    title: "Search Engines from First Principles",
+    body: "Inverted indexes, postings lists, and Okapi BM25 ranking provide sub-millisecond retrieval.",
+  },
+]);
+
+// 3. Serialize compiled binary index to disk
+await engine.commit('./data/library.argus');
+
+// 4. Query with full boolean and phrase syntax
+const results = await engine.search('consensus AND "fault tolerance"', { limit: 5 });
+
+console.log(results);</code></pre>
+
+                <h2>Technologies & Algorithms</h2>
+                <div class="article-tech-row">
+                    <span class="article-tag">TypeScript</span>
+                    <span class="article-tag">Okapi BM25</span>
+                    <span class="article-tag">Inverted Index</span>
+                    <span class="article-tag">Positional Postings</span>
+                    <span class="article-tag">Delta Encoding</span>
+                    <span class="article-tag">VByte Compression</span>
+                    <span class="article-tag">AST Query Parser</span>
+                    <span class="article-tag">Min-Heap Top-K</span>
+                </div>
+
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://argus-search.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn">
+                        Open Live Demo ↗
+                    </a>
+                    <a href="https://github.com/Krishnanand-10/Argus" target="_blank" rel="noopener noreferrer" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        View on GitHub
+                    </a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 Krishna Nand Tiwari. Crafted with clean HTML, CSS & JavaScript.</p>
+        </div>
+    </footer>
+
+    <script src="oneko.js" defer></script>
+    <script src="script.js?v=17" defer></script>
+</body>
+</html>
