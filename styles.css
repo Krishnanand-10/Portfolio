@@ -1309,6 +1309,9 @@ button {
     color: #ffffff;
     font-size: 0.88rem;
     font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
     transition: all 0.2s ease;
     flex-shrink: 0;
 }
