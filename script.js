@@ -404,10 +404,13 @@ function initCommandPalette() {
     const searchableItems = [
         { title: 'All Projects', desc: 'Browse all featured full-stack and AI projects', category: 'Navigation', url: 'projects.html' },
         { title: 'All Blogs', desc: 'Read deep dives, engineering notes and case studies', category: 'Navigation', url: 'blog.html' },
+        { title: 'Chronos Telemetry Dashboard', desc: 'Zero-overhead real-time OS telemetry engine & interactive terminal TUI', category: 'Project', url: 'https://github.com/Krishnanand-10/Chronos' },
+        { title: 'Chronos TUI Architecture', desc: 'Zero-GC typed ring buffers, multi-tier sampling loop & Ink terminal UI', category: 'Blog', url: 'chronos.html' },
         { title: 'RepurposeAI', desc: 'AI-powered content repurposing SaaS', category: 'Project', url: 'https://repurposeai-rp.vercel.app/' },
         { title: 'p2pcopy', desc: 'Zero-cloud E2EE peer-to-peer file & clipboard transfer', category: 'Project', url: 'https://p2pcopy.vercel.app' },
         { title: 'Argus Search', desc: 'Zero-dependency embedded full-text search engine with BM25', category: 'Project', url: 'https://argus-search.vercel.app' },
         { title: 'Kinship Family Tree', desc: 'Interactive canvas family tree builder with React Flow', category: 'Project', url: 'https://familytree-livid.vercel.app' },
+        { title: 'Chronos OS Telemetry Deep Dive', desc: 'Building high-frequency terminal dashboard with React/Ink & typed arrays', category: 'Blog', url: 'chronos.html' },
         { title: 'RepurposeAI Architecture', desc: 'Building multi-provider audio/video pipeline', category: 'Blog', url: 'repurpose-ai.html' },
         { title: 'p2pcopy WebRTC Protocol', desc: 'Zero-cloud E2EE file & clipboard streaming with WebRTC', category: 'Blog', url: 'p2pcopy.html' },
         { title: 'Argus Search Architecture', desc: 'Deterministic BM25 full-text search engine in TypeScript', category: 'Blog', url: 'argus.html' },
@@ -584,7 +587,7 @@ function initAIAssistantWidget() {
             if (lower.includes('tech') || lower.includes('stack') || lower.includes('work with') || lower.includes('skill')) {
                 response = "Krishna specializes in React, Next.js, TypeScript, Node.js, and Supabase. He also works with Tailwind CSS, Python/Django, Gemini AI, PostgreSQL, Docker, and Three.js for 3D web experiences.";
             } else if (lower.includes('project') || lower.includes('recent') || lower.includes('built')) {
-                response = "Krishna's featured projects include:\n• RepurposeAI — AI-powered content repurposing SaaS\n• p2pcopy — Zero-cloud E2EE peer-to-peer file & clipboard transfer across terminal and web\n• Argus Search — Zero-dependency embedded full-text search engine with BM25\n• Kinship — Graph tree builder built with React Flow.";
+                response = "Krishna's featured projects include:\n• Chronos — Zero-overhead real-time OS telemetry & TUI dashboard in TypeScript/Ink\n• RepurposeAI — AI-powered content repurposing SaaS\n• p2pcopy — Zero-cloud E2EE peer-to-peer file & clipboard transfer across terminal and web\n• Argus Search — Zero-dependency embedded full-text search engine with BM25\n• Kinship — Graph tree builder built with React Flow.";
             } else if (lower.includes('contact') || lower.includes('hire') || lower.includes('email') || lower.includes('talk') || lower.includes('reach')) {
                 response = "You can contact Krishna directly at nandkrishna2320@gmail.com, or connect on LinkedIn (linkedin.com/in/krishna-nand-tiwari-547037258/) or X (@Krishna_exe7).";
             } else if (lower.includes('experience') || lower.includes('intern') || lower.includes('background') || lower.includes('about')) {

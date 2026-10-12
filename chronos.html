@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Chronos: High-Frequency OS Telemetry &amp; TUI Dashboard | Krishna Nand Tiwari</title>
+    
+    <meta name="description" content="Technical deep-dive into Chronos — a real-time, low-overhead OS telemetry dashboard and TUI engineered in TypeScript with zero-GC typed ring buffers, a decoupled multi-tiered sampling engine, and Ink (React).">
+    <meta name="author" content="Krishna Nand Tiwari">
+    <link rel="icon" href="images/avatar.jpg" type="image/jpeg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="preload" href="oneko.gif" as="image">
+    
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="9b6a5cc2-c3c5-499b-848d-0a88193eeb85"></script>
+
+    <!-- Mermaid.js for Architecture & Flow Diagrams -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#09090b',
+                primaryColor: '#00d2ff',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: 'rgba(255,255,255,0.18)',
+                lineColor: '#34d399',
+                secondaryColor: '#18181b',
+                tertiaryColor: '#0c0c0e',
+                noteBkgColor: '#18181b',
+                noteTextColor: '#ededed',
+                noteBorderColor: 'rgba(255,255,255,0.1)'
+            }
+        });
+    </script>
+</head>
+<body>
+    
+    <canvas id="shader-canvas" class="shader-bg"></canvas>
+    <div class="shader-bg noise-layer"></div>
+    <div class="shader-bg grid-layer"></div>
+    <div class="edge-glow-left"></div>
+    <div class="edge-glow-right"></div>
+
+    <nav id="main-nav" aria-label="Main Navigation">
+        <div class="nav-left">
+            <a href="index.html" class="nav-brand">
+                <img src="images/avatar.jpg" alt="Krishna logo" class="nav-brand-img">
+                <span class="nav-brand-name">Krishna</span>
+            </a>
+            <div class="nav-menu-links">
+                <a href="projects.html" class="nav-menu-item">Projects</a>
+                <a href="blog.html" class="nav-menu-item">Blogs</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button id="cmd-k-btn" class="nav-search-btn" aria-label="Search">
+                <span class="nav-search-label">Search</span>
+                <span class="nav-search-kbd"><span class="kbd-mod">Ctrl +</span>K</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="article-container">
+            
+            <a class="back-link" href="blog.html">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                See all posts
+            </a>
+
+            <article class="article-body">
+                <header class="article-header">
+                    <time class="published-date">Published on October 12, 2026</time>
+                    <h1 class="article-title">Building Chronos: High-Frequency OS Telemetry &amp; TUI Dashboard in TypeScript</h1>
+                </header>
+
+                <p>
+                    <strong>Chronos</strong> is a real-time, low-overhead OS telemetry engine and interactive terminal dashboard engineered from first principles in <strong>TypeScript</strong>. Powered by <strong>Ink</strong> (React for CLI runtimes), Chronos delivers high-frequency per-core CPU tick calculations, memory pressure monitoring, live network and disk I/O throughput tracking, deep TCP socket state analysis, and an interactive process manager with continuous rolling-window scrolling—all while keeping garbage collection pauses near zero.
+                </p>
+
+                <div class="article-tech-row" style="margin-bottom: 0.5rem;">
+                    <a href="https://github.com/Krishnanand-10/Chronos" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">⚡ GitHub: github.com/Krishnanand-10/Chronos</a>
+                    <span class="article-tag">⚖️ MIT License</span>
+                    <span class="article-tag">🚀 50ms Telemetry Loop</span>
+                    <span class="article-tag">🛡️ Zero-GC Typed Buffers</span>
+                </div>
+
+                <div class="article-image-wrapper">
+                    <img src="images/chronos_dashboard.png" alt="Chronos Tab 1 Dashboard Overview showing 16 Cores CPU grid, RAM & Swap Memory Pressure, and Network/Disk/Socket I/O matrix" class="article-image" />
+                </div>
+                <p style="font-size: 0.85rem; color: #a1a1aa; margin-top: -12px; margin-bottom: 12px; text-align: center;">
+                    <em>Figure 1: Chronos Overview Dashboard (Tab 1) — Parallel 16-Core CPU utilization grid with live Unicode sparklines, RAM/Swap breakdown, and a 3-column Network/Disk/Socket I/O matrix.</em>
+                </p>
+
+                <h2>The Motivation: Why Build a Custom Terminal Telemetry Engine?</h2>
+                <p>
+                    System monitoring tools have evolved down two contrasting paths: classic C/C++ utilities like <code>htop</code> and <code>btop</code>, or heavyweight Electron and web-based dashboards. When developers want custom telemetry within automated terminal pipelines or modern cross-platform Node.js environments, standard tools pose distinct challenges:
+                </p>
+                <ul>
+                    <li><strong>Garbage Collection Pauses in Node.js:</strong> Polling 16 or 32 CPU cores alongside disk, network, and process tables every 50ms to 250ms typically generates thousands of transient JavaScript objects per second. In standard Node runtimes, this causes periodic V8 Major GC pauses (Stop-the-World), introducing micro-stutters and artificial CPU spikes.</li>
+                    <li><strong>Lack of Fine-Grained Hardware Sympathy:</strong> High-level system information wrappers often fail to calculate accurate delta throughput on Windows when interface names have spaces or virtual adapters are present.</li>
+                    <li><strong>Terminal Rendering Overhead:</strong> Redrawing full terminal screens at high frequencies often results in screen tearing, ANSI cursor jitter, and ugly prompt remnants after exit.</li>
+                </ul>
+                <p>
+                    Chronos was engineered from the ground up to solve these problems by marrying <strong>zero-allocation typed array ring buffers</strong> with a <strong>decoupled multi-tiered sampling loop</strong> and <strong>atomic terminal frame batching</strong>.
+                </p>
+
+                <h2>System Architecture: Decoupled Multi-Tier Telemetry Engine</h2>
+                <p>
+                    To maintain smooth terminal interactivity without bottlenecking the event loop, Chronos decouples hardware metric acquisition into three distinct sampling tiers, feeding fixed-size typed ring buffers that are batch-consumed by the Ink presentation layer:
+                </p>
+
+                <div class="article-image-wrapper" style="padding: 1rem; background: #09090b;">
+                    <div class="mermaid" style="width: 100%; max-width: 100%; overflow: hidden;">
+flowchart TD
+    subgraph OS ["1. Operating System &amp; Hardware Counters"]
+        CPU_TICKS["Per-Core CPU Ticks (os.cpus)"]
+        MEM_COUNTERS["Memory &amp; Swap Pressure (os.mem / si.mem)"]
+        NET_IO["Network Counters (netstat -e / si.networkStats)"]
+        DISK_IO["Disk I/O Throughput (si.disksIO)"]
+        SOCKETS["TCP Socket Table (si.networkConnections)"]
+        PROCS["Process Table &amp; Memory Maps (si.processes)"]
+    end
+
+    subgraph ENGINE ["2. Telemetry Ingestion Engine (Sampler.ts)"]
+        T1["Tier 1: 50ms High-Frequency Fast Loop<br/>(CPU Ticks Delta &amp; RAM)"]
+        T2["Tier 2: 250ms I/O &amp; Socket Sampling<br/>(Net Rx/Tx Deltas, Disk Throughput, TCP States)"]
+        T3["Tier 3: 1000ms Process Inspection Loop<br/>(PID, %CPU, %MEM, RSS/VSZ, State)"]
+    end
+
+    subgraph BUFFERS ["3. Zero-GC Circular Memory Layer (RingBuffer.ts)"]
+        RB_CPU_AVG["Float64Array: CPU Average Buffer"]
+        RB_CORES["Float64Array[]: Per-Core Ring Buffers (16 Cores)"]
+        RB_MEM["Float64Array: Memory Usage % Buffer"]
+        RB_NET["Float64Array: Network Rx/Tx Buffers"]
+        RB_DISK["Float64Array: Disk Read/Write Buffers"]
+    end
+
+    subgraph UI ["4. Terminal User Interface (Ink / React)"]
+        SNAP["System Snapshot (100ms Batched Throttle)"]
+        VIEW1["View 1: Overview Dashboard<br/>(Compact 2-Col CPU Grid + Memory + 3-Col I/O)"]
+        VIEW2["View 2: Process Inspector<br/>(Rolling Window Smooth Scroll + Memory Map Modal)"]
+        VIEW3["View 3: Network &amp; Disks<br/>(Expanded Throughput Charts &amp; Socket Matrix)"]
+    end
+
+    CPU_TICKS --> T1
+    MEM_COUNTERS --> T1
+    NET_IO --> T2
+    DISK_IO --> T2
+    SOCKETS --> T2
+    PROCS --> T3
+
+    T1 -->|"Zero-Alloc O(1) Push"| RB_CPU_AVG
+    T1 -->|"Zero-Alloc O(1) Push"| RB_CORES
+    T1 -->|"Zero-Alloc O(1) Push"| RB_MEM
+    T2 -->|"Zero-Alloc O(1) Push"| RB_NET
+    T2 -->|"Zero-Alloc O(1) Push"| RB_DISK
+
+    RB_CPU_AVG -.->|"Array View Snapshot"| SNAP
+    RB_CORES -.->|"Array View Snapshot"| SNAP
+    RB_MEM -.->|"Array View Snapshot"| SNAP
+    RB_NET -.->|"Array View Snapshot"| SNAP
+    RB_DISK -.->|"Array View Snapshot"| SNAP
+    T3 -.->|"Immutable Process List"| SNAP
+
+    SNAP --> VIEW1
+    SNAP --> VIEW2
+    SNAP --> VIEW3
+                    </div>
+                </div>
+
+                <h2>Core Engineering Subsystems</h2>
+
+                <h3>1. Zero-Allocation Typed Circular Ring Buffer (`RingBuffer.ts`)</h3>
+                <p>
+                    Standard JavaScript arrays (<code>array.push()</code> and <code>array.shift()</code>) are catastrophic for high-frequency telemetry. Every <code>shift()</code> is an $O(N)$ memory copy operation that re-indexes the array and releases old elements to the V8 garbage collector.
+                </p>
+                <p>
+                    Chronos solves this by allocating a fixed-size <strong><code>Float64Array</code></strong> once at startup. A rolling head pointer writes incoming points in $O(1)$ time with modular arithmetic, updating running statistics (minimum, maximum, and rolling sum) without ever reallocating memory:
+                </p>
+
+                <pre><code>export class RingBuffer {
+  private readonly buffer: Float64Array;
+  private head: number = 0;
+  private isFull: boolean = false;
+  private min: number = Infinity;
+  private max: number = -Infinity;
+  private sum: number = 0;
+
+  constructor(public readonly capacity: number) {
+    this.buffer = new Float64Array(capacity);
+  }
+
+  push(value: number): void {
+    if (this.isFull) {
+      const evicted = this.buffer[this.head];
+      this.sum -= evicted;
+      // Recompute min/max only when the evicted item was an extremum
+      if (evicted === this.min || evicted === this.max) {
+        this.recomputeExtrema();
+      }
+    }
+
+    this.buffer[this.head] = value;
+    this.sum += value;
+    if (value &lt; this.min) this.min = value;
+    if (value &gt; this.max) this.max = value;
+
+    this.head = (this.head + 1) % this.capacity;
+    if (this.head === 0) this.isFull = true;
+  }
+
+  // Returns chronological data slice in O(N) without array shifting
+  toArray(): number[] {
+    const size = this.size;
+    const result = new Array&lt;number&gt;(size);
+    const start = this.isFull ? this.head : 0;
+    for (let i = 0; i &lt; size; i++) {
+      result[i] = this.buffer[(start + i) % this.capacity];
+    }
+    return result;
+  }
+}</code></pre>
+
+                <h3>2. Multi-Tier Sampling &amp; Windows Netstat Deltas (`Sampler.ts`)</h3>
+                <p>
+                    Different system counters require vastly different sampling cadences:
+                </p>
+                <ul>
+                    <li><strong>Tier 1 (50ms High-Frequency Fast Loop):</strong> Samples per-core CPU time tick deltas (user, nice, sys, idle, irq) using native <code>os.cpus()</code>. Computing instantaneous delta tick ratios over 50ms intervals yields immediate responsiveness to sudden thread bursts.</li>
+                    <li><strong>Tier 2 (250ms I/O &amp; Socket Loop):</strong> Measures disk read/write throughput and TCP connection tables. On Windows, where network adapter names often contain spaces that lead to null values in higher-level telemetry packages, Chronos executes a fast async fallback parser over <code>netstat -e</code> to compute live Rx/Tx bytes per second.</li>
+                    <li><strong>Tier 3 (1000ms Process Inspection):</strong> Samples top processes sorted by CPU and memory consumption. Scanning the process tree is expensive, so running it every 1000ms prevents telemetry overhead while keeping responsiveness snappy.</li>
+                </ul>
+
+                <h2>Tour of the Chronos Views</h2>
+
+                <h3>View 1: The Overview Dashboard</h3>
+                <p>
+                    The primary dashboard is engineered to fit standard 80-column terminal windows without line wrapping. The CPU panel displays all 16 cores (C00 through C15) in a clean 2-column layout with 5-character bar gauges, real-time percentage indicators, and Unicode sparklines ( ▂▃▄▅▆▇█).
+                </p>
+                <div class="article-image-wrapper">
+                    <img src="images/chronos_dashboard.png" alt="Chronos Tab 1 Dashboard View showing full 16-core CPU utilization, RAM/Swap metrics, and I/O status" class="article-image" />
+                </div>
+                <p>
+                    The right panel tracks system memory pressure, displaying Free, Active, and Available RAM alongside an 18-width swap gauge. At the bottom, a full-width blue panel provides immediate visibility into Network throughput, Disk Read/Write rates, and TCP connection distribution across <code>ESTAB</code>, <code>LISTEN</code>, <code>TIME_W</code>, and <code>CLOSE_W</code> states.
+                </p>
+
+                <h3>View 2: Process Inspector &amp; Continuous Rolling Scroller</h3>
+                <p>
+                    Pressing <code>2</code> switches to the live <strong>Process Inspector</strong>. Rather than a static paginated table, Chronos implements a smooth <strong>continuous rolling window scroller</strong>:
+                </p>
+                <div class="article-image-wrapper">
+                    <img src="images/chronos_tab2.png" alt="Chronos Tab 2 Process Inspector with rolling window, fuzzy search, and memory inspection modal" class="article-image" />
+                </div>
+                <p style="font-size: 0.85rem; color: #a1a1aa; margin-top: -12px; margin-bottom: 12px; text-align: center;">
+                    <em>Figure 2: Chronos Process Inspector (Tab 2) — Vim-style navigation, live substring filtering (`/`), memory breakdown modal (`d`), and termination signals (`k`/`x`).</em>
+                </p>
+                <p>
+                    Key capabilities of the Process Inspector include:
+                </p>
+                <ul>
+                    <li><strong>Vim-Style Navigation:</strong> Move line-by-line with <code>j</code> / <code>k</code> (or <code>↓</code> / <code>↑</code>), jump half-pages with <code>[</code> / <code>]</code>, and jump to top or bottom with <code>g</code> / <code>G</code>.</li>
+                    <li><strong>Live Interactive Search:</strong> Press <code>/</code> to enter instantaneous substring filtering across PID, process name, and user.</li>
+                    <li><strong>Multi-Field Sorting:</strong> Hotkeys <code>c</code> (CPU %), <code>m</code> (Memory %), <code>p</code> (PID), and <code>n</code> (Name) allow instant metric re-indexing.</li>
+                    <li><strong>Memory Map Inspection (`d`):</strong> Opens a modal revealing precise RSS, VSZ, thread count, and executed command-line paths for any selected PID.</li>
+                    <li><strong>Process Termination (`k` / `x`):</strong> Allows issuing <code>SIGTERM</code> or <code>SIGKILL</code> with an interactive confirmation guard.</li>
+                </ul>
+
+                <h3>View 3: Network Throughput &amp; Disks Analysis</h3>
+                <p>
+                    Pressing <code>3</code> opens the dedicated <strong>Network &amp; Disks</strong> tab. This view expands the historical sparkline buffers for dual-axis incoming (Rx) and outgoing (Tx) network bandwidth, disk I/O throughput, and real-time TCP socket state counters:
+                </p>
+                <div class="article-image-wrapper">
+                    <img src="images/chronos_tab3.png" alt="Chronos Tab 3 Network &amp; Disks throughput charts and TCP socket state distribution" class="article-image" />
+                </div>
+                <p style="font-size: 0.85rem; color: #a1a1aa; margin-top: -12px; margin-bottom: 12px; text-align: center;">
+                    <em>Figure 3: Chronos Network &amp; Disks (Tab 3) — Dual-axis transfer rates, disk read/write throughput trends, and socket breakdown.</em>
+                </p>
+
+                <h3>View 4: Help &amp; Keybindings Cheatsheet</h3>
+                <p>
+                    Pressing <code>?</code> toggles the built-in <strong>Help &amp; Navigation</strong> cheatsheet modal. It provides instant reference for all keyboard shortcuts, telemetry sampling frequencies, and color legend semantics:
+                </p>
+                <div class="article-image-wrapper">
+                    <img src="images/chronos_tab4.png" alt="Chronos Tab 4 Help and Keybindings modal with keyboard shortcut guide" class="article-image" />
+                </div>
+                <p style="font-size: 0.85rem; color: #a1a1aa; margin-top: -12px; margin-bottom: 12px; text-align: center;">
+                    <em>Figure 4: Chronos Keybindings Cheatsheet (Tab 4 / `?`) — Quick-reference guide for tabs, process control, and telemetry loops.</em>
+                </p>
+
+                <h2>Terminal Sympathy: Alternate Screen Buffers &amp; Clean Exits</h2>
+                <p>
+                    A critical flaw in many Node.js terminal applications is leaving corrupted cursor positions, hidden cursor states, or overflowing logs after exiting.
+                </p>
+                <p>
+                    Chronos manages the terminal lifecycle with strict ANSI discipline:
+                </p>
+                <ul>
+                    <li><strong>Alternate Screen Buffer (<code>\x1b[?1049h</code>):</strong> Chronos switches to the terminal's private alternate screen buffer at launch. No text from the dashboard ever pollutes the user's primary terminal scrollback history.</li>
+                    <li><strong>Cursor Visibility Management (<code>\x1b[?25l</code>):</strong> Hides the terminal cursor during frame rendering to eliminate flashing cursor artifacts.</li>
+                    <li><strong>Clean Teardown Sequence (<code>\x1b[?1049l\x1b[?25h</code>):</strong> When the user presses <code>q</code> or sends <code>SIGINT</code>, Chronos hooks directly into Ink's <code>appInstance.waitUntilExit()</code> promise, restoring the primary screen buffer and unhiding the cursor so the shell prompt reappears instantly and cleanly.</li>
+                </ul>
+
+                <h2>Technologies &amp; Architecture Highlights</h2>
+                <div class="article-tech-row">
+                    <span class="article-tag">TypeScript</span>
+                    <span class="article-tag">Ink (React in Terminal)</span>
+                    <span class="article-tag">Node.js</span>
+                    <span class="article-tag">Float64Array Ring Buffers</span>
+                    <span class="article-tag">Multi-Tier Sampler</span>
+                    <span class="article-tag">Windows netstat Deltas</span>
+                    <span class="article-tag">Vim-style Scrolling</span>
+                    <span class="article-tag">ANSI Alternate Buffer</span>
+                </div>
+
+                <footer class="article-footer" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://github.com/Krishnanand-10/Chronos" target="_blank" rel="noopener noreferrer" class="action-btn">
+                        View Chronos on GitHub ↗
+                    </a>
+                    <a href="blog.html" class="action-btn" style="background-color: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color);">
+                        ← Back to all posts
+                    </a>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <div id="cmd-modal" class="cmd-modal-backdrop" aria-hidden="true">
+        <div class="cmd-modal-dialog">
+            <div class="cmd-search-bar">
+                <svg class="cmd-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg>
+                <input id="cmd-search-input" class="cmd-search-input" type="text" placeholder="Search projects, blogs, or social links..." autocomplete="off">
+                <kbd class="cmd-esc-badge">ESC</kbd>
+            </div>
+            <div id="cmd-results-list" class="cmd-results-list"></div>
+            <div class="cmd-modal-footer">
+                <span>Navigate <kbd>↑</kbd> <kbd>↓</kbd></span>
+                <span>Select <kbd>↵</kbd></span>
+                <span>Close <kbd>ESC</kbd></span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p id="footer-copy">Designed &amp; Developed by <b>Krishna Nand Tiwari</b><br>© 2026. All rights reserved.</p>
+        
+        <div id="owner-views-badge" class="owner-views-badge" style="display: none;">
+            <a href="https://cloud.umami.is" target="_blank" rel="noopener noreferrer" class="owner-views-pill" title="Private Analytics · Click to open Umami Dashboard">
+                <svg class="views-eye-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span id="owner-views-count">--</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="oneko.js" defer></script>
+    <script src="script.js?v=17" defer></script>
+</body>
+</html>
