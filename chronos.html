@@ -86,8 +86,6 @@
                 </p>
 
                 <div class="article-tech-row" style="margin-bottom: 0.5rem;">
-                    <a href="https://github.com/Krishnanand-10/Chronos" target="_blank" rel="noopener noreferrer" class="article-tag" style="text-decoration: none;">⚡ GitHub: github.com/Krishnanand-10/Chronos</a>
-                    <span class="article-tag">⚖️ MIT License</span>
                     <span class="article-tag">🚀 50ms Telemetry Loop</span>
                     <span class="article-tag">🛡️ Zero-GC Typed Buffers</span>
                 </div>
@@ -291,9 +289,9 @@ flowchart TD
                     Chronos manages the terminal lifecycle with strict ANSI discipline:
                 </p>
                 <ul>
-                    <li><strong>Alternate Screen Buffer (<code>\x1b[?1049h</code>):</strong> Chronos switches to the terminal's private alternate screen buffer at launch. No text from the dashboard ever pollutes the user's primary terminal scrollback history.</li>
-                    <li><strong>Cursor Visibility Management (<code>\x1b[?25l</code>):</strong> Hides the terminal cursor during frame rendering to eliminate flashing cursor artifacts.</li>
-                    <li><strong>Clean Teardown Sequence (<code>\x1b[?1049l\x1b[?25h</code>):</strong> When the user presses <code>q</code> or sends <code>SIGINT</code>, Chronos hooks directly into Ink's <code>appInstance.waitUntilExit()</code> promise, restoring the primary screen buffer and unhiding the cursor so the shell prompt reappears instantly and cleanly.</li>
+                    <li><strong>Alternate Screen Buffer:</strong> Chronos automatically switches to the terminal's private alternate buffer upon startup, ensuring that running dashboard frames never pollute the user's primary terminal scrollback history.</li>
+                    <li><strong>Hardware Cursor Concealment:</strong> Automatically suppresses the terminal cursor during active UI rendering loops, eliminating distracting cursor jitter across cells.</li>
+                    <li><strong>Clean Teardown Sequence:</strong> When the user presses <code>q</code> or sends <code>SIGINT</code>, Chronos hooks directly into Ink's exit lifecycle to flush buffers, restore the primary terminal screen, and unhide the cursor so the shell prompt reappears instantly and cleanly.</li>
                 </ul>
 
                 <h2>Technologies &amp; Architecture Highlights</h2>
