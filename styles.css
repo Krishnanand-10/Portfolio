@@ -1,5 +1,3 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap');
 
@@ -18,12 +16,14 @@
     --accent: #27272a;
     --primary: #ffffff;
     --primary-foreground: #000000;
-    
+
     --font-heading: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-sans: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -83,9 +83,9 @@ body {
     opacity: 0;
     filter: blur(6px);
     transform: translateY(18px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-                filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .scroll-reveal.scroll-revealed {
@@ -144,8 +144,9 @@ button {
         max-width: 560px;
         padding: 0 18px;
     }
+
     .nav-right {
-        display: none !important; 
+        display: none !important;
     }
 }
 
@@ -289,7 +290,7 @@ button {
 .page-container {
     position: relative;
     z-index: 10;
-    max-width: 1152px; 
+    max-width: 1152px;
     margin: 0 auto;
     padding: 140px 24px 80px;
 }
@@ -316,7 +317,7 @@ button {
         width: 280px;
         flex-shrink: 0;
     }
-    
+
     .sidebar-sticky-wrap {
         position: sticky;
         top: 120px;
@@ -365,11 +366,27 @@ button {
 }
 
 @keyframes avatarJitter {
-    0% { transform: scale(1.05) translate(0, 0); filter: drop-shadow(2px 0 0 rgba(239, 68, 68, 0.5)) drop-shadow(-2px 0 0 rgba(56, 189, 248, 0.5)); }
-    25% { transform: scale(1.05) translate(-1px, 1px); }
-    50% { transform: scale(1.05) translate(1px, -1px); filter: drop-shadow(-2px 0 0 rgba(239, 68, 68, 0.6)) drop-shadow(2px 0 0 rgba(56, 189, 248, 0.6)); }
-    75% { transform: scale(1.05) translate(-1px, -1px); }
-    100% { transform: scale(1.05) translate(0, 0); }
+    0% {
+        transform: scale(1.05) translate(0, 0);
+        filter: drop-shadow(2px 0 0 rgba(239, 68, 68, 0.5)) drop-shadow(-2px 0 0 rgba(56, 189, 248, 0.5));
+    }
+
+    25% {
+        transform: scale(1.05) translate(-1px, 1px);
+    }
+
+    50% {
+        transform: scale(1.05) translate(1px, -1px);
+        filter: drop-shadow(-2px 0 0 rgba(239, 68, 68, 0.6)) drop-shadow(2px 0 0 rgba(56, 189, 248, 0.6));
+    }
+
+    75% {
+        transform: scale(1.05) translate(-1px, -1px);
+    }
+
+    100% {
+        transform: scale(1.05) translate(0, 0);
+    }
 }
 
 .sidebar-name-block {
@@ -462,8 +479,13 @@ button {
 }
 
 @keyframes rotateConic {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .btn-resume {
@@ -952,6 +974,7 @@ button {
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -1031,8 +1054,17 @@ button {
 }
 
 @keyframes pulseDot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4); opacity: 0.4; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.4);
+        opacity: 0.4;
+    }
 }
 
 .card-view-details {
@@ -1215,7 +1247,9 @@ button {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .blog-list {
@@ -2025,6 +2059,7 @@ code {
     .blog-grid {
         grid-template-columns: 1fr;
     }
+
     .blog-page-container,
     .projects-page-container {
         padding-top: 110px;
@@ -2128,6 +2163,7 @@ code {
     text-decoration: none;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     transition: color 0.15s ease;
@@ -2145,6 +2181,7 @@ code {
     color: var(--muted-foreground);
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
